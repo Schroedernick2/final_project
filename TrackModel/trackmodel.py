@@ -9,7 +9,7 @@ import os
 class MainWindow(tk.Frame):
     def __init__(self, master, *args, **kwargs):
         self.master = master
-        master.title("Track Model")
+        master.title("Track Model UI")
         tk.Frame.__init__(self, *args, **kwargs)
 
         pad = 3
