@@ -5,7 +5,7 @@ from tkinter.scrolledtext import Scrollbar
 import xml.etree.ElementTree
 import os
 
-
+#Main Window
 class MainWindow(tk.Frame):
     def __init__(self, master, *args, **kwargs):
         self.master = master
