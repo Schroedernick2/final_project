@@ -79,6 +79,7 @@ class MainWindow(tk.Frame):
         self.master.geometry(self._geom)
         self._geom = geom
 
+
 root = tk.Tk()
 my_gui = MainWindow(root)
 root.mainloop()
