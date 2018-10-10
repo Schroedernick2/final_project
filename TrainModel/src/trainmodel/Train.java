@@ -65,13 +65,16 @@ public class Train{
     private final double GRAVITY = 9.8; //m/s^2
     private final double ENGINE_POWER = 120; //kw
     private final double SPEED_LIMIT = 70; //km/h
+    private final double COEFFICIENT_OF_FRICTION = 0.0003;
     
     //constant conversion values
-    private final double KW_TO_N = 1000; 
+    private final double KW_TO_NMS = 1000; 
     private final double TONS_TO_POUNDS = 2000;
     private final double METERS_TO_FEET = 3.28084;
     private final double METERS_TO_MILES = 0.000621371;
     private final double KM_TO_MILES = 0.621371;
+    private final double MPH_TO_FPS = 1.46667;
+    private final double MPH_TO_MPS = 0.44704; //miles per hour to meters per second
     
     /*******CONSTRUCTORS*******/
     
@@ -196,18 +199,26 @@ public class Train{
         this.updateMass();
         
         //speed at time of function call
-        double currentVelocity = this.velocity;
+        double currentVelocity = this.velocity; //mph
         
         //calculate force
-            double forceDown = (this.mass)*GRAVITY*(Math.atan(grade)*Math.PI/180);
+            double forceDown = (this.mass)*GRAVITY*(Math.cos(Math.toDegrees(Math.atan(grade/100.0)))*Math.PI/180);
             
             if(this.power > ENGINE_POWER)
                 this.power = ENGINE_POWER;
             if(this.power < 0)
                 this.serviceBrake = true;
-            double forceFromEng = (this.power*KW_TO_N)/currentVelocity;
             
-           this.force = Math.round((forceFromEng - forceDown)*100.0)/100.0;
+            double forceFromEng; 
+            if(currentVelocity==0)
+                forceFromEng = (this.power*KW_TO_NMS)/1; 
+            else
+                forceFromEng = (this.power*KW_TO_NMS)/(currentVelocity*MPH_TO_MPS);
+         
+            double forceNormal = (this.mass)*GRAVITY*(Math.sin(Math.toDegrees(Math.atan(grade/100.0)))*Math.PI/180);
+            double forceFriction = forceNormal + (COEFFICIENT_OF_FRICTION*forceDown);
+            
+            this.force = Math.round((forceFromEng - forceFriction)*100.0)/100.0;
         
         //calculate acceleration
             //accel = force/mass
@@ -223,9 +234,9 @@ public class Train{
                 else
                     this.acceleration += EMERGENCY_DECELERATION;
             }
-            this.acceleration = Math.round(this.acceleration*100.0)/100.0;
+            this.acceleration = Math.round(this.acceleration*METERS_TO_FEET*100.0)/100.0;
         //calculate velocity
-            this.velocity = currentVelocity/KM_TO_MILES + this.acceleration*METERS_TO_FEET;
+            this.velocity = currentVelocity/KM_TO_MILES + this.acceleration/MPH_TO_FPS;
             if(this.velocity <= 0){
                 this.velocity = 0;
                 this.acceleration = 0;

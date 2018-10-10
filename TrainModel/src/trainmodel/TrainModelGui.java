@@ -454,5 +454,4 @@ public class TrainModelGui extends javax.swing.JDialog {
             activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
         }
     }
-
 }
