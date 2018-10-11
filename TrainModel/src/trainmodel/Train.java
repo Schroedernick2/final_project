@@ -242,8 +242,6 @@ public class Train{
             if(this.velocity <= 0){
                 this.velocity = 0;
                 this.acceleration = 0;
-                this.force = 0;
-                this.power = 0;
             }
             if(this.velocity > SPEED_LIMIT){ 
                 this.velocity = SPEED_LIMIT; 
