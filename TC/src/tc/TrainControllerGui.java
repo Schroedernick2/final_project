@@ -494,28 +494,24 @@ public class TrainControllerGui extends javax.swing.JDialog {
             if(runs==30){
                 addTrain(new Train("GREEN",2,1,120));
                 System.out.println("Added Train GREEN2");
+                System.out.println("Update speed for GREEN1");
                 trains.get(2).setSpeed(30);
                 trains.get(2).setAuthority(3000);
+                trains.get(1).setActualSpeed(20);
             }
             
-            if(runs==45){
+            if(runs==50){
                 System.out.println("Changing speed for Green1...");
-                trains.get(1).setSpeed(10);
-            }
-            
-            if(runs==70){
-                System.out.println("Changing speed for GREEN2");
-                trains.get(2).setSpeed(40);
+                trains.get(1).setSpeed(30);
             }
             
             if(runs==80){
-                System.out.println("Added Train RED2");
-                addTrain(new Train("RED",2,1,131));
-                trains.get(3).setSpeed(35);
-                trains.get(3).setAuthority(2400);
-            } 
-
+                System.out.println("Update and Change speed for GREEN2");
+                trains.get(2).setSpeed(20);
+                trains.get(2).setActualSpeed(30);
+            }
             
+                     
             if(runs==105){
                 System.out.println("Changing speed to 100 for RED1");
                 trains.get(0).setSpeed(100);
