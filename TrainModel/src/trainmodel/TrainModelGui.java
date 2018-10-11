@@ -50,7 +50,6 @@ public class TrainModelGui extends javax.swing.JDialog {
         advertisementsLabel = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         lightsLabel = new javax.swing.JLabel();
-        forceLabel = new javax.swing.JLabel();
         activeTimeLabel = new javax.swing.JLabel();
         distanceLabel = new javax.swing.JLabel();
 
@@ -178,9 +177,6 @@ public class TrainModelGui extends javax.swing.JDialog {
         lightsLabel.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
         lightsLabel.setText("Lights: OFF ");
 
-        forceLabel.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
-        forceLabel.setText("Force: 0 N");
-
         activeTimeLabel.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
         activeTimeLabel.setText("Time Active: 0 seconds");
 
@@ -237,7 +233,6 @@ public class TrainModelGui extends javax.swing.JDialog {
                                     .addComponent(temperatureLabel)
                                     .addComponent(advertisementsLabel)
                                     .addComponent(lightsLabel)
-                                    .addComponent(forceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(distanceLabel)
                                     .addComponent(activeTimeLabel))))
                         .addGap(43, 43, 43))))
@@ -253,7 +248,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(trainSelector, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(emergencyBrakeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -267,7 +262,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                         .addComponent(lengthLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(massLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(engineFailureBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -276,14 +271,12 @@ public class TrainModelGui extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(brakeFailureBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 27, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(activeTimeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(distanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(forceLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(powerLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -369,7 +362,7 @@ public class TrainModelGui extends javax.swing.JDialog {
         
         distanceLabel.setText("Distance Traveled: "+ t.getDistance() + " miles");
         //activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
-        forceLabel.setText("Force: "+ t.getForce() + " N");
+        //forceLabel.setText("Force: "+ t.getForce() + " N");
         powerLabel.setText("Power: "+ t.getPower() +" kw");
         velocityLabel.setText("Velocity: "+ t.getVelocity() +" mph");
         accelerationLabel.setText("Acceleration: "+ t.getAcceleration() +" ft/s^2");
@@ -429,7 +422,6 @@ public class TrainModelGui extends javax.swing.JDialog {
     public javax.swing.JCheckBox emergencyBrakeBox;
     public javax.swing.JLabel emergencyBrakeLabel;
     public javax.swing.JCheckBox engineFailureBox;
-    public javax.swing.JLabel forceLabel;
     public javax.swing.JLabel forceLabel2;
     public javax.swing.JLabel gradeLabel;
     public javax.swing.JLabel heightLabel;
@@ -516,8 +508,6 @@ public class TrainModelGui extends javax.swing.JDialog {
             
             for(Train t : trains)
                 t.updateVelocity();
-            
-            Train t = trains.get(selectedTrainIndex);
             displayValues();
             //activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
             
