@@ -206,7 +206,7 @@ public class Train{
             if(this.power > ENGINE_POWER){
                 this.power = ENGINE_POWER;
             }
-            if(this.power < 0 || power == 0)
+            if(this.power < 0 || power == 0 && !this.emergencyBrake)
                 this.serviceBrake = true;
             else
                 this.serviceBrake = false;
