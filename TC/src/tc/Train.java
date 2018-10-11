@@ -191,6 +191,8 @@ public class Train{
     //command value setters
     public void setSpeed(double speed){ this.SuggestedSpeed = speed; }
     public void setAuthority(double authority){ this.authority = authority; }
+    //for testing
+    public void setActualSpeed(double speed){ this.ActualSpeed = speed; }
     
     //other setters
     public void setPower(double power){ this.power = power; }
