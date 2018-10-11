@@ -194,7 +194,6 @@ public class Train{
         this.mass = Math.round((TRAIN_MASS*TONS_TO_POUNDS)+(WEIGHT_PER_PERSON*(this.crewCount+this.passengerCount))*100.0)/100.0;
     }
     public void updateVelocity(){
-        this.power = ENGINE_POWER;
         //update mass just in case
         this.updateMass();
         
@@ -204,10 +203,13 @@ public class Train{
         //calculate force
             double forceDown = (this.mass)*GRAVITY*(Math.cos(Math.toDegrees(Math.atan(grade/100.0)))*Math.PI/180);
             
-            if(this.power > ENGINE_POWER)
+            if(this.power > ENGINE_POWER){
                 this.power = ENGINE_POWER;
-            if(this.power < 0)
+            }
+            if(this.power < 0 || power == 0)
                 this.serviceBrake = true;
+            else
+                this.serviceBrake = false;
             
             double forceFromEng; 
             if(currentVelocity==0)
@@ -229,7 +231,7 @@ public class Train{
             
             //check if braking
             if(this.emergencyBrake || this.serviceBrake){
-                if(this.serviceBrake && !this.serviceBrake)
+                if(this.serviceBrake && !this.emergencyBrake)
                     this.acceleration += SERVICE_DECELERATION;
                 else
                     this.acceleration += EMERGENCY_DECELERATION;
@@ -241,6 +243,7 @@ public class Train{
                 this.velocity = 0;
                 this.acceleration = 0;
                 this.force = 0;
+                this.power = 0;
             }
             if(this.velocity > SPEED_LIMIT){ 
                 this.velocity = SPEED_LIMIT; 

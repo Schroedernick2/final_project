@@ -6,11 +6,11 @@ public class TrainModel {
     public static void main(String[] args) {
         ArrayList<Train> trains = new ArrayList<Train>();
         
-        trains.add(new Train("RED",1,1,100));
-        trains.add(new Train("GREEN",1,1,100));
-        trains.add(new Train("RED",2,1,100));
-        trains.add(new Train("RED",3,1,24));
-        trains.get(2).setGrade(50);
+//        trains.add(new Train("RED",1,1,100));
+//        trains.add(new Train("GREEN",1,1,100));
+//        trains.add(new Train("RED",2,1,100));
+//        trains.add(new Train("RED",3,1,24));
+//        trains.get(2).setGrade(50);
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

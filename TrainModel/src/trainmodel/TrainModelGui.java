@@ -11,15 +11,6 @@ public class TrainModelGui extends javax.swing.JDialog {
         
         this.trains = trains;
         
-        String[] trainIDs = new String[trains.size()];
-        int i=0;
-        for(Train t : trains){
-            trainIDs[i] = t.getTrainID();
-            i++;
-        }
-        trainSelector.setModel(new javax.swing.DefaultComboBoxModel<>(trainIDs));
-        displayValues();
-        
         Timer timer = new Timer();
         timer.schedule(new Progress(),0,1000);
     }
@@ -363,6 +354,8 @@ public class TrainModelGui extends javax.swing.JDialog {
     private void displayValues(){
         Train t = trains.get(selectedTrainIndex);
         
+        trainSelector.setSelectedIndex(selectedTrainIndex);
+        
         //checkboxes
         brakeFailureBox.setSelected(t.isBrakeFailure());
         emergencyBrakeBox.setSelected(t.isEmergencyBrake());
@@ -392,6 +385,8 @@ public class TrainModelGui extends javax.swing.JDialog {
         crewCountLabel.setText("Crew Count: "+ t.getCrewCount());
         temperatureLabel.setText("Temperature: "+ t.getTemperature() + " F");
         emergencyBrakeLabel.setText("Emergenecy Brake: "+getStateString(t.isEmergencyBrake()));
+        activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
+
     }
     
     private String getDoorString(boolean state){
@@ -404,6 +399,23 @@ public class TrainModelGui extends javax.swing.JDialog {
         if(state)
             return "ON";
         return "OFF";
+    }
+    
+    private String[] getIDs(){
+        
+        String[] trainIDs = new String[trains.size()];
+        int i=0;
+        for(Train t : trains){
+            trainIDs[i] = t.getTrainID();
+            i++;
+        }
+        return trainIDs;
+    }
+    
+    private void addTrain(Train t){
+        trains.add(t);
+        String[] trainIDs = getIDs();
+        trainSelector.setModel(new javax.swing.DefaultComboBoxModel<>(trainIDs));       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -444,14 +456,72 @@ public class TrainModelGui extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
    
     private class Progress extends TimerTask{
+        private int runs=0;
         @Override
-        public void run(){
+        public void run(){            
+            if(runs==0){
+                addTrain(new Train("RED",1,1,40));
+                addTrain(new Train("GREEN",1,1,86));
+                
+                System.out.println("Added Train RED1");
+                System.out.println("Added Train GREEN1");
+                
+                trains.get(0).setPower(50);
+                trains.get(1).setPower(120);
+                trains.get(1).setGrade(25);
+            }
+            
+            if(runs==30){
+                addTrain(new Train("GREEN",2,1,120));
+                System.out.println("Added Train GREEN2");
+                trains.get(2).setPower(100);
+            }
+            
+            if(runs==45){
+                System.out.println("Changing power for RED1...");
+                trains.get(0).setPower(-10);
+            }
+            
+            if(runs==70){
+                System.out.println("Changing grade for GREEN2");
+                trains.get(2).setGrade(35);
+            }
+            
+            if(runs==80){
+                System.out.println("Added Train RED2");
+                addTrain(new Train("RED",2,1,131));
+                trains.get(3).setPower(110);
+            } 
+            
+            if(runs==95){
+                System.out.println("Opening Right Doors for RED1");
+                trains.get(0).setRightDoors(true);
+            }
+            
+            if(runs==105){
+                System.out.println("Passenger Change for RED1");
+                trains.get(0).setPassengerCount(131);
+            }
+            
+            if(runs==110){
+                System.out.println("Closing Right Doors for RED1");
+                trains.get(0).setRightDoors(false);
+            }
+            
+            if(runs==115){
+                System.out.println("Changing power for RED1");
+                trains.get(0).setPower(120);
+                trains.get(0).setStation("NEXT NEXT STATION");
+            }
+            
             for(Train t : trains)
                 t.updateVelocity();
             
             Train t = trains.get(selectedTrainIndex);
             displayValues();
-            activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
+            //activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
+            
+            runs++;
         }
     }
 }
