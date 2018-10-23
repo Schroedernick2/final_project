@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Final Project" company="The conductors" webLink="http://" view-date="2018-09-09" view-index="0" gantt-divider-location="300" resource-divider-location="300" version="2.8.9" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Final Project" company="The conductors" webLink="http://" view-date="2018-09-09" view-index="1" gantt-divider-location="300" resource-divider-location="300" version="2.8.9" locale="en_US">
     <description><![CDATA[Software engineering coe 1186]]></description>
     <view zooming-state="default:7" id="gantt-chart">
         <field id="tpd3" name="Name" width="158" order="0"/>
         <field id="tpd4" name="Begin date" width="62" order="1"/>
         <field id="tpd5" name="End date" width="61" order="2"/>
-        <option id="color.recent"><![CDATA[#000000 #ff0000 #0000ff #00ff00 #ffff00 #cc00ff #f4f4f4 #00ffff]]></option>
+        <option id="color.recent"><![CDATA[#ff0000 #000000 #0000ff #00ff00 #ffff00 #cc00ff #f4f4f4 #00ffff]]></option>
     </view>
     <view id="resource-table">
-        <field id="0" name="Name" width="210" order="0"/>
-        <field id="1" name="Default role" width="86" order="1"/>
+        <field id="0" name="Name" width="175" order="0"/>
+        <field id="1" name="Default role" width="121" order="1"/>
     </view>
     <!-- -->
     <calendars>
@@ -60,12 +60,13 @@
         <task id="39" name="Updated Work Schedule" color="#0000ff" meeting="false" start="2018-09-28" duration="35" complete="100" thirdDate="2018-09-09" thirdDate-constraint="0" expand="true">
             <notes><![CDATA[Eric and Will are in charge of updating the work schedule]]></notes>
         </task>
-        <task id="40" name="Architecture &amp; Design" color="#ff0000" meeting="false" start="2018-09-28" duration="20" complete="100" thirdDate="2018-09-09" thirdDate-constraint="0" expand="true">
+        <task id="40" name="Architecture &amp; Design" color="#ff0000" meeting="false" start="2018-10-11" duration="7" complete="100" thirdDate="2018-09-09" thirdDate-constraint="0" expand="true">
             <notes><![CDATA[Each person has there own architecture and design for their module]]></notes>
         </task>
-        <task id="43" name="Test Plan" color="#ff0000" meeting="false" start="2018-10-19" duration="14" complete="100" thirdDate="2018-09-09" thirdDate-constraint="0" expand="true">
+        <task id="43" name="Test Plan" color="#ff0000" meeting="false" start="2018-10-18" duration="7" complete="100" thirdDate="2018-09-09" thirdDate-constraint="0" expand="true">
             <notes><![CDATA[Each person has their own test plan for their own module]]></notes>
         </task>
+        <task id="80" name="Sub System updates" color="#ff0000" meeting="false" start="2018-10-25" duration="7" complete="100" thirdDate="2018-09-09" thirdDate-constraint="0" expand="true"/>
         <task id="4" name="Work Package 2" color="#000000" meeting="true" start="2018-11-01" duration="0" complete="0" thirdDate="2018-09-25" thirdDate-constraint="0" expand="true"/>
         <task id="74" name="Prepare for review" color="#ff0000" meeting="false" start="2018-10-26" duration="7" complete="100" thirdDate="2018-09-09" thirdDate-constraint="0" expand="true">
             <notes><![CDATA[Everyone should prepare for review together]]></notes>
@@ -92,11 +93,11 @@
         </task>
     </tasks>
     <resources>
-        <resource id="0" name="Eric Vitunac" function="Default:0" contacts="" phone=""/>
-        <resource id="1" name="Will Taylor" function="Default:0" contacts="" phone=""/>
-        <resource id="2" name="Ian Fleming" function="Default:0" contacts="" phone=""/>
-        <resource id="3" name="William &quot;Jay&quot; Pitser" function="Default:0" contacts="" phone=""/>
-        <resource id="4" name="Nick Schroeder" function="Default:0" contacts="" phone=""/>
+        <resource id="0" name="Eric Vitunac" function="SoftwareDevelopment:10" contacts="" phone=""/>
+        <resource id="1" name="Will Taylor" function="SoftwareDevelopment:10" contacts="" phone=""/>
+        <resource id="2" name="Ian Fleming" function="SoftwareDevelopment:10" contacts="" phone=""/>
+        <resource id="3" name="William &quot;Jay&quot; Pitser" function="SoftwareDevelopment:10" contacts="" phone=""/>
+        <resource id="4" name="Nick Schroeder" function="SoftwareDevelopment:10" contacts="" phone=""/>
     </resources>
     <allocations>
         <allocation task-id="11" resource-id="0" function="SoftwareDevelopment:3" responsible="false" load="6.0"/>
@@ -111,7 +112,7 @@
         <allocation task-id="56" resource-id="0" function="Default:0" responsible="false" load="10.0"/>
         <allocation task-id="62" resource-id="0" function="Default:0" responsible="false" load="15.0"/>
         <allocation task-id="66" resource-id="0" function="Default:0" responsible="false" load="75.0"/>
-        <allocation task-id="69" resource-id="0" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="69" resource-id="0" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="72" resource-id="0" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="74" resource-id="0" function="Default:0" responsible="false" load="6.0"/>
         <allocation task-id="43" resource-id="0" function="SoftwareDevelopment:3" responsible="false" load="25.0"/>
@@ -128,7 +129,7 @@
         <allocation task-id="56" resource-id="1" function="Default:0" responsible="false" load="10.0"/>
         <allocation task-id="62" resource-id="1" function="Default:0" responsible="false" load="15.0"/>
         <allocation task-id="66" resource-id="1" function="Default:0" responsible="false" load="75.0"/>
-        <allocation task-id="69" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="69" resource-id="1" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="72" resource-id="1" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="74" resource-id="1" function="Default:0" responsible="false" load="6.0"/>
         <allocation task-id="43" resource-id="1" function="SoftwareDevelopment:3" responsible="false" load="25.0"/>
@@ -142,7 +143,7 @@
         <allocation task-id="45" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
         <allocation task-id="62" resource-id="2" function="Default:0" responsible="false" load="15.0"/>
         <allocation task-id="66" resource-id="2" function="Default:0" responsible="false" load="75.0"/>
-        <allocation task-id="69" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="69" resource-id="2" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="72" resource-id="2" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="74" resource-id="2" function="Default:0" responsible="false" load="6.0"/>
         <allocation task-id="43" resource-id="2" function="SoftwareDevelopment:3" responsible="false" load="25.0"/>
@@ -158,7 +159,7 @@
         <allocation task-id="56" resource-id="3" function="Default:0" responsible="false" load="10.0"/>
         <allocation task-id="62" resource-id="3" function="Default:0" responsible="false" load="15.0"/>
         <allocation task-id="66" resource-id="3" function="Default:0" responsible="false" load="75.0"/>
-        <allocation task-id="69" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="69" resource-id="3" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="72" resource-id="3" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="74" resource-id="3" function="Default:0" responsible="false" load="6.0"/>
         <allocation task-id="43" resource-id="3" function="SoftwareDevelopment:3" responsible="false" load="25.0"/>
@@ -173,7 +174,7 @@
         <allocation task-id="56" resource-id="4" function="Default:0" responsible="false" load="10.0"/>
         <allocation task-id="62" resource-id="4" function="Default:0" responsible="false" load="15.0"/>
         <allocation task-id="66" resource-id="4" function="Default:0" responsible="false" load="75.0"/>
-        <allocation task-id="69" resource-id="4" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="69" resource-id="4" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="72" resource-id="4" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="74" resource-id="4" function="Default:0" responsible="false" load="6.0"/>
         <allocation task-id="43" resource-id="4" function="SoftwareDevelopment:3" responsible="false" load="25.0"/>
