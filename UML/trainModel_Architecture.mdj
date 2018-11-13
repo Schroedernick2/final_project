@@ -1,0 +1,562 @@
+{
+	"_type": "Project",
+	"_id": "AAAAAAFF+h6SjaM2Hec=",
+	"name": "Untitled",
+	"ownedElements": [
+		{
+			"_type": "UMLModel",
+			"_id": "AAAAAAFF+qBWK6M3Z8Y=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "Model",
+			"ownedElements": [
+				{
+					"_type": "UMLClassDiagram",
+					"_id": "AAAAAAFF+qBtyKM79qY=",
+					"_parent": {
+						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
+					},
+					"name": "Main",
+					"defaultDiagram": true
+				}
+			]
+		},
+		{
+			"_type": "UMLModel",
+			"_id": "AAAAAAFm0H2a6qCXhIk=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "Model1",
+			"ownedElements": [
+				{
+					"_type": "UMLObjectDiagram",
+					"_id": "AAAAAAFm0H2a6qCYqng=",
+					"_parent": {
+						"$ref": "AAAAAAFm0H2a6qCXhIk="
+					},
+					"name": "ObjectDiagram1",
+					"ownedViews": [
+						{
+							"_type": "UMLObjectView",
+							"_id": "AAAAAAFm0H2vD6Cez5Y=",
+							"_parent": {
+								"$ref": "AAAAAAFm0H2a6qCYqng="
+							},
+							"model": {
+								"$ref": "AAAAAAFm0H2vD6Cc3wU="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAFm0H2vEKCfoTM=",
+									"_parent": {
+										"$ref": "AAAAAAFm0H2vD6Cez5Y="
+									},
+									"model": {
+										"$ref": "AAAAAAFm0H2vD6Cc3wU="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0H2vEKCg/j0=",
+											"_parent": {
+												"$ref": "AAAAAAFm0H2vEKCfoTM="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -336,
+											"height": 13
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0H2vEKChzBU=",
+											"_parent": {
+												"$ref": "AAAAAAFm0H2vEKCfoTM="
+											},
+											"font": "Arial;13;1",
+											"left": 45,
+											"top": 143,
+											"width": 551,
+											"height": 13,
+											"underline": true,
+											"text": "Train Model Interface"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0H2vEKCiFIw=",
+											"_parent": {
+												"$ref": "AAAAAAFm0H2vEKCfoTM="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -336,
+											"width": 80.9072265625,
+											"height": 13,
+											"text": "(from Model1)"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0H2vEKCjYHo=",
+											"_parent": {
+												"$ref": "AAAAAAFm0H2vEKCfoTM="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -336,
+											"height": 13,
+											"horizontalAlignment": 1
+										}
+									],
+									"font": "Arial;13;0",
+									"left": 40,
+									"top": 136,
+									"width": 561,
+									"height": 25,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAFm0H2vEKCg/j0="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAFm0H2vEKChzBU="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAFm0H2vEKCiFIw="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAFm0H2vEKCjYHo="
+									}
+								},
+								{
+									"_type": "UMLSlotCompartmentView",
+									"_id": "AAAAAAFm0H2vEKCk+SE=",
+									"_parent": {
+										"$ref": "AAAAAAFm0H2vD6Cez5Y="
+									},
+									"model": {
+										"$ref": "AAAAAAFm0H2vD6Cc3wU="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": -168,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"font": "Arial;13;0",
+							"containerChangeable": true,
+							"left": 40,
+							"top": 136,
+							"width": 561,
+							"height": 41,
+							"nameCompartment": {
+								"$ref": "AAAAAAFm0H2vEKCfoTM="
+							},
+							"slotCompartment": {
+								"$ref": "AAAAAAFm0H2vEKCk+SE="
+							}
+						},
+						{
+							"_type": "UMLObjectView",
+							"_id": "AAAAAAFm0H5N0qDAGrg=",
+							"_parent": {
+								"$ref": "AAAAAAFm0H2a6qCYqng="
+							},
+							"model": {
+								"$ref": "AAAAAAFm0H5N0qC+bpc="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAFm0H5N0qDB2aQ=",
+									"_parent": {
+										"$ref": "AAAAAAFm0H5N0qDAGrg="
+									},
+									"model": {
+										"$ref": "AAAAAAFm0H5N0qC+bpc="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0H5N0qDC7TA=",
+											"_parent": {
+												"$ref": "AAAAAAFm0H5N0qDB2aQ="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": 32,
+											"top": -80,
+											"height": 13
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0H5N0qDDaeY=",
+											"_parent": {
+												"$ref": "AAAAAAFm0H5N0qDB2aQ="
+											},
+											"font": "Arial;13;1",
+											"left": 45,
+											"top": 199,
+											"width": 551,
+											"height": 13,
+											"underline": true,
+											"text": "Murphy Failures                              Passenger Emergency Brake"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0H5N0qDE3MM=",
+											"_parent": {
+												"$ref": "AAAAAAFm0H5N0qDB2aQ="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": 32,
+											"top": -80,
+											"width": 80.9072265625,
+											"height": 13,
+											"text": "(from Model1)"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0H5N0qDFryk=",
+											"_parent": {
+												"$ref": "AAAAAAFm0H5N0qDB2aQ="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": 32,
+											"top": -80,
+											"height": 13,
+											"horizontalAlignment": 1
+										}
+									],
+									"font": "Arial;13;0",
+									"left": 40,
+									"top": 192,
+									"width": 561,
+									"height": 25,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAFm0H5N0qDC7TA="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAFm0H5N0qDDaeY="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAFm0H5N0qDE3MM="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAFm0H5N0qDFryk="
+									}
+								},
+								{
+									"_type": "UMLSlotCompartmentView",
+									"_id": "AAAAAAFm0H5N0qDGU3w=",
+									"_parent": {
+										"$ref": "AAAAAAFm0H5N0qDAGrg="
+									},
+									"model": {
+										"$ref": "AAAAAAFm0H5N0qC+bpc="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 16,
+									"top": -40,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"font": "Arial;13;0",
+							"containerChangeable": true,
+							"left": 40,
+							"top": 192,
+							"width": 561,
+							"height": 41,
+							"nameCompartment": {
+								"$ref": "AAAAAAFm0H5N0qDB2aQ="
+							},
+							"slotCompartment": {
+								"$ref": "AAAAAAFm0H5N0qDGU3w="
+							}
+						},
+						{
+							"_type": "UMLObjectView",
+							"_id": "AAAAAAFm0H9cjqDnSHE=",
+							"_parent": {
+								"$ref": "AAAAAAFm0H2a6qCYqng="
+							},
+							"model": {
+								"$ref": "AAAAAAFm0H9cjqDlVak="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAFm0H9cjqDo8Nk=",
+									"_parent": {
+										"$ref": "AAAAAAFm0H9cjqDnSHE="
+									},
+									"model": {
+										"$ref": "AAAAAAFm0H9cjqDlVak="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0H9cjqDpvII=",
+											"_parent": {
+												"$ref": "AAAAAAFm0H9cjqDo8Nk="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -272,
+											"top": -160,
+											"height": 13
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0H9cjqDq6Y4=",
+											"_parent": {
+												"$ref": "AAAAAAFm0H9cjqDo8Nk="
+											},
+											"font": "Arial;13;1",
+											"left": 45,
+											"top": 255,
+											"width": 551,
+											"height": 13,
+											"underline": true,
+											"text": "Track Controller & Train Model Communications     Update Velocity and Store Train Info"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0H9cjqDrREw=",
+											"_parent": {
+												"$ref": "AAAAAAFm0H9cjqDo8Nk="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -272,
+											"top": -160,
+											"width": 80.9072265625,
+											"height": 13,
+											"text": "(from Model1)"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0H9cjqDsok8=",
+											"_parent": {
+												"$ref": "AAAAAAFm0H9cjqDo8Nk="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -272,
+											"top": -160,
+											"height": 13,
+											"horizontalAlignment": 1
+										}
+									],
+									"font": "Arial;13;0",
+									"left": 40,
+									"top": 248,
+									"width": 561,
+									"height": 25,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAFm0H9cjqDpvII="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAFm0H9cjqDq6Y4="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAFm0H9cjqDrREw="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAFm0H9cjqDsok8="
+									}
+								},
+								{
+									"_type": "UMLSlotCompartmentView",
+									"_id": "AAAAAAFm0H9cjqDt6OE=",
+									"_parent": {
+										"$ref": "AAAAAAFm0H9cjqDnSHE="
+									},
+									"model": {
+										"$ref": "AAAAAAFm0H9cjqDlVak="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": -136,
+									"top": -80,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"font": "Arial;13;0",
+							"containerChangeable": true,
+							"left": 40,
+							"top": 248,
+							"width": 561,
+							"height": 41,
+							"nameCompartment": {
+								"$ref": "AAAAAAFm0H9cjqDo8Nk="
+							},
+							"slotCompartment": {
+								"$ref": "AAAAAAFm0H9cjqDt6OE="
+							}
+						},
+						{
+							"_type": "UMLObjectView",
+							"_id": "AAAAAAFm0IB3V6ENuSs=",
+							"_parent": {
+								"$ref": "AAAAAAFm0H2a6qCYqng="
+							},
+							"model": {
+								"$ref": "AAAAAAFm0IB3V6ELHTY="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAFm0IB3V6EOKxA=",
+									"_parent": {
+										"$ref": "AAAAAAFm0IB3V6ENuSs="
+									},
+									"model": {
+										"$ref": "AAAAAAFm0IB3V6ELHTY="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0IB3WKEPBKE=",
+											"_parent": {
+												"$ref": "AAAAAAFm0IB3V6EOKxA="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -320,
+											"top": -80,
+											"height": 13
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0IB3WKEQvjc=",
+											"_parent": {
+												"$ref": "AAAAAAFm0IB3V6EOKxA="
+											},
+											"font": "Arial;13;1",
+											"left": 45,
+											"top": 311,
+											"width": 551,
+											"height": 13,
+											"underline": true,
+											"text": "Stored Train Instances with Stored Descriptive Values"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0IB3WKERVQ8=",
+											"_parent": {
+												"$ref": "AAAAAAFm0IB3V6EOKxA="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -320,
+											"top": -80,
+											"width": 80.9072265625,
+											"height": 13,
+											"text": "(from Model1)"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAFm0IB3WKESEP4=",
+											"_parent": {
+												"$ref": "AAAAAAFm0IB3V6EOKxA="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -320,
+											"top": -80,
+											"height": 13,
+											"horizontalAlignment": 1
+										}
+									],
+									"font": "Arial;13;0",
+									"left": 40,
+									"top": 304,
+									"width": 561,
+									"height": 25,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAFm0IB3WKEPBKE="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAFm0IB3WKEQvjc="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAFm0IB3WKERVQ8="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAFm0IB3WKESEP4="
+									}
+								},
+								{
+									"_type": "UMLSlotCompartmentView",
+									"_id": "AAAAAAFm0IB3WKETCmI=",
+									"_parent": {
+										"$ref": "AAAAAAFm0IB3V6ENuSs="
+									},
+									"model": {
+										"$ref": "AAAAAAFm0IB3V6ELHTY="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": -160,
+									"top": -40,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"font": "Arial;13;0",
+							"containerChangeable": true,
+							"left": 40,
+							"top": 304,
+							"width": 561,
+							"height": 41,
+							"nameCompartment": {
+								"$ref": "AAAAAAFm0IB3V6EOKxA="
+							},
+							"slotCompartment": {
+								"$ref": "AAAAAAFm0IB3WKETCmI="
+							}
+						}
+					]
+				},
+				{
+					"_type": "UMLObject",
+					"_id": "AAAAAAFm0H2vD6Cc3wU=",
+					"_parent": {
+						"$ref": "AAAAAAFm0H2a6qCXhIk="
+					},
+					"name": "Train Model Interface"
+				},
+				{
+					"_type": "UMLObject",
+					"_id": "AAAAAAFm0H5N0qC+bpc=",
+					"_parent": {
+						"$ref": "AAAAAAFm0H2a6qCXhIk="
+					},
+					"name": "Murphy Failures                              Passenger Emergency Brake"
+				},
+				{
+					"_type": "UMLObject",
+					"_id": "AAAAAAFm0H9cjqDlVak=",
+					"_parent": {
+						"$ref": "AAAAAAFm0H2a6qCXhIk="
+					},
+					"name": "Track Controller & Train Model Communications     Update Velocity and Store Train Info"
+				},
+				{
+					"_type": "UMLObject",
+					"_id": "AAAAAAFm0IB3V6ELHTY=",
+					"_parent": {
+						"$ref": "AAAAAAFm0H2a6qCXhIk="
+					},
+					"name": "Stored Train Instances with Stored Descriptive Values"
+				}
+			]
+		}
+	]
+}
