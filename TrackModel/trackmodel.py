@@ -9,218 +9,267 @@ import csv
 import time
 
 
-# load file
-def load():
-    filename = askopenfilename()
+# Main Window
+class MainWindow(tk.Frame):
+    # load file
+    def load(self):
+        filename = askopenfilename()
 
-    # make sure file is csv later
-    with open(filename, 'r') as file:
-        csv_reader = csv.reader(file, delimiter=',')
-        i = 0
-        numSwitch = 1
-        numSig = 0
-        st = ''
-        sw = 0
-        holdr = 0
-        rc = ''
-        stations = []
-        for r in csv_reader:
-            if i == 0:
-                i += 1
-            else:
-                holdr = r
-                ug = ''
-                sw = 0
-                st = ''
-                rc = ''
-                if r[0] == "Red":
-                    infr = r[6]
-                    if "UNDERGROUND" in infr:
-                        ug = 'underground'
-                    if "SWITCH" in infr:
-                        sw = numSwitch
-                        numSwitch += 1
-
-                    if "STATION" in infr:
-                        st = "STATION"
-                    if "PIONEER" in infr:
-                        st = "PIONEER"
-                    elif "EDGEBROOK" in infr:
-                        st = "EDGEBROOK"
-                    elif "WHITED" in infr:
-                        st = "WHITED"
-                    elif "SOUTH BANK" in infr:
-                        st = "SOUTH BANK"
-                    elif "CENTRAL" in infr:
-                        st = "CENTRAL"
-                    elif "INGLEWOOD" in infr:
-                        st = "INGLEWOOD"
-                    elif "OVERBROOK" in infr:
-                        st = "OVERBROOK"
-                    elif "GLENBURY" in infr:
-                        st = "GLENBURY"
-                    elif "DORMONT" in infr:
-                        st = "DORMONT"
-                    elif "MT LEBANON" in infr:
-                        st = "MT LEBANON"
-                    elif "POPLAR" in infr:
-                        st = "POPLAR"
-                    elif "CASTLE SHANNON" in infr:
-                        st = "CASTLE SHANNON"
-                    elif "SHADYSIDE" in infr:
-                        st = "SHADYSIDE"
-                    elif "HERRON AVE" in infr:
-                        st = "HERRON AVE"
-                    elif "SWISSVILLE" in infr:
-                        st = "SWISSVILLE"
-                    elif "PENN STATION" in infr:
-                        st = "PENN STATION"
-                    elif "STEEL PLAZA" in infr:
-                        st = "STEEL PLAZA"
-                    elif "FIRST AVE" in infr:
-                        st = "FIRST AVE"
-                    elif "STATION SQUARE" in infr:
-                        st = "STATION SQUARE"
-                    elif "SOUTH HILLS JUNCTION" in infr:
-                        st = "SOUTH HILLS JUNCTION"
-                    if rc == 0:
-                        rc = ''
-                    if sw == 0:
-                        my_gui.red_table.insert('', 'end',
-                                                values=(r[1], r[2], r[3], r[4], r[5], ug, st, '', r[16], r[8],
-                                                        r[11],
-                                                        r[10], 'false', 'off', 'unoccupied', 'working',
-                                                        'working', 'working'))
-                    else:
-                        my_gui.red_table.insert('', 'end',
-                                                values=(r[1], r[2], r[3], r[4], r[5], ug, st, sw, r[16], r[8], r[11],
-                                                        r[10], 'false', 'off', 'unoccupied', 'working',
-                                                        'working', 'working'))
-
-                if r[0] == "Green":
-                    infr = r[6]
+        # make sure file is csv later
+        with open(filename, 'r') as file:
+            csv_reader = csv.reader(file, delimiter=',')
+            i = 0
+            numSwitch = 1
+            numSig = 0
+            st = ''
+            sw = 0
+            holdr = 0
+            rc = ''
+            stations = []
+            for r in csv_reader:
+                if i == 0:
+                    i += 1
+                else:
+                    holdr = r
+                    ug = ''
                     sw = 0
-                    if "UNDERGROUND" in infr:
-                        ug = 'underground'
-                    if "SWITCH" in infr:
-                        sw = numSwitch
-                        numSwitch += 1
-                    if "RAILWAY CROSSING" in infr:
-                        rc = "railway crossing"
-                    if "STATION" in infr:
-                        st = "STATION"
-                    if "PIONEER" in infr:
-                        st = "PIONEER"
-                    elif "EDGEBROOK" in infr:
-                        st = "EDGEBROOK"
-                    elif "WHITED" in infr:
-                        st = "WHITED"
-                    elif "SOUTH BANK" in infr:
-                        st = "SOUTH BANK"
-                    elif "CENTRAL" in infr:
-                        st = "CENTRAL"
-                    elif "INGLEWOOD" in infr:
-                        st = "INGLEWOOD"
-                    elif "OVERBROOK" in infr:
-                        st = "OVERBROOK"
-                    elif "GLENBURY" in infr:
-                        st = "GLENBURY"
-                    elif "DORMONT" in infr:
-                        st = "DORMONT"
-                    elif "MT LEBANON" in infr:
-                        st = "MT LEBANON"
-                    elif "POPLAR" in infr:
-                        st = "POPLAR"
-                    elif "CASTLE SHANNON" in infr:
-                        st = "CASTLE SHANNON"
-                    elif "SHADYSIDE" in infr:
-                        st = "SHADYSIDE"
-                    elif "HERRON AVE" in infr:
-                        st = "HERRON AVE"
-                    elif "SWISSVILLE" in infr:
-                        st = "SWISSVILLE"
-                    elif "PENN STATION" in infr:
-                        st = "PENN STATION"
-                    elif "STEEL PLAZA" in infr:
-                        st = "STEEL PLAZA"
-                    elif "FIRST AVE" in infr:
-                        st = "FIRST AVE"
-                    elif "STATION SQUARE" in infr:
-                        st = "STATION SQUARE"
-                    elif "SOUTH HILLS JUNCTION" in infr:
-                        st = "SOUTH HILLS JUNCTION"
+                    st = ''
+                    rc = ''
+                    if r[0] == "Red":
+                        infr = r[6]
+                        if "UNDERGROUND" in infr:
+                            ug = 'underground'
+                        if "SWITCH" in infr:
+                            sw = numSwitch
+                            numSwitch += 1
 
-                    if sw == 0:
-                        my_gui.green_table.insert('', 'end',
+                        if "STATION" in infr:
+                            st = "STATION"
+                        if "PIONEER" in infr:
+                            st = "PIONEER"
+                        elif "EDGEBROOK" in infr:
+                            st = "EDGEBROOK"
+                        elif "WHITED" in infr:
+                            st = "WHITED"
+                        elif "SOUTH BANK" in infr:
+                            st = "SOUTH BANK"
+                        elif "CENTRAL" in infr:
+                            st = "CENTRAL"
+                        elif "INGLEWOOD" in infr:
+                            st = "INGLEWOOD"
+                        elif "OVERBROOK" in infr:
+                            st = "OVERBROOK"
+                        elif "GLENBURY" in infr:
+                            st = "GLENBURY"
+                        elif "DORMONT" in infr:
+                            st = "DORMONT"
+                        elif "MT LEBANON" in infr:
+                            st = "MT LEBANON"
+                        elif "POPLAR" in infr:
+                            st = "POPLAR"
+                        elif "CASTLE SHANNON" in infr:
+                            st = "CASTLE SHANNON"
+                        elif "SHADYSIDE" in infr:
+                            st = "SHADYSIDE"
+                        elif "HERRON AVE" in infr:
+                            st = "HERRON AVE"
+                        elif "SWISSVILLE" in infr:
+                            st = "SWISSVILLE"
+                        elif "PENN STATION" in infr:
+                            st = "PENN STATION"
+                        elif "STEEL PLAZA" in infr:
+                            st = "STEEL PLAZA"
+                        elif "FIRST AVE" in infr:
+                            st = "FIRST AVE"
+                        elif "STATION SQUARE" in infr:
+                            st = "STATION SQUARE"
+                        elif "SOUTH HILLS JUNCTION" in infr:
+                            st = "SOUTH HILLS JUNCTION"
+                        if rc == 0:
+                            rc = ''
+                        if sw == 0:
+                            self.red_table.insert('', 'end',
                                                   values=(r[1], r[2], r[3], r[4], r[5], ug, st, '', r[16], r[8],
                                                           r[11],
                                                           r[10], 'false', 'off', 'unoccupied', 'working',
                                                           'working', 'working'))
-                    else:
-                        my_gui.green_table.insert('', 'end',
+                        else:
+                            self.red_table.insert('', 'end',
                                                   values=(r[1], r[2], r[3], r[4], r[5], ug, st, sw, r[16], r[8], r[11],
                                                           r[10], 'false', 'off', 'unoccupied', 'working',
                                                           'working', 'working'))
 
-                if st != '':
-                    if st not in stations:
-                        stations.append(st)
-                        my_gui.station_table.insert('', 'end', values=(st, 0))
+                    if r[0] == "Green":
+                        infr = r[6]
+                        sw = 0
+                        if "UNDERGROUND" in infr:
+                            ug = 'underground'
+                        if "SWITCH" in infr:
+                            sw = numSwitch
+                            numSwitch += 1
+                        if "RAILWAY CROSSING" in infr:
+                            rc = "railway crossing"
+                        if "STATION" in infr:
+                            st = "STATION"
+                        if "PIONEER" in infr:
+                            st = "PIONEER"
+                        elif "EDGEBROOK" in infr:
+                            st = "EDGEBROOK"
+                        elif "WHITED" in infr:
+                            st = "WHITED"
+                        elif "SOUTH BANK" in infr:
+                            st = "SOUTH BANK"
+                        elif "CENTRAL" in infr:
+                            st = "CENTRAL"
+                        elif "INGLEWOOD" in infr:
+                            st = "INGLEWOOD"
+                        elif "OVERBROOK" in infr:
+                            st = "OVERBROOK"
+                        elif "GLENBURY" in infr:
+                            st = "GLENBURY"
+                        elif "DORMONT" in infr:
+                            st = "DORMONT"
+                        elif "MT LEBANON" in infr:
+                            st = "MT LEBANON"
+                        elif "POPLAR" in infr:
+                            st = "POPLAR"
+                        elif "CASTLE SHANNON" in infr:
+                            st = "CASTLE SHANNON"
+                        elif "SHADYSIDE" in infr:
+                            st = "SHADYSIDE"
+                        elif "HERRON AVE" in infr:
+                            st = "HERRON AVE"
+                        elif "SWISSVILLE" in infr:
+                            st = "SWISSVILLE"
+                        elif "PENN STATION" in infr:
+                            st = "PENN STATION"
+                        elif "STEEL PLAZA" in infr:
+                            st = "STEEL PLAZA"
+                        elif "FIRST AVE" in infr:
+                            st = "FIRST AVE"
+                        elif "STATION SQUARE" in infr:
+                            st = "STATION SQUARE"
+                        elif "SOUTH HILLS JUNCTION" in infr:
+                            st = "SOUTH HILLS JUNCTION"
 
-                if sw != 0:
-                    my_gui.switch_table.insert('', 'end',
-                                               values=(sw, 'normal', holdr[12], holdr[13], holdr[14], holdr[15]))
+                        if sw == 0:
+                            self.green_table.insert('', 'end',
+                                                    values=(r[1], r[2], r[3], r[4], r[5], ug, st, '', r[16], r[8],
+                                                            r[11],
+                                                            r[10], 'false', 'off', 'unoccupied', 'working',
+                                                            'working', 'working'))
+                        else:
+                            self.green_table.insert('', 'end',
+                                                    values=(
+                                                    r[1], r[2], r[3], r[4], r[5], ug, st, sw, r[16], r[8], r[11],
+                                                    r[10], 'false', 'off', 'unoccupied', 'working',
+                                                    'working', 'working'))
 
-                if r[16] != '':
-                    my_gui.cross_table.insert('', 'end', values=(r[16], 'up'))
+                    if st != '':
+                        if st not in stations:
+                            stations.append(st)
+                            self.station_table.insert('', 'end', values=(st, 0))
 
+                    if sw != 0:
+                        self.switch_table.insert('', 'end',
+                                                 values=(sw, 'normal', holdr[12], holdr[13], holdr[14], holdr[15]))
 
-# Power Failure
-def power_failure():
-    if my_gui.red_table.set(my_gui.red_table.focus(), column='Power Failure') == 'FAILED':
-        my_gui.red_table.set(my_gui.red_table.focus(), column='Power Failure', value='working')
-    else:
-        my_gui.red_table.set(my_gui.red_table.focus(), column='Power Failure', value='FAILED')
+                    if r[16] != '':
+                        self.cross_table.insert('', 'end', values=(r[16], 'up'))
 
-    if my_gui.green_table.set(my_gui.green_table.focus(), column='Power Failure') == 'FAILED':
-        my_gui.green_table.set(my_gui.green_table.focus(), column='Power Failure', value='working')
-    else:
-        my_gui.green_table.set(my_gui.green_table.focus(), column='Power Failure', value='FAILED')
+    # Power Failure
+    def power_failure(self):
+        if self.red_table.set(self.red_table.focus(), column='Power Failure') == 'FAILED':
+            self.red_table.set(self.red_table.focus(), column='Power Failure', value='working')
+        else:
+            self.red_table.set(self.red_table.focus(), column='Power Failure', value='FAILED')
 
+        if self.green_table.set(self.green_table.focus(), column='Power Failure') == 'FAILED':
+            self.green_table.set(self.green_table.focus(), column='Power Failure', value='working')
+        else:
+            self.green_table.set(self.green_table.focus(), column='Power Failure', value='FAILED')
 
-def break_rail():
-    if my_gui.red_table.set(my_gui.red_table.focus(), column='Broken Rail') == 'BROKEN':
-        my_gui.red_table.set(my_gui.red_table.focus(), column='Broken Rail', value='working')
-    else:
-        my_gui.red_table.set(my_gui.red_table.focus(), column='Broken Rail', value='BROKEN')
+        self.selection_clear()
 
-    if my_gui.green_table.set(my_gui.green_table.focus(), column='Broken Rail') == 'BROKEN':
-        my_gui.green_table.set(my_gui.green_table.focus(), column='Broken Rail', value='working')
-    else:
-        my_gui.green_table.set(my_gui.green_table.focus(), column='Broken Rail', value='BROKEN')
+    def break_rail(self):
+        if self.red_table.set(self.red_table.focus(), column='Broken Rail') == 'BROKEN':
+            self.red_table.set(self.red_table.focus(), column='Broken Rail', value='working')
+        else:
+            self.red_table.set(self.red_table.focus(), column='Broken Rail', value='BROKEN')
 
+        if self.green_table.set(self.green_table.focus(), column='Broken Rail') == 'BROKEN':
+            self.green_table.set(self.green_table.focus(), column='Broken Rail', value='working')
+        else:
+            self.green_table.set(self.green_table.focus(), column='Broken Rail', value='BROKEN')
 
-def tc_fail():
-    if my_gui.red_table.set(my_gui.red_table.focus(), column='TC Failure') == 'FAILED':
-        my_gui.red_table.set(my_gui.red_table.focus(), column='TC Failure', value='working')
-    else:
-        my_gui.red_table.set(my_gui.red_table.focus(), column='TC Failure', value='FAILED')
+        self.selection_clear()
 
-    if my_gui.green_table.set(my_gui.green_table.focus(), column='TC Failure') == 'FAILED':
-        my_gui.green_table.set(my_gui.green_table.focus(), column='TC Failure', value='working')
-    else:
-        my_gui.green_table.set(my_gui.green_table.focus(), column='TC Failure', value='FAILED')
+    def tc_fail(self):
+        if self.red_table.set(self.red_table.focus(), column='TC Failure') == 'FAILED':
+            self.red_table.set(self.red_table.focus(), column='TC Failure', value='working')
+        else:
+            self.red_table.set(self.red_table.focus(), column='TC Failure', value='FAILED')
 
+        if self.green_table.set(self.green_table.focus(), column='TC Failure') == 'FAILED':
+            self.green_table.set(self.green_table.focus(), column='TC Failure', value='working')
+        else:
+            self.green_table.set(self.green_table.focus(), column='TC Failure', value='FAILED')
 
-# Main Window
-class MainWindow(tk.Frame):
+        self.selection_clear()
+
+    def data_update(self):
+        self.write_xml()
+        self.read_xml()
+
+    def write_xml(self):
+        if os.path.isfile(os.getcwd()+"\outTrackmodel.xml"):
+            xfile = xml.etree.ElementTree.parse(os.getcwd()+"\outTrackmodel.xml")
+            root = xfile.getroot()
+
+            for outputs in self.red_table.get_children():
+                print(self.redtree.item(outputs)['values'])
+        else:
+            root = xml.etree.ElementTree.Element("bits")
+            for outs in self.redtree.get_children():
+                i = 1
+                name_build = "R"
+                track_number = self.redtree.item(outs, 'values')[1]
+                name_build = name_build + track_number + "T"
+                print(name_build)
+                if self.redtree.item(outs, 'values')[14] == "occupied":
+                    xml.etree.ElementTree.SubElement(root, "bit",
+                                                 name=name_build).text = '0'
+                else:
+                    xml.etree.ElementTree.SubElement(root, "bit",
+                                                     name=name_build).text = '1'
+                i += 1
+            for outs in self.greentree.get_children():
+                i = 1
+                name_build = "G"
+                track_number = self.greentree.item(outs, 'values')[1]
+                name_build = name_build + track_number + "T"
+                print(name_build)
+                if self.greentree.item(outs, 'values')[14] == "occupied":
+                    xml.etree.ElementTree.SubElement(root, "bit",
+                                                 name=name_build).text = '0'
+                else:
+                    xml.etree.ElementTree.SubElement(root, "bit",
+                                                     name=name_build).text = '1'
+                i += 1
+
+        tree = xml.etree.ElementTree.ElementTree(root)
+        tree.write("outTrackmodel.xml")
+
+    def read_xml(self):
+        print("READ")
+
     def __init__(self, master, *args, **kwargs):
         self.master = master
         master.title("Track Model UI")
         tk.Frame.__init__(self, *args, **kwargs)
         menubar = tk.Menu(master)
         filemenu = tk.Menu(menubar, tearoff=0)
-        filemenu.add_command(label="Load CSV", command=load)
+        filemenu.add_command(label="Load CSV", command=self.load)
         menubar.add_cascade(label="File", menu=filemenu)
         root.config(menu=menubar)
 
@@ -376,15 +425,19 @@ class MainWindow(tk.Frame):
         self.station_table.grid(row=5, rowspan=6, column=17, padx=5, pady=5, sticky='nsew')
         self.stationtree = self.station_table
 
-        self.pf_button = tk.Button(master, text="Power Failure", command=power_failure)
+        self.pf_button = tk.Button(master, text="Power Failure", command=self.power_failure)
         self.pf_button.grid(row=5, padx=5, pady=5, column=18, sticky="nsew")
-        self.tc_button = tk.Button(master, text="TC Failure", command=tc_fail)
+        self.tc_button = tk.Button(master, text="TC Failure", command=self.tc_fail)
         self.tc_button.grid(row=6, padx=5, pady=5, column=18, sticky="nsew")
-        self.br_button = tk.Button(master, text="Broken Rail", command=break_rail)
+        self.br_button = tk.Button(master, text="Broken Rail", command=self.break_rail)
         self.br_button.grid(row=7, padx=5, pady=5, column=18, sticky="nsew")
+        self.du_button = tk.Button(master, text="Start", command=self.data_update)
+        self.du_button.grid(row=8, padx=5, pady=5, column=18, sticky="nsew")
 
         self.columnconfigure(2, weight=1)  # column with treeview
         self.rowconfigure(2, weight=1)  # row with treeview
+
+        self.config()
 
     @staticmethod
     def greet():
