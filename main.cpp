@@ -16,6 +16,8 @@
 
 using namespace std;
 
+const float START_TIME = time(0);
+
 int check_platform(){
 	switch(PLATFORM){
 		case 0:
@@ -30,87 +32,31 @@ int check_platform(){
 	}
 }
 
-void print_choices(){
-	cout << "Run a Module: " << endl;
-	cout << "\t0: Train Model\n";
-	cout << "\t1: CTC\n";
-	cout << "\t2: Track Controller\n";
-	cout << "\t3: Track Model\n";
-	cout << "\t4: Train Controller\n";
-	cout << "Make selection: ";
-}
-
-int get_selection(){
-	int select = 0;
-	
-	print_choices();
-
-	cin >> select;
-
-	while(select < 0 || select > 4 || cin.fail()){
-    		cin.clear();
-    		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-		print_choices();
-		cin >> select;
-	}
-
-	return select;
-}
-
 int main(int argc, char** argv){
 	if(check_platform() == -1)
 		return EXIT_FAILURE;
-	
-	int again = 0;
+	cout << START_TIME << endl;
 
-	while(again != -1){
-		//if "start cmd /k" doesn't work for windows, try "start cmd /C"
-		switch(get_selection()){
-			case 0:
-				if(PLATFORM == 1)
-					system("gnome-terminal -- bash -c \"exec java -jar TrainModel/dist/TrainModel.jar && read\"");
-				else
-					system("start cmd /k java -jar TrainModel/dist/TrainModel.jar");
-				break;
-			case 1:
-				if(PLATFORM == 1)
-					system("gnome-terminal -- bash -c \"exec java -jar CTCOffice/dist/CTC.jar && read\"");
-				else
-					system("start cmd /k java -jar CTCOffice/dist/CTC.jar");
-				break;
-			case 2:
-				if(PLATFORM == 1)
-					system("gnome-terminal -- bash -c \"exec python TrackController/TrackController.py && read\"");
-				else
-					system("start cmd /k java -jar TrackController/TrackController.py");
-				break;
-			case 3:
-				if(PLATFORM == 1)
-					system("gnome-terminal -- bash -c \"exec python TrackModel/trackmodel.py && read\"");
-				else
-					system("start cmd /k python TrackModel/trackmodel.py");
-				break;
-			case 4:
-				if(PLATFORM == 1)
-					system("gnome-terminal -- bash -c \"exec java -jar TC/dist/TC.jar && read\"");
-				else
-					system("start cmd /k java -jar TC/dist/TC.jar");
-				break;
-			default:
-				return EXIT_FAILURE;
-		}
-
-		cout << "Make selection (-1 to leave): ";
-		cin >> again;
-
-		while(again < -1 || again > 4 || cin.fail()){
-    			cin.clear();
-    			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-			cout << "Continue? Enter -1 to leave, 0 to stay): ";
-			cin >> again;
-		}
+	switch(PLATFORM){
+		case 1:
+			system("gnome-terminal -- bash -c \"exec java -jar TrainModel/dist/TrainModel.jar && read\"");
+			system("gnome-terminal -- bash -c \"exec java -jar CTCOffice/dist/CTC.jar && read\"");
+			system("gnome-terminal -- bash -c \"exec python TrackController/TrackController.py && read\"");
+			system("gnome-terminal -- bash -c \"exec python TrackModel/trackmodel.py && read\"");
+			system("gnome-terminal -- bash -c \"exec java -jar TC/dist/TC.jar && read\"");
+				
+			break;
+		case 0:
+			system("start cmd /k java -jar TrainModel/dist/TrainModel.jar");
+			system("start cmd /k java -jar CTCOffice/dist/CTC.jar");
+			system("start cmd /k java -jar TrackController/TrackController.py");
+			system("start cmd /k python TrackModel/trackmodel.py");
+			system("start cmd /k java -jar TC/dist/TC.jar");
+				
+			break;
+		default:
+			cout << "module selection error\nExiting program..." << endl;
+			return EXIT_FAILURE;
 	}
 
 	return EXIT_SUCCESS;
