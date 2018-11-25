@@ -108,7 +108,7 @@ int main(int argc, char** argv){
     			cin.clear();
     			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-			cout << "Make selection (-1 to leave): ";
+			cout << "Continue? Enter -1 to leave, 0 to stay): ";
 			cin >> again;
 		}
 	}
