@@ -61,39 +61,41 @@ int get_selection(){
 int main(int argc, char** argv){
 	if(check_platform() == -1)
 		return EXIT_FAILURE;
+	
 	int again = 0;
 
 	while(again != -1){
+		//if "start cmd /k" doesn't work for windows, try "start cmd /C"
 		switch(get_selection()){
 			case 0:
 				if(PLATFORM == 1)
-					system("gnome-terminal -- bash -c \"java -jar TrainModel/dist/TrainModel.jar && read\"");
-				else{}
-					//find windows cmd
+					system("gnome-terminal -- bash -c \"exec java -jar TrainModel/dist/TrainModel.jar && read\"");
+				else
+					system("start cmd /k java -jar TrainModel/dist/TrainModel.jar");
 				break;
 			case 1:
 				if(PLATFORM == 1)
-					system("gnome-terminal -- bash -c \"java -jar CTCOffice/dist/TrainModel.jar && read\"");
-				else{}
-					//find windows cmd
+					system("gnome-terminal -- bash -c \"exec java -jar CTCOffice/dist/CTC.jar && read\"");
+				else
+					system("start cmd /k java -jar CTCOffice/dist/CTC.jar");
 				break;
 			case 2:
 				if(PLATFORM == 1)
-					system("gnome-terminal -- bash -c \"python TrackController/TrackController.py && read\"");
-				else{}
-					//find windows cmd
+					system("gnome-terminal -- bash -c \"exec python TrackController/TrackController.py && read\"");
+				else
+					system("start cmd /k java -jar TrackController/TrackController.py");
 				break;
 			case 3:
 				if(PLATFORM == 1)
-					system("gnome-terminal -- bash -c \"python TrackModel/trackmodel.py && read\"");
-				else{}
-					//find windows cmd
+					system("gnome-terminal -- bash -c \"exec python TrackModel/trackmodel.py && read\"");
+				else
+					system("start cmd /k python TrackModel/trackmodel.py");
 				break;
 			case 4:
 				if(PLATFORM == 1)
-					system("gnome-terminal -- bash -c \"java -jar TC/dist/TC.jar && read\"");
-				else{}
-					//find windows cmd
+					system("gnome-terminal -- bash -c \"exec java -jar TC/dist/TC.jar && read\"");
+				else
+					system("start cmd /k java -jar TC/dist/TC.jar");
 				break;
 			default:
 				return EXIT_FAILURE;

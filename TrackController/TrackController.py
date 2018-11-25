@@ -1,7 +1,11 @@
-from tkinter import ttk
-import tkinter as tk
-from tkinter.scrolledtext import ScrolledText
-from tkinter import filedialog
+try:
+	from tkinter import ttk
+	import tkinter as tk
+	from tkinter.scrolledtext import ScrolledText
+	from tkinter import filedialog
+except ImportError:
+	import Tkinter as tk
+	import ttk
 import xml.etree.ElementTree
 import os
 import boolean

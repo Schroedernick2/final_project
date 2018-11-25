@@ -1,8 +1,11 @@
-import tkinter as tk
-from tkinter import ttk
-from tkinter.scrolledtext import ScrolledText
-from tkinter.scrolledtext import Scrollbar
-from tkinter.filedialog import askopenfilename
+try:
+	import tkinter as tk
+	from tkinter import ttk
+	from tkinter.scrolledtext import ScrolledText
+	from tkinter.scrolledtext import Scrollbar
+	from tkinter.filedialog import askopenfilename
+except ImportError:
+	import Tkinter as tk
 import xml.etree.ElementTree
 import os
 import csv
