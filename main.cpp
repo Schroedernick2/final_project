@@ -25,6 +25,7 @@ int check_platform(){
 			cout << "Linux platform detected." << endl;
 			return 1;
 		default:
+			cout << "Unsupported platform detected.\nExiting now..." << endl;
 			return -1;	
 	}
 }
