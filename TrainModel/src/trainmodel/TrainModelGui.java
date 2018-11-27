@@ -425,7 +425,7 @@ public class TrainModelGui extends javax.swing.JDialog {
         String[] trainIDs = getIDs();
         trainSelector.setModel(new javax.swing.DefaultComboBoxModel<>(trainIDs));       
         
-        File tm_tcXML = new File("/xml/traincontroller_trainmodel.xml");
+        File tm_tcXML = new File("./xml/traincontroller_trainmodel.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(tm_tcXML);
@@ -486,12 +486,12 @@ public class TrainModelGui extends javax.swing.JDialog {
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer t = tf.newTransformer();
         DOMSource source = new DOMSource(doc);
-        StreamResult result = new StreamResult(new File("/xml/traincontroller_trainmodel.xml"));
+        StreamResult result = new StreamResult(new File("./xml/traincontroller_trainmodel.xml"));
         t.transform(source,result);
     }
     
     private void talkToTrainController() throws Exception{    
-        File trainControllerXML = new File("/xml/traincontroller_trainmodel.xml");
+        File trainControllerXML = new File("./xml/traincontroller_trainmodel.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(trainControllerXML);
@@ -536,13 +536,13 @@ public class TrainModelGui extends javax.swing.JDialog {
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer t = tf.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("/xml/traincontroller_trainmodel.xml"));
+            StreamResult result = new StreamResult(new File("./xml/traincontroller_trainmodel.xml"));
             t.transform(source,result);
         }        
     }
     
     private void talkToTrackModel() throws Exception{
-        File trainControllerXML = new File("xml/trackmodel_trainmodel.xml");
+        File trainControllerXML = new File("./xml/trackmodel_trainmodel.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(trainControllerXML);
@@ -576,7 +576,7 @@ public class TrainModelGui extends javax.swing.JDialog {
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer t = tf.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("/xml/trackmodel_trainmodel.xml"));
+            StreamResult result = new StreamResult(new File("./xml/trackmodel_trainmodel.xml"));
             t.transform(source,result);
         }        
     }
@@ -586,7 +586,7 @@ public class TrainModelGui extends javax.swing.JDialog {
         //power from TrainController
         //elevation, grade, speed & authority, passenger's at station 
     
-        File trainControllerXML = new File("/xml/ctc_trainmodel.xml");
+        File trainControllerXML = new File("./xml/ctc_trainmodel.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(trainControllerXML);
@@ -625,7 +625,7 @@ public class TrainModelGui extends javax.swing.JDialog {
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer t = tf.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("/xml/ctc_trainmodel.xml"));
+            StreamResult result = new StreamResult(new File("./xml/ctc_trainmodel.xml"));
             t.transform(source,result);
         }
     }
