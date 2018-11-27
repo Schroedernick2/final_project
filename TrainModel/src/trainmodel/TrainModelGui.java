@@ -18,6 +18,7 @@ import java.io.File;
 
 public class TrainModelGui extends javax.swing.JDialog {
     private int selectedTrainIndex = 0;
+    private int MULTIPLIER = 1;
     private ArrayList<Train> trains;
     public TrainModelGui(java.awt.Frame parent, boolean modal, ArrayList<Train> trains) {
         super(parent, modal);
@@ -393,7 +394,7 @@ public class TrainModelGui extends javax.swing.JDialog {
             crewCountLabel.setText("Crew Count: "+ t.getCrewCount());
             temperatureLabel.setText("Temperature: "+ t.getTemperature() + " F");
             emergencyBrakeLabel.setText("Emergenecy Brake: "+getStateString(t.isEmergencyBrake()));
-            activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
+            activeTimeLabel.setText("Time Active: "+ t.getTime(MULTIPLIER) + " seconds");
         }
     }
     
@@ -488,6 +489,8 @@ public class TrainModelGui extends javax.swing.JDialog {
         DOMSource source = new DOMSource(doc);
         StreamResult result = new StreamResult(new File("./xml/traincontroller_trainmodel.xml"));
         t.transform(source,result);
+        
+        addTrainToTrackModelXML(tr);
     }
     
     private void talkToTrainController() throws Exception{    
@@ -516,7 +519,6 @@ public class TrainModelGui extends javax.swing.JDialog {
                 
                 for(Train t : trains){
                     if(t.getTrainID().equals(ID)){
-                        System.out.println("here");
                         t.setPower(p);
                         t.setAdvertisements(ads);
                         t.setLights(lights);
@@ -541,13 +543,59 @@ public class TrainModelGui extends javax.swing.JDialog {
         }        
     }
     
+    private void addTrainToTrackModelXML(Train tr) throws Exception{        
+        File tm_tcXML = new File("./xml/trackmodel_trainmodel.xml");
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(tm_tcXML);
+    
+        Element root = doc.getDocumentElement();
+        
+        Element newTrain = doc.createElement("Train");
+        root.appendChild(newTrain);
+        
+        Attr id = doc.createAttribute("id");
+        id.setValue(tr.getTrainID());
+        newTrain.setAttributeNode(id);
+        
+        Attr speed = doc.createAttribute("speed");
+        speed.setValue(""+tr.getSpeed());
+        newTrain.setAttributeNode(speed);
+        
+        Attr authority = doc.createAttribute("authority");
+        authority.setValue(""+tr.getAuthority());
+        newTrain.setAttributeNode(authority);
+        
+        Attr nextStation = doc.createAttribute("nextStation");
+        nextStation.setValue(""+tr.getStation());
+        newTrain.setAttributeNode(nextStation);
+        
+        Attr distance = doc.createAttribute("distanceTraveled");
+        distance.setValue(""+tr.getDistance());
+        newTrain.setAttributeNode(distance);
+
+        Attr elev = doc.createAttribute("elevation");
+        elev.setValue(""+tr.getElevation());
+        newTrain.setAttributeNode(elev);
+        
+        Attr grade = doc.createAttribute("grade");
+        grade.setValue(""+tr.getGrade());
+        newTrain.setAttributeNode(grade);     
+        
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer t = tf.newTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(new File("./xml/trackmodel_trainmodel.xml"));
+        t.transform(source,result);        
+    }
+    
     private void talkToTrackModel() throws Exception{
         File trainControllerXML = new File("./xml/trackmodel_trainmodel.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(trainControllerXML);
                 
-        NodeList nList = doc.getElementsByTagName("Dispatch");
+        NodeList nList = doc.getElementsByTagName("Train");
         
         for(int i=0;i<nList.getLength();i++){
             Node nNode = nList.item(i);
@@ -555,22 +603,27 @@ public class TrainModelGui extends javax.swing.JDialog {
             if(nNode.getNodeType() == Node.ELEMENT_NODE){
                 Element eElement = (Element) nNode;
                 
-                String created = eElement.getChildNodes().item(0).getNodeValue(); 
-                created = created.replaceAll("\\s+","");
-                int t_num = Integer.parseInt(eElement.getAttribute("IDNum"));
-                String line = eElement.getAttribute("Line");
-                                        
-                if(created.equals("0")){
-                    ArrayList<String> stops = new ArrayList<String>();
-                    NamedNodeMap m = eElement.getAttributes();
-                    for(int l=0;l<m.getLength();l++){
-                            if(m.item(l).getNodeName().startsWith("Stop"))
-                                stops.add(m.item(l).getTextContent());
+                String ID = eElement.getAttribute("id");
+                ID = ID.replaceAll("\\s+","");
+                
+                double authority = Double.parseDouble(eElement.getAttribute("authority").replaceAll("\\s+",""));
+                double speed = Double.parseDouble(eElement.getAttribute("speed").replaceAll("\\s+",""));
+                int elevation = Integer.parseInt(eElement.getAttribute("elevation").replaceAll("\\s+",""));
+                double grade = Double.parseDouble(eElement.getAttribute("grade").replaceAll("\\s+",""));
+                String nextStation= eElement.getAttribute("nextStation").replaceAll("\\s+","");
+                
+                for(Train t : trains){
+                    if(t.getTrainID().equals(ID)){
+                        t.setAuthority(authority);
+                        t.setSpeed(speed);
+                        t.setElevation(elevation);
+                        t.setGrade(grade);
+                        t.setStation(nextStation);
+       
+                        t.updateVelocity();
+                        eElement.setAttribute("distanceTraveled",""+t.getDistance());
                     }
-                    
-                    addTrain(new Train(line,t_num,1,0,stops));
-                    eElement.getChildNodes().item(0).setTextContent("1");                    
-                }
+                }   
             }
             
             TransformerFactory tf = TransformerFactory.newInstance();
@@ -669,25 +722,33 @@ public class TrainModelGui extends javax.swing.JDialog {
     private class Progress extends TimerTask {
         //private int runs=0;
         @Override
-        public void run(){  
-            try{
-                talkToCTC();
-            }catch(Exception e){
-                System.out.println("CTC FUCK");
-            }
-            if(trains.size()>0){
+        public void run(){
+            MULTIPLIER = 1;
+            for(int i=0;i<MULTIPLIER;i++){
                 try{
-                    talkToTrainController();
+                    talkToCTC();
                 }catch(Exception e){
-                    System.out.println("Train Controller FUCK");
+                    System.out.println("CTC FUCK");
+                }              
+                if(trains.size()>0){
+                    try{
+                        talkToTrackModel();
+                    }catch(Exception e){
+                        System.out.println("Track Model FUCK");
+                    }
+                    try{
+                        talkToTrainController();
+                    }catch(Exception e){
+                        System.out.println("Train Controller FUCK");
+                    }
                 }
-            }
-            
-            for(Train t : trains)
-                t.updateVelocity();
-            displayValues();
+
+                for(Train t : trains)
+                    t.updateVelocity();
+                displayValues();
             
             //runs++;
+            }
         }
     }
 }

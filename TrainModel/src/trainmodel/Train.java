@@ -143,10 +143,10 @@ public class Train{
     public double getAuthority(){ return authority; }
     
     //current train description getters
-    public double getTime(){ 
+    public double getTime(int multiplier){ 
         double currTime = System.currentTimeMillis();
         
-        return Math.round((currTime-this.creationTime)/1000); 
+        return Math.round((currTime-this.creationTime)/1000)*multiplier; 
     }
     public double getDistance(){ return distance; }
     public double getPower(){ return power; }
@@ -194,7 +194,7 @@ public class Train{
     
     //function to update mass.. should be used when passenger/crew count changes
     private void updateMass(){
-        this.mass = Math.round((TRAIN_MASS*TONS_TO_POUNDS)+(WEIGHT_PER_PERSON*(this.crewCount+this.passengerCount))*100.0)/100.0;
+        this.mass = Math.round(((TRAIN_MASS*TONS_TO_POUNDS)+(WEIGHT_PER_PERSON*(this.crewCount+this.passengerCount)))*100.0)/100.0;
     }
     public void updateVelocity(){
         //update mass just in case
