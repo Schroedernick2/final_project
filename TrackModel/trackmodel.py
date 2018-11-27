@@ -91,13 +91,13 @@ class MainWindow(tk.Frame):
                             rc = ''
                         if sw == 0:
                             self.red_table.insert('', 'end',
-                                                  values=(r[1], r[2], r[3], r[4], r[5], ug, st, '', r[16], r[8],
+                                                  values=(r[1], r[2], r[3], r[4], r[5], ug, st, '', r[16], r[17], r[8],
                                                           r[11],
                                                           r[10], 'false', 'off', 'unoccupied', 'working',
                                                           'working', 'working'))
                         else:
                             self.red_table.insert('', 'end',
-                                                  values=(r[1], r[2], r[3], r[4], r[5], ug, st, sw, r[16], r[8], r[11],
+                                                  values=(r[1], r[2], r[3], r[4], r[5], ug, st, sw, r[16], r[17], r[8], r[11],
                                                           r[10], 'false', 'off', 'unoccupied', 'working',
                                                           'working', 'working'))
 
@@ -156,14 +156,14 @@ class MainWindow(tk.Frame):
 
                         if sw == 0:
                             self.green_table.insert('', 'end',
-                                                    values=(r[1], r[2], r[3], r[4], r[5], ug, st, '', r[16], r[8],
+                                                    values=(r[1], r[2], r[3], r[4], r[5], ug, st, '', r[16], r[17], r[8],
                                                             r[11],
                                                             r[10], 'false', 'off', 'unoccupied', 'working',
                                                             'working', 'working'))
                         else:
                             self.green_table.insert('', 'end',
                                                     values=(
-                                                    r[1], r[2], r[3], r[4], r[5], ug, st, sw, r[16], r[8], r[11],
+                                                    r[1], r[2], r[3], r[4], r[5], ug, st, sw, r[16], r[17], r[8], r[11],
                                                     r[10], 'false', 'off', 'unoccupied', 'working',
                                                     'working', 'working'))
 
@@ -179,7 +179,9 @@ class MainWindow(tk.Frame):
                     if r[16] != '':
                         self.cross_table.insert('', 'end', values=(r[16], 'up'))
 
-            self.signal_table.insert('', 'end', values=('R_1', 'RED'))
+                    if r[17] != '':
+                        self.signal_table.insert('', 'end', values=(r[17], 'red', r[18]))
+
 
         
         Thread(target=self.data_update).start()
@@ -247,7 +249,7 @@ class MainWindow(tk.Frame):
                 name_build = "R"
                 track_number = self.redtree.item(outs, 'values')[1]
                 name_build = name_build + track_number + "T"
-                if self.redtree.item(outs, 'values')[14] == "occupied":
+                if self.redtree.item(outs, 'values')[15] == "occupied":
                     xml.etree.ElementTree.SubElement(root, "bit",
                                                  name=name_build).text = '0'
                 else:
@@ -259,7 +261,7 @@ class MainWindow(tk.Frame):
                 name_build = "G"
                 track_number = self.greentree.item(outs, 'values')[1]
                 name_build = name_build + track_number + "T"
-                if self.greentree.item(outs, 'values')[14] == "occupied":
+                if self.greentree.item(outs, 'values')[15] == "occupied":
                     xml.etree.ElementTree.SubElement(root, "bit",
                                                  name=name_build).text = '0'
                 else:
@@ -289,52 +291,32 @@ class MainWindow(tk.Frame):
                 name_build = name_build + track_number + "T"
                 track_xml = xml.etree.ElementTree.SubElement(root, "track",
                                                  name=name_build)
-                i = 1
-                for outputs in self.redtree.item(outs, 'values'):
-                    att = outputs
-                    if i == 3:
-                        xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                                 name='length').text = att
-                    elif i == 4:
-                        xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                                 name='grade').text = att
-                    elif i == 5:
-                        xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                                  name='speed').text = att
-                    elif i == 6:
-                        xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                                  name='underground').text = att
-                    elif i == 7:
-                        xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                                  name='station').text = att
-                    elif i == 8:
-                        xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                                  name='switch').text = att
-                    elif i == 9:
-                        xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                                  name='xing').text = att
-                    elif i == 10:
-                        xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                                  name='elevation').text = att
-                    elif i == 11:
-                        xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                                  name='direction').text = att
-                    elif i == 12:
-                        xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                                  name='bidirectional').text = att
-                    elif i == 13:
-                        xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                                  name='Track Block').text = att
-                    elif i == 16:
-                        xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                                  name='Power Failure').text = att                    
-                    elif i == 17:
-                        xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                                  name='TC Failure').text = att
-                    elif i == 18:
-                        xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                                  name='Broken Rail').text = att
-                    i = i + 1
+                xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                    name='length').text = self.redtree.item(outs, 'values')[2]
+                xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                    name='grade').text = self.redtree.item(outs, 'values')[3]
+                xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                    name='speed').text = self.redtree.item(outs, 'values')[4]
+                xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                    name='elevation').text = self.redtree.item(outs, 'values')[10]
+                xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                    name='station').text = self.redtree.item(outs, 'values')[6]
+            for outs in self.greentree.get_children():
+                name_build = "G"
+                track_number = self.greentree.item(outs, 'values')[1]
+                name_build = name_build + track_number + "T"
+                track_xml = xml.etree.ElementTree.SubElement(root, "track",
+                                                 name=name_build)
+                xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                    name='length').text = self.greentree.item(outs, 'values')[2]
+                xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                    name='grade').text = self.greentree.item(outs, 'values')[3]
+                xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                    name='speed').text = self.greentree.item(outs, 'values')[4]
+                xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                    name='elevation').text = self.greentree.item(outs, 'values')[10]
+                xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                    name='station').text = self.greentree.item(outs, 'values')[6]
                 
 
         tree = xml.etree.ElementTree.ElementTree(root)
@@ -368,7 +350,7 @@ class MainWindow(tk.Frame):
         self.label.grid(row=0, column=0, sticky='nsw')
 
         self.red_table = ttk.Treeview(master, height=7, columns=('Section', 'Block', 'Length', 'Grade', 'Speed',
-                                                                 'Underground', 'Station', 'Switch', 'railway x-ing',
+                                                                 'Underground', 'Station', 'Switch', 'railway x-ing', 'signal',
                                                                  'Elevation',
                                                                  'Direction', 'Bidirectional',
                                                                  'Track Block', 'Track Heater', 'Occupation',
@@ -383,15 +365,16 @@ class MainWindow(tk.Frame):
         self.red_table.heading('#7', text='Station', anchor=tk.CENTER)
         self.red_table.heading('#8', text='Switch', anchor=tk.CENTER)
         self.red_table.heading('#9', text='Railway x-ing', anchor=tk.CENTER)
-        self.red_table.heading('#10', text='Elevation', anchor=tk.CENTER)
-        self.red_table.heading('#11', text='Direction', anchor=tk.CENTER)
-        self.red_table.heading('#12', text='Bidirectional', anchor=tk.CENTER)
-        self.red_table.heading('#13', text='Track Block', anchor=tk.CENTER)
-        self.red_table.heading('#14', text='Track Heater', anchor=tk.CENTER)
-        self.red_table.heading('#15', text='Occupation', anchor=tk.CENTER)
-        self.red_table.heading('#16', text='Power Failure', anchor=tk.CENTER)
-        self.red_table.heading('#17', text='TC Failure', anchor=tk.CENTER)
-        self.red_table.heading('#18', text='Broken Rail', anchor=tk.CENTER)
+        self.red_table.heading('#10', text='Signal', anchor=tk.CENTER)
+        self.red_table.heading('#11', text='Elevation', anchor=tk.CENTER)
+        self.red_table.heading('#12', text='Direction', anchor=tk.CENTER)
+        self.red_table.heading('#13', text='Bidirectional', anchor=tk.CENTER)
+        self.red_table.heading('#14', text='Track Block', anchor=tk.CENTER)
+        self.red_table.heading('#15', text='Track Heater', anchor=tk.CENTER)
+        self.red_table.heading('#16', text='Occupation', anchor=tk.CENTER)
+        self.red_table.heading('#17', text='Power Failure', anchor=tk.CENTER)
+        self.red_table.heading('#18', text='TC Failure', anchor=tk.CENTER)
+        self.red_table.heading('#19', text='Broken Rail', anchor=tk.CENTER)
         self.red_table.column('#1', stretch=tk.YES, width=50)
         self.red_table.column('#2', stretch=tk.YES, width=40)
         self.red_table.column('#3', stretch=tk.YES, width=50)
@@ -401,15 +384,16 @@ class MainWindow(tk.Frame):
         self.red_table.column('#7', stretch=tk.YES, width=140)
         self.red_table.column('#8', stretch=tk.YES, width=50)
         self.red_table.column('#9', stretch=tk.YES, width=90)
-        self.red_table.column('#10', stretch=tk.YES, width=60)
+        self.red_table.column('#10', stretch=tk.YES, width=40)
         self.red_table.column('#11', stretch=tk.YES, width=60)
-        self.red_table.column('#12', stretch=tk.YES, width=90)
+        self.red_table.column('#12', stretch=tk.YES, width=60)
         self.red_table.column('#13', stretch=tk.YES, width=90)
-        self.red_table.column('#14', stretch=tk.YES, width=80)
-        self.red_table.column('#15', stretch=tk.YES, width=90)
-        self.red_table.column('#16', stretch=tk.YES, width=80)
-        self.red_table.column('#17', stretch=tk.YES, width=90)
-        self.red_table.column('#18', stretch=tk.YES, width=90)
+        self.red_table.column('#14', stretch=tk.YES, width=90)
+        self.red_table.column('#15', stretch=tk.YES, width=80)
+        self.red_table.column('#16', stretch=tk.YES, width=90)
+        self.red_table.column('#17', stretch=tk.YES, width=80)
+        self.red_table.column('#18', stretch=tk.YES, width=70)
+        self.red_table.column('#19', stretch=tk.YES, width=70)
         self.red_table['show'] = 'headings'
         self.red_table.grid(row=1, column=0, columnspan=20, padx=5, pady=5, sticky='nsew')
         self.redtree = self.red_table
@@ -418,7 +402,7 @@ class MainWindow(tk.Frame):
         self.glabel.grid(row=2, column=0, columnspan=1, sticky='sw')
 
         self.green_table = ttk.Treeview(master, height=7, columns=('Section', 'Block', 'Length', 'Grade', 'Speed',
-                                                                   'Underground', 'Station', 'Switch', 'railway x-ing',
+                                                                   'Underground', 'Station', 'Switch', 'railway x-ing', 'signal',
                                                                    'Elevation',
                                                                    'Direction', 'Bidirectional',
                                                                    'Track Block', 'Track Heater', 'Occupation',
@@ -433,15 +417,16 @@ class MainWindow(tk.Frame):
         self.green_table.heading('#7', text='Station', anchor=tk.CENTER)
         self.green_table.heading('#8', text='Switch', anchor=tk.CENTER)
         self.green_table.heading('#9', text='Railway x-ing', anchor=tk.CENTER)
-        self.green_table.heading('#10', text='Elevation', anchor=tk.CENTER)
-        self.green_table.heading('#11', text='Direction', anchor=tk.CENTER)
-        self.green_table.heading('#12', text='Bidirectional', anchor=tk.CENTER)
-        self.green_table.heading('#13', text='Track Block', anchor=tk.CENTER)
-        self.green_table.heading('#14', text='Track Heater', anchor=tk.CENTER)
-        self.green_table.heading('#15', text='Occupation', anchor=tk.CENTER)
-        self.green_table.heading('#16', text='Power Failure', anchor=tk.CENTER)
-        self.green_table.heading('#17', text='TC Failure', anchor=tk.CENTER)
-        self.green_table.heading('#18', text='Broken Rail', anchor=tk.CENTER)
+        self.green_table.heading('#10', text='Signal', anchor=tk.CENTER)
+        self.green_table.heading('#11', text='Elevation', anchor=tk.CENTER)
+        self.green_table.heading('#12', text='Direction', anchor=tk.CENTER)
+        self.green_table.heading('#13', text='Bidirectional', anchor=tk.CENTER)
+        self.green_table.heading('#14', text='Track Block', anchor=tk.CENTER)
+        self.green_table.heading('#15', text='Track Heater', anchor=tk.CENTER)
+        self.green_table.heading('#16', text='Occupation', anchor=tk.CENTER)
+        self.green_table.heading('#17', text='Power Failure', anchor=tk.CENTER)
+        self.green_table.heading('#18', text='TC Failure', anchor=tk.CENTER)
+        self.green_table.heading('#19', text='Broken Rail', anchor=tk.CENTER)
         self.green_table.column('#1', stretch=tk.YES, width=50)
         self.green_table.column('#2', stretch=tk.YES, width=40)
         self.green_table.column('#3', stretch=tk.YES, width=50)
@@ -451,15 +436,16 @@ class MainWindow(tk.Frame):
         self.green_table.column('#7', stretch=tk.YES, width=140)
         self.green_table.column('#8', stretch=tk.YES, width=50)
         self.green_table.column('#9', stretch=tk.YES, width=90)
-        self.green_table.column('#10', stretch=tk.YES, width=60)
+        self.green_table.column('#10', stretch=tk.YES, width=50)
         self.green_table.column('#11', stretch=tk.YES, width=60)
-        self.green_table.column('#12', stretch=tk.YES, width=90)
+        self.green_table.column('#12', stretch=tk.YES, width=60)
         self.green_table.column('#13', stretch=tk.YES, width=90)
-        self.green_table.column('#14', stretch=tk.YES, width=80)
-        self.green_table.column('#15', stretch=tk.YES, width=90)
-        self.green_table.column('#16', stretch=tk.YES, width=80)
-        self.green_table.column('#17', stretch=tk.YES, width=90)
-        self.green_table.column('#18', stretch=tk.YES, width=90)
+        self.green_table.column('#14', stretch=tk.YES, width=90)
+        self.green_table.column('#15', stretch=tk.YES, width=80)
+        self.green_table.column('#16', stretch=tk.YES, width=90)
+        self.green_table.column('#17', stretch=tk.YES, width=80)
+        self.green_table.column('#18', stretch=tk.YES, width=70)
+        self.green_table.column('#19', stretch=tk.YES, width=70)
         self.green_table['show'] = 'headings'
         self.green_table.grid(row=3, column=0, columnspan=20, padx=5, pady=5)
         self.greentree = self.green_table
