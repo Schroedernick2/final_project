@@ -39,11 +39,11 @@ int main(int argc, char** argv){
 
 	switch(PLATFORM){
 		case 1:
-			system("gnome-terminal -- bash -c \"java -jar TrainModel/dist/TrainModel.jar && read\"");
-			system("gnome-terminal -- bash -c \"java -jar CTCOffice/dist/CTC.jar && read\"");
-			system("gnome-terminal -- bash -c \"python3 TrackController/TrackController.py && read\"");
-			system("gnome-terminal -- bash -c \"python3 TrackModel/trackmodel.py && read\"");
-			system("gnome-terminal -- bash -c \"java -jar TC/dist/TC.jar && read\"");
+			system("gnome-terminal -- bash -c \"exec java -jar TrainModel/dist/TrainModel.jar && read\"");
+			system("gnome-terminal -- bash -c \"exec java -jar CTCOffice/dist/CTC.jar && read\"");
+			system("gnome-terminal -- bash -c \"exec python3 TrackController/TrackController.py && read\"");
+			system("gnome-terminal -- bash -c \"exec python3 TrackModel/trackmodel.py && read\"");
+			system("gnome-terminal -- bash -c \"exec java -jar TC/dist/TC.jar && read\"");
 				
 			break;
 		case 0:
