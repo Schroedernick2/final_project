@@ -48,6 +48,7 @@ public class Train{
     private double force;
     private double accelerationLimit;
     private double decelerationLimit;
+    private ArrayList<String> stops;
     
     
     //constant values
@@ -78,9 +79,11 @@ public class Train{
     
     /*******CONSTRUCTORS*******/
     
-    public Train(String line,int trainNumber,int crewCount,int passCount){
+    public Train(String line,int trainNumber,int crewCount,int passCount,ArrayList<String> stops){
         //set train id
         this.trainID = line.toUpperCase()+"_"+trainNumber;
+        
+        this.stops = stops;
         
         //default state
         this.emergencyBrake = false;

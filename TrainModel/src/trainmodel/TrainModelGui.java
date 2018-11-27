@@ -1,6 +1,20 @@
 package trainmodel;
 
 import java.util.*;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Attr;
+import java.io.File;
 
 public class TrainModelGui extends javax.swing.JDialog {
     private int selectedTrainIndex = 0;
@@ -345,41 +359,42 @@ public class TrainModelGui extends javax.swing.JDialog {
     }//GEN-LAST:event_trainSelectorActionPerformed
 
     private void displayValues(){
-        Train t = trains.get(selectedTrainIndex);
-        
-        trainSelector.setSelectedIndex(selectedTrainIndex);
-        
-        //checkboxes
-        brakeFailureBox.setSelected(t.isBrakeFailure());
-        emergencyBrakeBox.setSelected(t.isEmergencyBrake());
-        engineFailureBox.setSelected(t.isEngineFailure());
-        signalPickupFailureBox.setSelected(t.isSignalFailure());
-        
-        heightLabel.setText("Height: "+ t.getHeight() +" ft");
-        widthLabel.setText("Width: "+ t.getWidth() +" ft");
-        lengthLabel.setText("Length: "+ t.getLength() +" ft");
-        massLabel.setText("Mass: "+ t.getMass() +" lbs");
-        
-        distanceLabel.setText("Distance Traveled: "+ t.getDistance() + " miles");
-        //activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
-        //forceLabel.setText("Force: "+ t.getForce() + " N");
-        powerLabel.setText("Power: "+ t.getPower() +" kw");
-        velocityLabel.setText("Velocity: "+ t.getVelocity() +" mph");
-        accelerationLabel.setText("Acceleration: "+ t.getAcceleration() +" ft/s^2");
-        serviceBrakeLabel.setText("Service Brake: "+ getStateString(t.isServiceBrake()));
-        gradeLabel.setText("Grade: "+ t.getGrade() +"%");
-        elevationLabel.setText("Elevation: "+ t.getElevation() +" ft");
-        nextStationLabel.setText("Next Station: "+ t.getStation().toUpperCase());
-        leftDoorsLabel.setText("Left Doors: "+ getDoorString(t.isLeftDoors()));
-        rightDoorsLabel.setText("Right Doors: "+ getDoorString(t.isRightDoors()));
-        advertisementsLabel.setText("Advertisements: "+ getStateString(t.isAdvertisements()));
-        lightsLabel.setText("Lights: "+ getStateString(t.isLights()));
-        passengerCountLabel.setText("Passenger Count: "+ t.getPassengerCount());
-        crewCountLabel.setText("Crew Count: "+ t.getCrewCount());
-        temperatureLabel.setText("Temperature: "+ t.getTemperature() + " F");
-        emergencyBrakeLabel.setText("Emergenecy Brake: "+getStateString(t.isEmergencyBrake()));
-        activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
+        if(trains.size() > 0){
+            Train t = trains.get(selectedTrainIndex);
 
+            trainSelector.setSelectedIndex(selectedTrainIndex);
+
+            //checkboxes
+            brakeFailureBox.setSelected(t.isBrakeFailure());
+            emergencyBrakeBox.setSelected(t.isEmergencyBrake());
+            engineFailureBox.setSelected(t.isEngineFailure());
+            signalPickupFailureBox.setSelected(t.isSignalFailure());
+
+            heightLabel.setText("Height: "+ t.getHeight() +" ft");
+            widthLabel.setText("Width: "+ t.getWidth() +" ft");
+            lengthLabel.setText("Length: "+ t.getLength() +" ft");
+            massLabel.setText("Mass: "+ t.getMass() +" lbs");
+
+            distanceLabel.setText("Distance Traveled: "+ t.getDistance() + " miles");
+            //activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
+            //forceLabel.setText("Force: "+ t.getForce() + " N");
+            powerLabel.setText("Power: "+ t.getPower() +" kw");
+            velocityLabel.setText("Velocity: "+ t.getVelocity() +" mph");
+            accelerationLabel.setText("Acceleration: "+ t.getAcceleration() +" ft/s^2");
+            serviceBrakeLabel.setText("Service Brake: "+ getStateString(t.isServiceBrake()));
+            gradeLabel.setText("Grade: "+ t.getGrade() +"%");
+            elevationLabel.setText("Elevation: "+ t.getElevation() +" ft");
+            nextStationLabel.setText("Next Station: "+ t.getStation().toUpperCase());
+            leftDoorsLabel.setText("Left Doors: "+ getDoorString(t.isLeftDoors()));
+            rightDoorsLabel.setText("Right Doors: "+ getDoorString(t.isRightDoors()));
+            advertisementsLabel.setText("Advertisements: "+ getStateString(t.isAdvertisements()));
+            lightsLabel.setText("Lights: "+ getStateString(t.isLights()));
+            passengerCountLabel.setText("Passenger Count: "+ t.getPassengerCount());
+            crewCountLabel.setText("Crew Count: "+ t.getCrewCount());
+            temperatureLabel.setText("Temperature: "+ t.getTemperature() + " F");
+            emergencyBrakeLabel.setText("Emergenecy Brake: "+getStateString(t.isEmergencyBrake()));
+            activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
+        }
     }
     
     private String getDoorString(boolean state){
@@ -405,10 +420,214 @@ public class TrainModelGui extends javax.swing.JDialog {
         return trainIDs;
     }
     
-    private void addTrain(Train t){
-        trains.add(t);
+    private void addTrain(Train tr) throws Exception{
+        trains.add(tr);
         String[] trainIDs = getIDs();
         trainSelector.setModel(new javax.swing.DefaultComboBoxModel<>(trainIDs));       
+        
+        File tm_tcXML = new File("/xml/traincontroller_trainmodel.xml");
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(tm_tcXML);
+    
+        Element root = doc.getDocumentElement();
+        
+        Element newTrain = doc.createElement("Train");
+        root.appendChild(newTrain);
+        
+        Attr id = doc.createAttribute("id");
+        id.setValue(tr.getTrainID());
+        newTrain.setAttributeNode(id);
+        
+        Attr speed = doc.createAttribute("speed");
+        speed.setValue(""+tr.getSpeed());
+        newTrain.setAttributeNode(speed);
+        
+        Attr authority = doc.createAttribute("authority");
+        authority.setValue(""+tr.getAuthority());
+        newTrain.setAttributeNode(authority);
+        
+        Attr Vactual = doc.createAttribute("actualSpeed");
+        Vactual.setValue(""+tr.getVelocity());
+        newTrain.setAttributeNode(Vactual);
+        
+        Attr powerCmd = doc.createAttribute("powerCmd");
+        powerCmd.setValue("0.0");
+        newTrain.setAttributeNode(powerCmd);
+
+        Attr currentPower = doc.createAttribute("currentPower");
+        currentPower.setValue(""+tr.getPower());
+        newTrain.setAttributeNode(currentPower);
+        
+        Attr emergencyBrake = doc.createAttribute("emergencyBrake");
+        emergencyBrake.setValue(""+tr.isEmergencyBrake());
+        newTrain.setAttributeNode(emergencyBrake);
+        
+        Attr leftDoor = doc.createAttribute("leftDoor");
+        leftDoor.setValue(""+tr.isLeftDoors());
+        newTrain.setAttributeNode(leftDoor);    
+      
+        Attr rightDoor = doc.createAttribute("rightDoor");
+        rightDoor.setValue(""+tr.isRightDoors());
+        newTrain.setAttributeNode(rightDoor);
+        
+        Attr temp = doc.createAttribute("temp");
+        temp.setValue(""+tr.getTemperature());
+        newTrain.setAttributeNode(temp);
+
+        Attr lights = doc.createAttribute("lights");
+        lights.setValue(""+tr.isLights());
+        newTrain.setAttributeNode(lights);
+        
+        Attr ads = doc.createAttribute("ads");
+        ads.setValue(""+tr.isAdvertisements());
+        newTrain.setAttributeNode(ads);         
+        
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer t = tf.newTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(new File("/xml/traincontroller_trainmodel.xml"));
+        t.transform(source,result);
+    }
+    
+    private void talkToTrainController() throws Exception{    
+        File trainControllerXML = new File("/xml/traincontroller_trainmodel.xml");
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(trainControllerXML);
+                        
+        NodeList nList = doc.getElementsByTagName("Train");
+        
+        for(int i=0;i<nList.getLength();i++){
+            Node nNode = nList.item(i);
+            
+            if(nNode.getNodeType() == Node.ELEMENT_NODE){
+                Element eElement = (Element) nNode;
+                
+                String ID = eElement.getAttribute("id");
+                ID = ID.replaceAll("\\s+","");
+                
+                double p = Double.parseDouble(eElement.getAttribute("powerCmd").replaceAll("\\s+",""));
+                boolean lights = Boolean.parseBoolean(eElement.getAttribute("lights").replaceAll("\\s+",""));
+                boolean ads = Boolean.parseBoolean(eElement.getAttribute("ads").replaceAll("\\s+",""));
+                boolean leftDoors = Boolean.parseBoolean(eElement.getAttribute("leftDoor").replaceAll("\\s+",""));
+                boolean rightDoors = Boolean.parseBoolean(eElement.getAttribute("rightDoor").replaceAll("\\s+",""));
+                int temp = Integer.parseInt(eElement.getAttribute("temp").replaceAll("\\s+",""));
+                
+                for(Train t : trains){
+                    if(t.getTrainID().equals(ID)){
+                        System.out.println("here");
+                        t.setPower(p);
+                        t.setAdvertisements(ads);
+                        t.setLights(lights);
+                        t.setLeftDoors(leftDoors);
+                        t.setRightDoors(rightDoors);                        
+                        t.setTemperature(temp);
+                        t.updateVelocity();
+                        eElement.setAttribute("speed",""+t.getSpeed());
+                        eElement.setAttribute("authority",""+t.getAuthority());
+                        eElement.setAttribute("actualSpeed",""+t.getVelocity());
+                        eElement.setAttribute("currentPower",""+t.getPower());
+                        eElement.setAttribute("emergencyBrake",""+t.isEmergencyBrake());
+                    }
+                }   
+            }
+            
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer t = tf.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File("/xml/traincontroller_trainmodel.xml"));
+            t.transform(source,result);
+        }        
+    }
+    
+    private void talkToTrackModel() throws Exception{
+        File trainControllerXML = new File("xml/trackmodel_trainmodel.xml");
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(trainControllerXML);
+                
+        NodeList nList = doc.getElementsByTagName("Dispatch");
+        
+        for(int i=0;i<nList.getLength();i++){
+            Node nNode = nList.item(i);
+            
+            if(nNode.getNodeType() == Node.ELEMENT_NODE){
+                Element eElement = (Element) nNode;
+                
+                String created = eElement.getChildNodes().item(0).getNodeValue(); 
+                created = created.replaceAll("\\s+","");
+                int t_num = Integer.parseInt(eElement.getAttribute("IDNum"));
+                String line = eElement.getAttribute("Line");
+                                        
+                if(created.equals("0")){
+                    ArrayList<String> stops = new ArrayList<String>();
+                    NamedNodeMap m = eElement.getAttributes();
+                    for(int l=0;l<m.getLength();l++){
+                            if(m.item(l).getNodeName().startsWith("Stop"))
+                                stops.add(m.item(l).getTextContent());
+                    }
+                    
+                    addTrain(new Train(line,t_num,1,0,stops));
+                    eElement.getChildNodes().item(0).setTextContent("1");                    
+                }
+            }
+            
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer t = tf.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File("/xml/trackmodel_trainmodel.xml"));
+            t.transform(source,result);
+        }        
+    }
+    
+    private void talkToCTC() throws Exception{
+        //New Train from CTC
+        //power from TrainController
+        //elevation, grade, speed & authority, passenger's at station 
+    
+        File trainControllerXML = new File("/xml/ctc_trainmodel.xml");
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(trainControllerXML);
+        
+        //doc.getDocumentElement().normalize();
+        
+        //System.out.println("Root: "+doc.getDocumentElement().getNodeName());
+        
+        NodeList nList = doc.getElementsByTagName("Dispatch");
+        
+        for(int i=0;i<nList.getLength();i++){
+            Node nNode = nList.item(i);
+            //System.out.println("Current: "+nNode.getNodeName());
+            
+            if(nNode.getNodeType() == Node.ELEMENT_NODE){
+                Element eElement = (Element) nNode;
+                
+                String created = eElement.getChildNodes().item(0).getNodeValue(); 
+                created = created.replaceAll("\\s+","");
+                int t_num = Integer.parseInt(eElement.getAttribute("IDNum"));
+                String line = eElement.getAttribute("Line");
+                                        
+                if(created.equals("0")){
+                    ArrayList<String> stops = new ArrayList<String>();
+                    NamedNodeMap m = eElement.getAttributes();
+                    for(int l=0;l<m.getLength();l++){
+                            if(m.item(l).getNodeName().startsWith("Stop"))
+                                stops.add(m.item(l).getTextContent());
+                    }
+                    
+                    addTrain(new Train(line,t_num,1,0,stops));
+                    eElement.getChildNodes().item(0).setTextContent("1");                    
+                }
+            }
+            
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer t = tf.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File("/xml/ctc_trainmodel.xml"));
+            t.transform(source,result);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -447,71 +666,28 @@ public class TrainModelGui extends javax.swing.JDialog {
     public javax.swing.JLabel widthLabel;
     // End of variables declaration//GEN-END:variables
    
-    private class Progress extends TimerTask{
-        private int runs=0;
+    private class Progress extends TimerTask {
+        //private int runs=0;
         @Override
-        public void run(){            
-            if(runs==0){
-                addTrain(new Train("RED",1,1,40));
-                addTrain(new Train("GREEN",1,1,86));
-                
-                System.out.println("Added Train RED1");
-                System.out.println("Added Train GREEN1");
-                
-                trains.get(0).setPower(50);
-                trains.get(1).setPower(120);
-                trains.get(1).setGrade(25);
+        public void run(){  
+            try{
+                talkToCTC();
+            }catch(Exception e){
+                System.out.println("CTC FUCK");
             }
-            
-            if(runs==30){
-                addTrain(new Train("GREEN",2,1,120));
-                System.out.println("Added Train GREEN2");
-                trains.get(2).setPower(100);
-            }
-            
-            if(runs==45){
-                System.out.println("Changing power for RED1...");
-                trains.get(0).setPower(-10);
-            }
-            
-            if(runs==70){
-                System.out.println("Changing grade for GREEN2");
-                trains.get(2).setGrade(35);
-            }
-            
-            if(runs==80){
-                System.out.println("Added Train RED2");
-                addTrain(new Train("RED",2,1,131));
-                trains.get(3).setPower(110);
-            } 
-            
-            if(runs==95){
-                System.out.println("Opening Right Doors for RED1");
-                trains.get(0).setRightDoors(true);
-            }
-            
-            if(runs==105){
-                System.out.println("Passenger Change for RED1");
-                trains.get(0).setPassengerCount(131);
-            }
-            
-            if(runs==110){
-                System.out.println("Closing Right Doors for RED1");
-                trains.get(0).setRightDoors(false);
-            }
-            
-            if(runs==115){
-                System.out.println("Changing power for RED1");
-                trains.get(0).setPower(120);
-                trains.get(0).setStation("NEXT NEXT STATION");
+            if(trains.size()>0){
+                try{
+                    talkToTrainController();
+                }catch(Exception e){
+                    System.out.println("Train Controller FUCK");
+                }
             }
             
             for(Train t : trains)
                 t.updateVelocity();
             displayValues();
-            //activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
             
-            runs++;
+            //runs++;
         }
     }
 }
