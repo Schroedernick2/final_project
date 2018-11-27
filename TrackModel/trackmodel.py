@@ -1,15 +1,14 @@
-try:
-	import tkinter as tk
-	from tkinter import ttk
-	from tkinter.scrolledtext import ScrolledText
-	from tkinter.scrolledtext import Scrollbar
-	from tkinter.filedialog import askopenfilename
-except ImportError:
-	import Tkinter as tk
+import tkinter as tk
+from tkinter import ttk
+from tkinter.scrolledtext import ScrolledText
+from tkinter.scrolledtext import Scrollbar
+from tkinter.filedialog import askopenfilename
 import xml.etree.ElementTree
 import os
 import csv
-import time
+from time import sleep
+import random
+from threading import Thread
 
 
 # Main Window
@@ -180,6 +179,12 @@ class MainWindow(tk.Frame):
                     if r[16] != '':
                         self.cross_table.insert('', 'end', values=(r[16], 'up'))
 
+            self.signal_table.insert('', 'end', values=('R_1', 'RED'))
+
+        
+        Thread(target=self.data_update).start()
+
+
     # Power Failure
     def power_failure(self):
         if self.red_table.set(self.red_table.focus(), column='Power Failure') == 'FAILED':
@@ -222,15 +227,19 @@ class MainWindow(tk.Frame):
 
     def data_update(self):
         self.write_xml()
+        self.write_xml2()
         self.read_xml()
+        self.update_stations()
+        self.data_update()
+        sleep(10)
 
     def write_xml(self):
-        if os.path.isfile(os.getcwd()+"\outTrackmodel.xml"):
-            xfile = xml.etree.ElementTree.parse(os.getcwd()+"\outTrackmodel.xml")
+        if os.path.isfile(os.getcwd()+"\toTrackController.xml"):
+            xfile = xml.etree.ElementTree.parse(os.getcwd()+"\toTrackController.xml")
             root = xfile.getroot()
 
             for outputs in self.red_table.get_children():
-                print(self.redtree.item(outputs)['values'])
+                filler = 1
         else:
             root = xml.etree.ElementTree.Element("bits")
             for outs in self.redtree.get_children():
@@ -238,7 +247,6 @@ class MainWindow(tk.Frame):
                 name_build = "R"
                 track_number = self.redtree.item(outs, 'values')[1]
                 name_build = name_build + track_number + "T"
-                print(name_build)
                 if self.redtree.item(outs, 'values')[14] == "occupied":
                     xml.etree.ElementTree.SubElement(root, "bit",
                                                  name=name_build).text = '0'
@@ -251,7 +259,6 @@ class MainWindow(tk.Frame):
                 name_build = "G"
                 track_number = self.greentree.item(outs, 'values')[1]
                 name_build = name_build + track_number + "T"
-                print(name_build)
                 if self.greentree.item(outs, 'values')[14] == "occupied":
                     xml.etree.ElementTree.SubElement(root, "bit",
                                                  name=name_build).text = '0'
@@ -261,10 +268,91 @@ class MainWindow(tk.Frame):
                 i += 1
 
         tree = xml.etree.ElementTree.ElementTree(root)
-        tree.write("outTrackmodel.xml")
+        tree.write("toTrackController.xml")
+
+    def write_xml2(self):
+        #Track Data so Train Model can read it
+        i = 1
+        if os.path.isfile(os.getcwd()+"\toTrainModel.xml"):
+            xfile = xml.etree.ElementTree.parse(os.getcwd()+"\toTrainModel.xml")
+            root = xfile.getroot()
+
+            for outputs in self.red_table.get_children():
+                filler = 1
+            for outputs in self.green_table.get_children():
+                filler = 1
+        else:
+            root = xml.etree.ElementTree.Element("Tracks")
+            for outs in self.redtree.get_children():
+                name_build = "R"
+                track_number = self.redtree.item(outs, 'values')[1]
+                name_build = name_build + track_number + "T"
+                track_xml = xml.etree.ElementTree.SubElement(root, "track",
+                                                 name=name_build)
+                i = 1
+                for outputs in self.redtree.item(outs, 'values'):
+                    att = outputs
+                    if i == 3:
+                        xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                                 name='length').text = att
+                    elif i == 4:
+                        xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                                 name='grade').text = att
+                    elif i == 5:
+                        xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                                  name='speed').text = att
+                    elif i == 6:
+                        xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                                  name='underground').text = att
+                    elif i == 7:
+                        xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                                  name='station').text = att
+                    elif i == 8:
+                        xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                                  name='switch').text = att
+                    elif i == 9:
+                        xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                                  name='xing').text = att
+                    elif i == 10:
+                        xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                                  name='elevation').text = att
+                    elif i == 11:
+                        xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                                  name='direction').text = att
+                    elif i == 12:
+                        xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                                  name='bidirectional').text = att
+                    elif i == 13:
+                        xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                                  name='Track Block').text = att
+                    elif i == 16:
+                        xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                                  name='Power Failure').text = att                    
+                    elif i == 17:
+                        xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                                  name='TC Failure').text = att
+                    elif i == 18:
+                        xml.etree.ElementTree.SubElement(track_xml, "attr",
+                                                  name='Broken Rail').text = att
+                    i = i + 1
+                
+
+        tree = xml.etree.ElementTree.ElementTree(root)
+        tree.write("toTrainModel.xml")
+        
 
     def read_xml(self):
         print("READ")
+
+
+    def update_stations(self):
+        print("UPDATE")
+        for outs in self.stationtree.get_children():
+            y = self.stationtree.item(outs, 'values')[1]
+            x = random.randint(1, 21)
+            y = int(y) + x
+            self.stationtree.set(outs, column="Passenger Count", value=y)
+            
 
     def __init__(self, master, *args, **kwargs):
         self.master = master
@@ -409,11 +497,13 @@ class MainWindow(tk.Frame):
         self.cross_table.grid(row=5, column=13, rowspan=6, padx=5, pady=5, sticky='nsew')
         self.crosstree = self.cross_table
 
-        self.signal_table = ttk.Treeview(master, height=7, columns=('Signal', 'Color'), selectmode='extended')
+        self.signal_table = ttk.Treeview(master, height=7, columns=('Signal', 'Color', 'Direction'), selectmode='extended')
         self.signal_table.heading('#1', text='Signal', anchor=tk.CENTER)
         self.signal_table.heading('#2', text='Color', anchor=tk.CENTER)
+        self.signal_table.heading('#3', text='Direction', anchor=tk.CENTER)
         self.signal_table.column('#1', stretch=tk.YES, width=60)
         self.signal_table.column('#2', stretch=tk.YES, width=60)
+        self.signal_table.column('#3', stretch=tk.YES, width=60)
         self.signal_table['show'] = 'headings'
         self.signal_table.grid(row=5, column=15, rowspan=6, padx=5, pady=5, sticky='nsew')
         self.signaltree = self.signal_table
@@ -434,8 +524,6 @@ class MainWindow(tk.Frame):
         self.tc_button.grid(row=6, padx=5, pady=5, column=18, sticky="nsew")
         self.br_button = tk.Button(master, text="Broken Rail", command=self.break_rail)
         self.br_button.grid(row=7, padx=5, pady=5, column=18, sticky="nsew")
-        self.du_button = tk.Button(master, text="Start", command=self.data_update)
-        self.du_button.grid(row=8, padx=5, pady=5, column=18, sticky="nsew")
 
         self.columnconfigure(2, weight=1)  # column with treeview
         self.rowconfigure(2, weight=1)  # row with treeview
