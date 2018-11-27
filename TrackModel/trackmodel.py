@@ -227,15 +227,42 @@ class MainWindow(tk.Frame):
 
         self.selection_clear()
 
+    #Main Loop updates data and xmls
     def data_update(self):
-        self.write_xml()
-        self.write_xml2()
-        self.read_xml()
+        self.track_controller()
+        self.train_model()
         self.update_stations()
         self.data_update()
         sleep(10)
 
-    def write_xml(self):
+    #Writes XML to Track Controller
+    def track_controller(self):
+        self.write_to_track_controller()
+        self.read_from_track_controller()
+        
+
+    #Talks to train model
+    def train_model(self):
+        
+        
+    #Read Track Controller XML
+    def read_xml(self):
+        print("READ")
+
+
+    def update_stations(self):
+        for outs in self.stationtree.get_children():
+            y = self.stationtree.item(outs, 'values')[1]
+            x = random.randint(1, 21)
+            y = int(y) + x
+            self.stationtree.set(outs, column="Passenger Count", value=y)
+
+    #reads from track controller and sets switches and signals
+    def read_from_track_controller(self):
+        
+
+    #writes occupancies to track controller
+    def write_to_track_controller(self):
         if os.path.isfile(os.getcwd()+"\toTrackController.xml"):
             xfile = xml.etree.ElementTree.parse(os.getcwd()+"\toTrackController.xml")
             root = xfile.getroot()
@@ -271,70 +298,7 @@ class MainWindow(tk.Frame):
 
         tree = xml.etree.ElementTree.ElementTree(root)
         tree.write("toTrackController.xml")
-
-    def write_xml2(self):
-        #Track Data so Train Model can read it
-        i = 1
-        if os.path.isfile(os.getcwd()+"\toTrainModel.xml"):
-            xfile = xml.etree.ElementTree.parse(os.getcwd()+"\toTrainModel.xml")
-            root = xfile.getroot()
-
-            for outputs in self.red_table.get_children():
-                filler = 1
-            for outputs in self.green_table.get_children():
-                filler = 1
-        else:
-            root = xml.etree.ElementTree.Element("Tracks")
-            for outs in self.redtree.get_children():
-                name_build = "R"
-                track_number = self.redtree.item(outs, 'values')[1]
-                name_build = name_build + track_number + "T"
-                track_xml = xml.etree.ElementTree.SubElement(root, "track",
-                                                 name=name_build)
-                xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                    name='length').text = self.redtree.item(outs, 'values')[2]
-                xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                    name='grade').text = self.redtree.item(outs, 'values')[3]
-                xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                    name='speed').text = self.redtree.item(outs, 'values')[4]
-                xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                    name='elevation').text = self.redtree.item(outs, 'values')[10]
-                xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                    name='station').text = self.redtree.item(outs, 'values')[6]
-            for outs in self.greentree.get_children():
-                name_build = "G"
-                track_number = self.greentree.item(outs, 'values')[1]
-                name_build = name_build + track_number + "T"
-                track_xml = xml.etree.ElementTree.SubElement(root, "track",
-                                                 name=name_build)
-                xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                    name='length').text = self.greentree.item(outs, 'values')[2]
-                xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                    name='grade').text = self.greentree.item(outs, 'values')[3]
-                xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                    name='speed').text = self.greentree.item(outs, 'values')[4]
-                xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                    name='elevation').text = self.greentree.item(outs, 'values')[10]
-                xml.etree.ElementTree.SubElement(track_xml, "attr",
-                                    name='station').text = self.greentree.item(outs, 'values')[6]
-                
-
-        tree = xml.etree.ElementTree.ElementTree(root)
-        tree.write("toTrainModel.xml")
         
-
-    def read_xml(self):
-        print("READ")
-
-
-    def update_stations(self):
-        print("UPDATE")
-        for outs in self.stationtree.get_children():
-            y = self.stationtree.item(outs, 'values')[1]
-            x = random.randint(1, 21)
-            y = int(y) + x
-            self.stationtree.set(outs, column="Passenger Count", value=y)
-            
 
     def __init__(self, master, *args, **kwargs):
         self.master = master
