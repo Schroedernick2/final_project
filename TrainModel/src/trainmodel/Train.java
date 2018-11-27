@@ -225,7 +225,10 @@ public class Train{
             
             this.force = Math.round((forceFromEng - forceFriction)*100.0)/100.0;
         
-        //calculate acceleration
+            if(this.isEngineFailure() || this.isBrakeFailure() || this.isSignalFailure())
+                this.emergencyBrake = true;
+            
+            //calculate acceleration
             //accel = force/mass
             this.acceleration = Math.round((this.force / this.mass)*100.0)/100.0;
             //if accel > limit, accel = limit
