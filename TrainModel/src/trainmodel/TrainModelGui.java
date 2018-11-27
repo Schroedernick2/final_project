@@ -15,14 +15,32 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Attr;
 import java.io.File;
+import java.io.FileWriter;
 
 public class TrainModelGui extends javax.swing.JDialog {
     private int selectedTrainIndex = 0;
     private int MULTIPLIER = 1;
     private ArrayList<Train> trains;
+    
     public TrainModelGui(java.awt.Frame parent, boolean modal, ArrayList<Train> trains) {
         super(parent, modal);
         initComponents();
+        
+        try{
+            FileWriter f1 = new FileWriter("./xml/traincontroller_trainmodel.xml",false);
+            FileWriter f2 = new FileWriter("./xml/trackmodel_trainmodel.xml",false);
+
+            String content = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><Trains></Trains>";
+            
+            f1.write(content);
+            f2.write(content);
+            
+            f1.close();
+            f2.close();
+        
+        }catch(Exception e){
+            System.out.println("File FUCK");
+        }
         
         this.trains = trains;
         
