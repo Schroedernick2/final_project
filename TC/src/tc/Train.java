@@ -1,4 +1,4 @@
-package tc;
+package traincontroller;
 
 import java.util.*;
 
@@ -12,12 +12,7 @@ public class Train{
     private boolean engineFailure;
     private boolean signalFailure;
     private boolean brakeFailure;
-    
-    //dimensions
-    //private double height;
-    //private double width;
-    //private double length;
-    //private double mass;
+   
     
     //commanded values
     private double SuggestedSpeed;
@@ -27,16 +22,12 @@ public class Train{
     //previous values for calculating power
     private double prevPower;
     private double prevError;
+    private double prevMew;
     
     //current train description info
     private double power;
-    //private double velocity;    //actual velocity, returned to train controller
-    //private double acceleration;
-    //private double grade;
-    //private int elevation;
+
     private String station;
-    //private int passengerCount;
-    //private int crewCount;
     private boolean leftDoors;
     private boolean rightDoors;
     private int temperature;
@@ -64,8 +55,8 @@ public class Train{
     //private final double TRAIN_WIDTH = 2.65; //m
     //private final double TRAIN_MASS = 40.9; //t
     private final double MAX_SPEED = 70; //km/h
-    private final double Ki = 0.0;
-    private final double Kp = 1.0;
+    private double Ki = 0.0;
+    private double Kp = 1.0;
     //private final int MAX_CAPACITY = 222; 
     //private final double MEDIUM_ACCELERATION = 0.5; //m/s^2
     //private final double SERVICE_DECELERATION = -1.2; //m/s^2
@@ -141,12 +132,7 @@ public class Train{
     public boolean isEngineFailure(){ return engineFailure; }
     public boolean isSignalFailure(){ return signalFailure; }
     public boolean isBrakeFailure(){ return brakeFailure; }
-    
-    //dimension getters
-    //public double getHeight(){ return height; }
-    //public double getWidth(){ return width; }
-    //public double getLength(){ return length; }
-    //public double getMass(){ return mass; }
+  
     
     //commanded values getters
     public double getAuthority(){ return authority; }
@@ -189,13 +175,14 @@ public class Train{
     public void setBrakeFailure(boolean state){ brakeFailure = state; }
     
     //command value setters
+    public void setActualSpeed(double speed){ this.ActualSpeed = speed;}
     public void setSpeed(double speed){ this.SuggestedSpeed = speed; }
     public void setAuthority(double authority){ this.authority = authority; }
-    //for testing
-    public void setActualSpeed(double speed){ this.ActualSpeed = speed; }
     
     //other setters
     public void setPower(double power){ this.power = power; }
+    public void setKi(double i){ this.Ki = i; }
+    public void setKp(double i){ this.Kp = i; }
     //public void setGrade(double grade){ this.grade = grade; }
     //public void setElevation(int elevation){ this.elevation = elevation; }
     public void setStation(String station){ this.station = station; }
@@ -214,21 +201,27 @@ public class Train{
     
     public void updatePower(){
                
+        if(brakeFailure || signalFailure || engineFailure){
+            // failure mode activated, use Emergency Brake, no Power
+            this.power = -1;
+        }
+        // add condition for activating servicce brake ..
+        // if()
         
         //speed at time of function call
         double currentVelocity = ActualSpeed; //mph
         //get speed to be achieved
-        double commandedVelocity = SuggestedSpeed; //mph
-        
+        double commandedVelocity = SuggestedSpeed; //mph 
         //error check for a value too high
         if(commandedVelocity > MAX_SPEED*KM_TO_MILES) commandedVelocity = MAX_SPEED*KM_TO_MILES;
+        double sampleError = commandedVelocity - currentVelocity;
         //Calculate power from Vcurr and Vcmd. 
-        
-        // due to confusion about the power command formula, i am using simple method of Ki = 0 and Kp = 1,
-        // therefore Ki is eliminated from the power generation equation
-        double P = (commandedVelocity - currentVelocity)*(Kp);
-        if (P > ENGINE_POWER) P = prevPower;
-        this.power = P;
+        if(power < ENGINE_POWER)
+            prevMew = prevMew + (samplePeriod/2)*(prevError + sampleError);
+        //^else prevMew = prevMew; using 'prevmew' as current mew after, will become next times 'prevmew'
+        double P1 = (Kp*sampleError) + (Ki*prevMew) ;
+        prevError = sampleError;
+        this.power = P1;
         
        
         }

@@ -1,6 +1,7 @@
 #include <iostream>
-#include <cstdlib>
+#include <stdlib.h>
 #include <limits>
+#include <time.h>
 
 //Platform == 0 --> Windows
 //Platform == 1 --> Linux (for nick to use this shit)

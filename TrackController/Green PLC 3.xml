@@ -1,0 +1,110 @@
+<?xml version="1.0" ?>
+
+<data>	
+	<bit name="G77T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G78T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G79T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G80T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G81T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G82T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G83T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G84T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G85T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G86T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G87T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G88T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G89T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G90T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G91T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G92T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G93T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G94T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G95T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G96T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G97T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G98T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G99T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G100T">
+		<type>INPUT</type>
+	</bit>
+
+	<bit name="G6SNR">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G6SRR">
+		<type>INPUT</type>
+	</bit>
+
+	
+	<bit name="G100GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="G85K">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="G6SNP">
+		<type>OUTPUT</type>
+	</bit>
+
+	
+	<logic>
+		<equation>G6SNP * ~G6SRR + G6SNR * ~G6SRR + G6SNR * G6SRR</equation>
+		<assign>G6SNP</assign>
+	</logic>
+
+    <logic>
+		<equation>~G6SNP * (G76T * G77T * G78T * G79T * G80T * G81T * G82T * G83T * G84T * G85 * G86T) * ( ~G100T + ~G99T + ~G98T )</equation>
+		<assign>G100GK</assign>
+	</logic>
+    <logic>
+		<equation>G6SNP * (G86T * G87T * G88T * G89T * G90T * G91T* G92T * G93T * G94T * G95T * G96T * G97T * G98T * G99T * G100T) * ( ~G85T + ~G84T + ~G83T )</equation>
+		<assign>G85GK</assign>
+	</logic>
+	
+</data>
