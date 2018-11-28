@@ -1,0 +1,122 @@
+<?xml version="1.0" ?>
+
+<data>	
+	<bit name="G1T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G2T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G3T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G4T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G5T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G6T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G7T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G8T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G9T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G10T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G11T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G12T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G13T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G14T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G15T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G16T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G17T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G18T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G19T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G20T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G21T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G22T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G23T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G24T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G25T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G26T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G1SNR">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G1SRR">
+		<type>INPUT</type>
+	</bit>
+
+	
+	<bit name="G1GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="G13GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="G1SNP">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="G19C">
+		<type>OUTPUT</type>
+	</bit>
+
+	
+	<logic>
+		<equation>G1SNP * ~G1SRR + G1SNR * ~G1SRR + G1SNR * G1SRR</equation>
+		<assign>G1SNP</assign>
+	</logic>
+
+    <logic>
+		<equation>~G1SNP * (G12T * G13T * G14T * G15T * G16T * G17T * G18T * G19T * G20T * G21T * G22T * G23T * G24T * G25T * G26T * G27T * G28T) * ( ~G1T + ~G2T + ~G3T )</equation>
+		<assign>G1GK</assign>
+	</logic>
+    <logic>
+		<equation>G1SNP * (G1T * G2T * G3T * G4T * G5T * G6T * G7T * G8T * G9T * G10T * G11T * G12T) * ( ~G13T + ~G14T + ~G15T )</equation>
+		<assign>G13GK</assign>
+	</logic>
+	<logic>
+		<equation>G17T * G18T * G19T * G20T * G21T</equation>
+		<assign>G19C</assign>
+	</logic>
+	
+</data>
