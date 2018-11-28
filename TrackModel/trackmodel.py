@@ -245,7 +245,11 @@ class MainWindow(tk.Frame):
 
     #Talks to train model
     def train_model(self):
-        print("YUP")
+        if os.path.isfile(os.getcwd()+r"\..\xml\trackmodel_trainmodel.xml"):
+            xfile = xml.etree.ElementTree.parse(os.getcwd()+r"\..\xml\trackmodel_trainmodel.xml")
+            root = xfile.getroot()
+            for child in root.findall("bit"):
+                print(child.get('name'))
 
         
     #update stations
