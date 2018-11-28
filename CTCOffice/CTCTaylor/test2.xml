@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><bits>
+	<Crossings>
+		<Xing Line="Red">0</Xing>
+		<Xing Line="Green">0</Xing>
+	</Crossings>
+	<Signals>
+		<Signal Name="R:CDYard">0</Signal>
+		<Signal Name="R:AEF">0</Signal>
+		<Signal Name="R:TH">0</Signal>
+		<Signal Name="R:RH">0</Signal>
+		<Signal Name="R:QH">0</Signal>
+		<Signal Name="R:OH">0</Signal>
+		<Signal Name="R:NJ">0</Signal>
+		<Signal Name="G:MNR">0</Signal>
+		<Signal Name="G:NOQ">0</Signal>
+		<Signal Name="G:ZFG">0</Signal>
+		<Signal Name="G:DAC">0</Signal> 
+	</Signals>
+	<Switches>
+		<Switch Name="R:CDYard">0</Switch>
+		<Switch Name="R:AEF">0</Switch>
+		<Switch Name="R:TH">0</Switch>
+		<Switch Name="R:RH">0</Switch>
+		<Switch Name="R:QH">0</Switch>
+		<Switch Name="R:OH">0</Switch>
+		<Switch Name="R:NJ">0</Switch>
+		<Switch Name="G:MNR">0</Switch>
+		<Switch Name="G:NOQ">0</Switch>
+		<Switch Name="G:ZFG">0</Switch>
+		<Switch Name="G:DAC">0</Switch> 
+	</Switches>
+	<Sections>
+		<Green Name="A">0</Green>
+		<Green Name="B">0</Green>
+		<Green Name="C">0</Green>
+		<Green Name="D">0</Green>
+		<Green Name="E">0</Green>
+		<Green Name="F">0</Green>
+		<Green Name="G">0</Green>
+		<Green Name="H">0</Green>
+		<Green Name="I">0</Green>
+		<Green Name="J">0</Green>
+		<Green Name="K">0</Green>
+		<Green Name="L">0</Green>
+		<Green Name="M">0</Green>
+		<Green Name="N">0</Green>
+		<Green Name="O">0</Green>
+		<Green Name="P">0</Green>
+		<Green Name="Q">0</Green>
+		<Green Name="R">0</Green>
+		<Green Name="S">0</Green>
+		<Green Name="T">0</Green>
+		<Green Name="U">0</Green>
+		<Green Name="V">0</Green>
+		<Green Name="W">0</Green>
+		<Green Name="X">0</Green>
+		<Green Name="Y">0</Green>
+		<Green Name="Z">0</Green>
+		<Red Name="A">0</Red>
+		<Red Name="B">0</Red>
+		<Red Name="C">0</Red>
+		<Red Name="D">0</Red>
+		<Red Name="E">0</Red>
+		<Red Name="F">0</Red>
+		<Red Name="G">0</Red>
+		<Red Name="H">0</Red>
+		<Red Name="I">0</Red>
+		<Red Name="J">0</Red>
+		<Red Name="K">0</Red>
+		<Red Name="L">0</Red>
+		<Red Name="M">0</Red>
+		<Red Name="N">0</Red>
+		<Red Name="O">0</Red>
+		<Red Name="P">0</Red>
+		<Red Name="Q">0</Red>
+		<Red Name="R">0</Red>
+		<Red Name="S">0</Red>
+		<Red Name="T">0</Red>
+	</Sections>
+	<Dispatch>
+	<a DestBlock="e" DestLine="d">Speed:b Auth:c</a></Dispatch>
+	<Suggestions>
+	</Suggestions>
+</bits>
