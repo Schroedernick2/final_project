@@ -232,8 +232,10 @@ class MainWindow(tk.Frame):
         self.track_controller()
         self.train_model()
         self.update_stations()
+        sleep(.5)
         self.data_update()
-        sleep(10)
+        
+
 
     #Writes XML to Track Controller
     def track_controller(self):
@@ -243,28 +245,30 @@ class MainWindow(tk.Frame):
 
     #Talks to train model
     def train_model(self):
-        
-        
-    #Read Track Controller XML
-    def read_xml(self):
-        print("READ")
+        print("YUP")
 
-
+        
+    #update stations
     def update_stations(self):
         for outs in self.stationtree.get_children():
             y = self.stationtree.item(outs, 'values')[1]
-            x = random.randint(1, 21)
+            x = random.randint(1, 6)
             y = int(y) + x
             self.stationtree.set(outs, column="Passenger Count", value=y)
 
     #reads from track controller and sets switches and signals
     def read_from_track_controller(self):
-        
+        if os.path.isfile(os.getcwd()+r"\..\xml\TrackControllerOutputs.xml"):
+            xfile = xml.etree.ElementTree.parse(os.getcwd()+r"\..\xml\TrackControllerOutputs.xml")
+            root = xfile.getroot()
+            for child in root.findall("bit"):
+                print(child.get('name'))
 
+                
     #writes occupancies to track controller
     def write_to_track_controller(self):
-        if os.path.isfile(os.getcwd()+"\toTrackController.xml"):
-            xfile = xml.etree.ElementTree.parse(os.getcwd()+"\toTrackController.xml")
+        if os.path.isfile(os.getcwd()+r"\..\xml\TrackModelOutputs.xml"):
+            xfile = xml.etree.ElementTree.parse(os.getcwd()+r"\..\xml\TrackModelOutputs.xml")
             root = xfile.getroot()
 
             for outputs in self.red_table.get_children():
@@ -297,7 +301,7 @@ class MainWindow(tk.Frame):
                 i += 1
 
         tree = xml.etree.ElementTree.ElementTree(root)
-        tree.write("toTrackController.xml")
+        tree.write(os.getcwd()+r"\..\xml\TrackModelOutputs.xml")
         
 
     def __init__(self, master, *args, **kwargs):
