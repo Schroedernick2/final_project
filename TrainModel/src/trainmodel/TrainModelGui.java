@@ -591,6 +591,10 @@ public class TrainModelGui extends javax.swing.JDialog {
         Attr distance = doc.createAttribute("distanceTraveled");
         distance.setValue(""+tr.getDistance());
         newTrain.setAttributeNode(distance);
+        
+        Attr passengersAtStation = doc.createAttribute("passengersAtStation");
+        passengersAtStation.setValue("0");
+        newTrain.setAttributeNode(passengersAtStation);
 
         Attr elev = doc.createAttribute("elevation");
         elev.setValue(""+tr.getElevation());
@@ -638,6 +642,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                 double grade = Double.parseDouble(eElement.getAttribute("grade").replaceAll("\\s+",""));
                 String nextStation= eElement.getAttribute("nextStation").replaceAll("\\s+","");
                 double length = Double.parseDouble(eElement.getAttribute("length").replaceAll("\\s+",""));
+                int pass = Integer.parseInt(eElement.getAttribute("passengersAtStation").replaceAll("\\s+",""));
                 
                 for(Train t : trains){
                     if(t.getTrainID().equals(ID)){
@@ -647,6 +652,18 @@ public class TrainModelGui extends javax.swing.JDialog {
                         t.setGrade(grade);
                         t.setStation(nextStation);
                         t.setBlockLength(length);
+                        
+                        if(pass>222){
+                            t.setPassengerCount(222);
+                        }
+                        else{
+                            Random rand = new Random();
+                            int n = rand.nextInt(t.getPassengerCount()) + 1;
+                            if((t.getPassengerCount()-n)+pass <= 222)
+                                t.setPassengerCount((t.getPassengerCount()-n)+pass);
+                            else
+                                t.setPassengerCount(222);
+                        }
        
                         t.updateVelocity();
                         eElement.setAttribute("distanceTraveled",""+t.getDistance());
