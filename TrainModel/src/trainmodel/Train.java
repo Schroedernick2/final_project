@@ -221,11 +221,6 @@ public class Train{
             else
                 this.serviceBrake = false;
             
-            /*if(this.power == -5){
-                this.emergencyBrake = true;
-                this.serviceBrake = false;
-            }*/
-            
             double forceFromEng; 
             if(currentVelocity==0)
                 forceFromEng = (this.power*KW_TO_NMS)/1; 
@@ -237,8 +232,7 @@ public class Train{
             
             this.force = Math.round((forceFromEng - forceFriction)*100.0)/100.0;
         
-            if(this.isEngineFailure() || this.isBrakeFailure() || this.isSignalFailure())
-                this.emergencyBrake = true;
+            this.emergencyBrake = this.isEngineFailure() || this.isBrakeFailure() || this.isSignalFailure();
             
             //calculate acceleration
             //accel = force/mass
@@ -248,7 +242,7 @@ public class Train{
                 this.acceleration = this.accelerationLimit;
             
             //check if braking
-            if(this.emergencyBrake || this.serviceBrake){
+            if(this.emergencyBrake || this.serviceBrake || this.power == -5){
                 if(this.serviceBrake && !this.emergencyBrake)
                     this.acceleration += SERVICE_DECELERATION;
                 else

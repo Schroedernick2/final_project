@@ -783,7 +783,7 @@ public class TrainModelGui extends javax.swing.JDialog {
     private class Progress extends TimerTask {
         @Override
         public void run(){
-            MULTIPLIER = 1;
+            MULTIPLIER = 10;
             for(int i=0;i<MULTIPLIER;i++){
                 try{
                     talkToCTC();
