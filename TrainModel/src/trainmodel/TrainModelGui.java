@@ -598,7 +598,15 @@ public class TrainModelGui extends javax.swing.JDialog {
         
         Attr grade = doc.createAttribute("grade");
         grade.setValue(""+tr.getGrade());
-        newTrain.setAttributeNode(grade);     
+        newTrain.setAttributeNode(grade);
+        
+        Attr next = doc.createAttribute("next");
+        grade.setValue(""+tr.getNext());
+        newTrain.setAttributeNode(next);
+        
+        Attr length = doc.createAttribute("length");
+        grade.setValue("0.0");
+        newTrain.setAttributeNode(length);
         
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer t = tf.newTransformer();
@@ -629,6 +637,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                 int elevation = Integer.parseInt(eElement.getAttribute("elevation").replaceAll("\\s+",""));
                 double grade = Double.parseDouble(eElement.getAttribute("grade").replaceAll("\\s+",""));
                 String nextStation= eElement.getAttribute("nextStation").replaceAll("\\s+","");
+                double length = Double.parseDouble(eElement.getAttribute("length").replaceAll("\\s+",""));
                 
                 for(Train t : trains){
                     if(t.getTrainID().equals(ID)){
@@ -637,9 +646,11 @@ public class TrainModelGui extends javax.swing.JDialog {
                         t.setElevation(elevation);
                         t.setGrade(grade);
                         t.setStation(nextStation);
+                        t.setBlockLength(length);
        
                         t.updateVelocity();
                         eElement.setAttribute("distanceTraveled",""+t.getDistance());
+                        eElement.setAttribute("next",""+t.getNext());
                     }
                 }   
             }
