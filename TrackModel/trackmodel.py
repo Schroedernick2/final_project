@@ -289,6 +289,7 @@ class MainWindow(tk.Frame):
                         child.set('grade', new_grade)
                         child.set('length', new_length)
                         child.set('next', '0')
+                        child.set('authority', '300')
                             
                     else:
                         direction = child.get('direction')
@@ -310,6 +311,7 @@ class MainWindow(tk.Frame):
                         child.set('grade', new_grade)
                         child.set('length', new_length)
                         child.set('next', '0')
+                        child.set('authority', '300')
                         
             tree = xml.etree.ElementTree.ElementTree(root)
             tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+r"\xml\trackmodel_trainmodel.xml")
