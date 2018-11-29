@@ -275,8 +275,30 @@ class MainWindow(tk.Frame):
             xfile = xml.etree.ElementTree.parse(os.getcwd()+r"\..\xml\TrackModelOutputs.xml")
             root = xfile.getroot()
 
-            for outputs in self.red_table.get_children():
-                filler = 1
+            for outs in self.redtree.get_children():
+                i = 1
+                name_build = "R"
+                track_number = self.redtree.item(outs, 'values')[1]
+                name_build = name_build + track_number + "T"
+                if self.redtree.item(outs, 'values')[15] == "occupied":
+                    xml.etree.ElementTree.SubElement(root, "bit",
+                                                 name=name_build).text = '0'
+                else:
+                    xml.etree.ElementTree.SubElement(root, "bit",
+                                                     name=name_build).text = '1'
+                i += 1
+            for outs in self.greentree.get_children():
+                i = 1
+                name_build = "G"
+                track_number = self.greentree.item(outs, 'values')[1]
+                name_build = name_build + track_number + "T"
+                if self.greentree.item(outs, 'values')[15] == "occupied":
+                    xml.etree.ElementTree.SubElement(root, "bit",
+                                                 name=name_build).text = '0'
+                else:
+                    xml.etree.ElementTree.SubElement(root, "bit",
+                                                     name=name_build).text = '1'
+                i += 1
         else:
             root = xml.etree.ElementTree.Element("bits")
             for outs in self.redtree.get_children():
