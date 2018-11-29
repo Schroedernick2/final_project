@@ -611,6 +611,14 @@ public class TrainModelGui extends javax.swing.JDialog {
         Attr length = doc.createAttribute("length");
         grade.setValue("0.0");
         newTrain.setAttributeNode(length);
+     
+        Attr direction = doc.createAttribute("direction");
+        direction.setValue("f");
+        newTrain.setAttributeNode(direction);
+        
+        Attr tNum = doc.createAttribute("trackNumber");
+        tNum.setValue("0");
+        newTrain.setAttributeNode(tNum);
         
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer t = tf.newTransformer();
@@ -685,7 +693,7 @@ public class TrainModelGui extends javax.swing.JDialog {
         //power from TrainController
         //elevation, grade, speed & authority, passenger's at station 
     
-        File trainControllerXML = new File("./xml/ctc_trainmodel.xml");
+        File trainControllerXML = new File("./xml/TrainOutputs.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(trainControllerXML);
@@ -724,7 +732,7 @@ public class TrainModelGui extends javax.swing.JDialog {
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer t = tf.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("./xml/ctc_trainmodel.xml"));
+            StreamResult result = new StreamResult(new File("./xml/TrainOutputs.xml"));
             t.transform(source,result);
         }
     }
