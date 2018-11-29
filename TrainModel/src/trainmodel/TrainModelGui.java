@@ -39,7 +39,7 @@ public class TrainModelGui extends javax.swing.JDialog {
             f2.close();
         
         }catch(Exception e){
-            System.out.println("File FUCK");
+            System.out.println("File error");
         }
         
         this.trains = trains;
@@ -788,18 +788,18 @@ public class TrainModelGui extends javax.swing.JDialog {
                 try{
                     talkToCTC();
                 }catch(Exception e){
-                    System.out.println("CTC FUCK");
+                    System.out.println("CTC big uh-oh");
                 }              
                 if(trains.size()>0){
                     try{
                         talkToTrackModel();
                     }catch(Exception e){
-                        System.out.println("Track Model FUCK");
+                        System.out.println("Track Model big uh-oh");
                     }
                     try{
                         talkToTrainController();
                     }catch(Exception e){
-                        System.out.println("Train Controller FUCK");
+                        System.out.println("Train Controller big uh-oh");
                     }
                 }
 

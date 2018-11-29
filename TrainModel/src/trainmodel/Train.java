@@ -221,6 +221,11 @@ public class Train{
             else
                 this.serviceBrake = false;
             
+            /*if(this.power == -5){
+                this.emergencyBrake = true;
+                this.serviceBrake = false;
+            }*/
+            
             double forceFromEng; 
             if(currentVelocity==0)
                 forceFromEng = (this.power*KW_TO_NMS)/1; 
