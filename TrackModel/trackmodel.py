@@ -251,6 +251,7 @@ class MainWindow(tk.Frame):
             print("HEHEH")
             for child in root.findall("Train"):
                 print(child.get('speed'))
+                
 
         
     #update stations
