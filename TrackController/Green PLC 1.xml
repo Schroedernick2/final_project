@@ -85,6 +85,12 @@
 	<bit name="G1SRR">
 		<type>INPUT</type>
 	</bit>
+	<bit name="G19UR">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G19DR">
+		<type>INPUT</type>
+	</bit>
 
 	
 	<bit name="G1GK">
@@ -115,7 +121,7 @@
 		<assign>G13GK</assign>
 	</logic>
 	<logic>
-		<equation>G17T * G18T * G19T * G20T * G21T</equation>
+		<equation>G17T * G18T * G19T * G20T * G21T * ( G19C * ~G19DR + G19UR * ~G19C + G19UR * G19DR )</equation>
 		<assign>G19C</assign>
 	</logic>
 	

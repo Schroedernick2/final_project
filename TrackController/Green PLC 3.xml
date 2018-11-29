@@ -103,7 +103,7 @@
 		<assign>G100GK</assign>
 	</logic>
     <logic>
-		<equation>G6SNP * (G86T * G87T * G88T * G89T * G90T * G91T* G92T * G93T * G94T * G95T * G96T * G97T * G98T * G99T * G100T) * ( ~G85T + ~G84T + ~G83T )</equation>
+		<equation>G6SNP * (G86T * G87T * G88T * G89T * G90T * G91T * G92T * G93T * G94T * G95T * G96T * G97T * G98T * G99T * G100T) * ( ~G85T + ~G84T + ~G83T )</equation>
 		<assign>G85GK</assign>
 	</logic>
 	
