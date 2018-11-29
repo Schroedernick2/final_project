@@ -473,10 +473,6 @@ public class TrainModelGui extends javax.swing.JDialog {
         Attr powerCmd = doc.createAttribute("powerCmd");
         powerCmd.setValue("0.0");
         newTrain.setAttributeNode(powerCmd);
-
-        Attr currentPower = doc.createAttribute("currentPower");
-        currentPower.setValue(""+tr.getPower());
-        newTrain.setAttributeNode(currentPower);
         
         Attr emergencyBrake = doc.createAttribute("emergencyBrake");
         emergencyBrake.setValue(""+tr.isEmergencyBrake());
@@ -547,7 +543,6 @@ public class TrainModelGui extends javax.swing.JDialog {
                         eElement.setAttribute("speed",""+t.getSpeed());
                         eElement.setAttribute("authority",""+t.getAuthority());
                         eElement.setAttribute("actualSpeed",""+t.getVelocity());
-                        eElement.setAttribute("currentPower",""+t.getPower());
                         eElement.setAttribute("emergencyBrake",""+t.isEmergencyBrake());
                     }
                 }   
@@ -689,24 +684,15 @@ public class TrainModelGui extends javax.swing.JDialog {
     }
     
     private void talkToCTC() throws Exception{
-        //New Train from CTC
-        //power from TrainController
-        //elevation, grade, speed & authority, passenger's at station 
-    
         File trainControllerXML = new File("./xml/TrainOutputs.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(trainControllerXML);
-        
-        //doc.getDocumentElement().normalize();
-        
-        //System.out.println("Root: "+doc.getDocumentElement().getNodeName());
-        
+                        
         NodeList nList = doc.getElementsByTagName("Dispatch");
         
         for(int i=0;i<nList.getLength();i++){
             Node nNode = nList.item(i);
-            //System.out.println("Current: "+nNode.getNodeName());
             
             if(nNode.getNodeType() == Node.ELEMENT_NODE){
                 Element eElement = (Element) nNode;
@@ -774,7 +760,6 @@ public class TrainModelGui extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
    
     private class Progress extends TimerTask {
-        //private int runs=0;
         @Override
         public void run(){
             MULTIPLIER = 1;
@@ -800,8 +785,6 @@ public class TrainModelGui extends javax.swing.JDialog {
                 for(Train t : trains)
                     t.updateVelocity();
                 displayValues();
-            
-            //runs++;
             }
         }
     }
