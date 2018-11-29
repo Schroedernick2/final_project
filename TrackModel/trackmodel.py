@@ -248,8 +248,9 @@ class MainWindow(tk.Frame):
         if os.path.isfile(os.getcwd()+r"\..\xml\trackmodel_trainmodel.xml"):
             xfile = xml.etree.ElementTree.parse(os.getcwd()+r"\..\xml\trackmodel_trainmodel.xml")
             root = xfile.getroot()
-            for child in root.findall("bit"):
-                print(child.get('name'))
+            print("HEHEH")
+            for child in root.findall("Train"):
+                print(child.get('speed'))
 
         
     #update stations
@@ -299,12 +300,20 @@ class MainWindow(tk.Frame):
                                     break
                             
                         elif read[3] == "S":
-                            fill = 1
+                            print("add Red Switch 2 number code")
                                 
                         else:
-                            fill = 1
-
-                            
+                            for outs in self.redtree.get_children():
+                                if self.redtree.item(outs, 'values')[1] == track_block:
+                                    cross_num = self.redtree.item(outs, 'values')[8]
+                                    break
+                            for outs in self.crosstree.get_children():
+                                if self.crosstree.item(outs, 'values')[0] == cross_num:
+                                    if position == 1:
+                                        self.crosstree.set(outs, column='Position', value='up')
+                                    else:
+                                        self.crosstree.set(outs, column='Position', value='down')
+                                    break
                     else:
                         track_block = read[1]
                         if read[2] == "G":
@@ -330,9 +339,19 @@ class MainWindow(tk.Frame):
                                     else:
                                         self.switchtree.set(outs, column='Position', value='normal')
                                     break
-                            
+                                                                
                         else:
-                            fill = 1
+                            for outs in self.redtree.get_children():
+                                if self.redtree.item(outs, 'values')[1] == track_block:
+                                    cross_num = self.redtree.item(outs, 'values')[8]
+                                    break
+                            for outs in self.crosstree.get_children():
+                                if self.crosstree.item(outs, 'values')[0] == cross_num:
+                                    if position == 1:
+                                        self.crosstree.set(outs, column='Position', value='up')
+                                    else:
+                                        self.crosstree.set(outs, column='Position', value='down')
+                                    break
 
                 else:
                     if self.is_number(read[3]):
@@ -350,19 +369,19 @@ class MainWindow(tk.Frame):
                                         self.signaltree.set(outs, column='Color', value='red')
                                     break
                         elif read[4] == "S":
+                            print("add Green Switch 3 number code")
+                        else:
                             for outs in self.greentree.get_children():
                                 if self.greentree.item(outs, 'values')[1] == track_block:
-                                    switch_num = self.greentree.item(outs, 'values')[7]
+                                    cross_num = self.greentree.item(outs, 'values')[8]
                                     break
-                            for outs in self.switchtree.get_children():
-                                if self.switchtree.item(outs, 'values')[0] == switch_num:
+                            for outs in self.crosstree.get_children():
+                                if self.crosstree.item(outs, 'values')[0] == cross_num:
                                     if position == 1:
-                                        self.switchtree.set(outs, column='Color', value='reverse')
+                                        self.crosstree.set(outs, column='Position', value='up')
                                     else:
-                                        self.switchtree.set(outs, column='Color', value='normal')
+                                        self.crosstree.set(outs, column='Position', value='down')
                                     break
-                        else:
-                            fill = 1
 
                     elif self.is_number(read[2]):
                         track_block = read[1:3]
@@ -378,9 +397,19 @@ class MainWindow(tk.Frame):
                                     else:
                                         self.signaltree.set(outs, column='Color', value='red')
                         elif read[3] == "S":
-                            fill=1
+                            print("add Green Switch 2 number code")
                         else:
-                            fill = 1
+                            for outs in self.greentree.get_children():
+                                if self.greentree.item(outs, 'values')[1] == track_block:
+                                    cross_num = self.greentree.item(outs, 'values')[8]
+                                    break
+                            for outs in self.crosstree.get_children():
+                                if self.crosstree.item(outs, 'values')[0] == cross_num:
+                                    if position == 1:
+                                        self.crosstree.set(outs, column='Position', value='up')
+                                    else:
+                                        self.crosstree.set(outs, column='Position', value='down')
+                                    break
                     else:
                         track_block = read[1]
                         if read[2] == "G":
@@ -395,7 +424,7 @@ class MainWindow(tk.Frame):
                                     else:
                                         self.signaltree.set(outs, column='Color', value='red')
                         elif read[2] == "S":
-                            tb6 = int(track_block) + 6
+                            tb6 = int(track_block)
                             cmp_tb = str(tb6)
                             for outs in self.switchtree.get_children():
                                 if self.switchtree.item(outs, 'values')[0] == cmp_tb:
@@ -405,7 +434,17 @@ class MainWindow(tk.Frame):
                                         self.switchtree.set(outs, column='Position', value='normal')
                                     break
                         else:
-                            fill = 1
+                            for outs in self.greentree.get_children():
+                                if self.greentree.item(outs, 'values')[1] == track_block:
+                                    cross_num = self.greentree.item(outs, 'values')[8]
+                                    break
+                            for outs in self.crosstree.get_children():
+                                if self.crosstree.item(outs, 'values')[0] == cross_num:
+                                    if position == 1:
+                                        self.crosstree.set(outs, column='Position', value='up')
+                                    else:
+                                        self.crosstree.set(outs, column='Position', value='down')
+                                    break
 
 
                     
