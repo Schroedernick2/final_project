@@ -394,7 +394,7 @@ public class TrainModelGui extends javax.swing.JDialog {
             lengthLabel.setText("Length: "+ t.getLength() +" ft");
             massLabel.setText("Mass: "+ t.getMass() +" lbs");
 
-            distanceLabel.setText("Distance Traveled: "+ t.getDistance() + " miles");
+            distanceLabel.setText("Distance Traveled: "+ Math.round(t.getDistance()*100.0)/100.0 + " miles");
             //activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
             //forceLabel.setText("Force: "+ t.getForce() + " N");
             powerLabel.setText("Power: "+ t.getPower() +" kw");

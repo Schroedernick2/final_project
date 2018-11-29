@@ -46,8 +46,8 @@ public class Train{
     private boolean forward;
     
     //other
-    private int next;
-    private double blockDistanceTraveled;
+    private int next = 0;
+    private double blockDistanceTraveled = 0;
     private double force;
     private double accelerationLimit;
     private double decelerationLimit;
@@ -263,9 +263,9 @@ public class Train{
             this.velocity = Math.round(this.velocity*KM_TO_MILES*100.0)/100.0;
             
             //calculate distance
-            this.distance = Math.round((this.distance+(this.velocity/3600))*100.0)/100.0;
+            this.distance = this.distance+(this.velocity/3600);
             
-            if(this.distance >= blockDistanceTraveled+length){
+            if((this.distance/1760) >= blockDistanceTraveled+length){
                 next = 1;
                 blockDistanceTraveled += length;
             }
