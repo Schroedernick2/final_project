@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
 #include <limits>
-#include <time.h>
 
 //Platform == 0 --> Windows
 //Platform == 1 --> Linux (for nick to use this shit)
@@ -16,8 +15,6 @@
 #endif
 
 using namespace std;
-
-const float START_TIME = time(0);
 
 int check_platform(){
 	switch(PLATFORM){
@@ -36,7 +33,6 @@ int check_platform(){
 int main(int argc, char** argv){
 	if(check_platform() == -1)
 		return EXIT_FAILURE;
-	cout << START_TIME << endl;
 
 	switch(PLATFORM){
 		case 1:
