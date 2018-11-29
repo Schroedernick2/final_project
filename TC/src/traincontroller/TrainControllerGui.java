@@ -23,7 +23,7 @@ import java.io.FileWriter;
  */
 public class TrainControllerGui extends javax.swing.JDialog {
 
-    private int MULTIPLIER=1;
+    private int MULTIPLIER=10;
     private int selectedTrainIndex = 0;
     private ArrayList<Train> trains;
     /**
@@ -33,6 +33,21 @@ public class TrainControllerGui extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
                 
+        try{
+            FileWriter f1 = new FileWriter("./xml/traincontroller_trainmodel.xml",false);
+
+            String content = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><Trains></Trains>";
+            
+            f1.write(content);
+            
+            
+            f1.close();
+        
+        }catch(Exception e){
+            System.out.println("File uh-oh");
+        }
+        
+        
         this.trains = trains;
         Timer timer = new Timer();
         timer.schedule(new Progress(), 0,1000);
@@ -651,7 +666,6 @@ public class TrainControllerGui extends javax.swing.JDialog {
         //private int runs=0;
         @Override
         public void run(){
-            MULTIPLIER = 1;
             for(int i=0;i<MULTIPLIER;i++){
                 if(trains.size()>=0){        //CHECK THIS BC size=0 at init, and need to call this to read 4 new train
                     try{
