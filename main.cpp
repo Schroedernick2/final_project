@@ -46,8 +46,8 @@ int main(int argc, char** argv){
 		case 0:
 			system("start cmd /k java -jar TrainModel/dist/TrainModel.jar");
 			system("start cmd /k java -jar CTCOffice/CTCTesting.jar");
-			system("start cmd /k TrackController/Track\\ Controller.py");
-			system("start cmd /k TrackModel/trackmodel.py");
+			system("start cmd /k \"TrackController\\Track\\ Controller.py\"");
+			system("start cmd /k TrackModel\\trackmodel.py");
 			system("start cmd /k java -jar TC/dist/TC.jar");
 				
 			break;
