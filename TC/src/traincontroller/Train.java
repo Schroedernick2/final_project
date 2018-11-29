@@ -78,9 +78,9 @@ public class Train{
     
     /*******CONSTRUCTORS*******/
     
-    public Train(String line,int trainNumber){
+    public Train(String line){
         //set train id
-        this.trainID = line.toUpperCase()+"_"+trainNumber;
+        this.trainID = line;
         
         //default state
         this.emergencyBrake = false;

@@ -32,20 +32,7 @@ public class TrainControllerGui extends javax.swing.JDialog {
     public TrainControllerGui(java.awt.Frame parent, boolean modal, ArrayList<Train> trains) {
         super(parent, modal);
         initComponents();
-        
-        try{
-            FileWriter f1 = new FileWriter("./xml/traincontroller_trainmodel.xml",false);
-
-            String content = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><Trains></Trains>";
-            
-            f1.write(content);
-            
-            f1.close();
-        
-        }catch(Exception e){
-            System.out.println("File is a bitch");
-        }
-        
+                
         this.trains = trains;
         Timer timer = new Timer();
         timer.schedule(new Progress(), 0,1000);
@@ -284,11 +271,11 @@ public class TrainControllerGui extends javax.swing.JDialog {
                             .addComponent(LeftDoorsValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(RightDoorsValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(CurrentStationValue))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(CurrentStationHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(CurrentStationHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(CurrentStationValue, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(98, 98, 98)
@@ -491,7 +478,7 @@ public class TrainControllerGui extends javax.swing.JDialog {
                 ID = ID.replaceAll("\\s+","");
                 
                 double vcmd = Double.parseDouble(eElement.getAttribute("speed").replaceAll("\\s+",""));
-                double vact = Double.parseDouble(eElement.getAttribute("currentVelocity").replaceAll("\\s+",""));
+                double vact = Double.parseDouble(eElement.getAttribute("actualSpeed").replaceAll("\\s+",""));
                 boolean eb = Boolean.parseBoolean(eElement.getAttribute("emergencyBrake").replaceAll("\\s+",""));
                 double auth = Double.parseDouble(eElement.getAttribute("authority").replaceAll("\\s+",""));
                 boolean signalF = Boolean.parseBoolean(eElement.getAttribute("signalFailure").replaceAll("\\s+",""));
@@ -499,14 +486,14 @@ public class TrainControllerGui extends javax.swing.JDialog {
                 boolean engineF = Boolean.parseBoolean(eElement.getAttribute("engineFailure").replaceAll("\\s+",""));
                 String stationID = new String(eElement.getAttribute("station").replaceAll("\\s+",""));
                 
-                //Check for new train, aka when numtrains in XML is more than numtrains in arraylist
-                if(numtrnz<i){
-                    Train newT = new Train(ID, i);
-                    addTrain(newT);
-                }
+               //use this to check for a xml train that doesnt match up to the trains in arraylist
+               
+                boolean created = false;
+                                
                 
                 for(Train t : trains){
                     if(t.getTrainID().equals(ID)){
+                        created = true;
                         t.setSpeed(vcmd);
                         t.setActualSpeed(vact);
                         t.setAuthority(auth);
@@ -526,7 +513,12 @@ public class TrainControllerGui extends javax.swing.JDialog {
                         //write -5 to power when This module sets EB, rather than 
                         //writing to emergencyBrake, which occurs when train model sets it
                     }
-                }   
+                }
+                if(!created){
+                    System.out.println("trying to add");
+                    Train newT = new Train(ID);
+                    addTrain(newT);
+                }
             }
             
             TransformerFactory tf = TransformerFactory.newInstance();
@@ -543,6 +535,7 @@ public class TrainControllerGui extends javax.swing.JDialog {
     
     
      private void displayValues(){
+        if(trains.size()==0)return;
         Train t = trains.get(selectedTrainIndex);
         
         TrainSelector.setSelectedIndex(selectedTrainIndex);
@@ -606,7 +599,7 @@ public class TrainControllerGui extends javax.swing.JDialog {
             }
         });
         Kdialog.setVisible(true);
-        Kdialog.main( null);
+        Kdialog.main(null);
         
         // set Ki,Kp (pop up window)
         
@@ -664,7 +657,9 @@ public class TrainControllerGui extends javax.swing.JDialog {
                     try{
                         talkToTrainModel();
                     }catch(Exception e){
-                        System.out.println("Train Model FUCKED!");
+                        e.printStackTrace();
+                        System.out.println(e);
+                        //System.out.println("Train Model: big uh-oh!");
                     }
                 }
                 for(Train t : trains)
