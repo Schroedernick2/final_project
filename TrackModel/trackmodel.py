@@ -248,7 +248,6 @@ class MainWindow(tk.Frame):
         if os.path.isfile(os.getcwd()+r"\..\xml\trackmodel_trainmodel.xml"):
             xfile = xml.etree.ElementTree.parse(os.getcwd()+r"\..\xml\trackmodel_trainmodel.xml")
             root = xfile.getroot()
-            print("HEHEH")
             for child in root.findall("Train"):
                 print(child.get('speed'))
                 
@@ -335,7 +334,7 @@ class MainWindow(tk.Frame):
                             cmp_tb = str(tb6)
                             for outs in self.switchtree.get_children():
                                 if self.switchtree.item(outs, 'values')[0] == cmp_tb:
-                                    if position == 1:
+                                    if position == 0:
                                         self.switchtree.set(outs, column='Position', value='reverse')
                                     else:
                                         self.switchtree.set(outs, column='Position', value='normal')
@@ -429,7 +428,7 @@ class MainWindow(tk.Frame):
                             cmp_tb = str(tb6)
                             for outs in self.switchtree.get_children():
                                 if self.switchtree.item(outs, 'values')[0] == cmp_tb:
-                                    if position == 1:
+                                    if position == 0:
                                         self.switchtree.set(outs, column='Position', value='reverse')
                                     else:
                                         self.switchtree.set(outs, column='Position', value='normal')
