@@ -284,11 +284,11 @@ public class TrainControllerGui extends javax.swing.JDialog {
                             .addComponent(LeftDoorsValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(RightDoorsValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(CurrentStationValue))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(CurrentStationHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(CurrentStationHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(CurrentStationValue, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(98, 98, 98)
@@ -500,7 +500,7 @@ public class TrainControllerGui extends javax.swing.JDialog {
                 String stationID = new String(eElement.getAttribute("station").replaceAll("\\s+",""));
                 
                 //Check for new train, aka when numtrains in XML is more than numtrains in arraylist
-                if(numtrnz<i){
+                if(numtrnz<(i+1)){
                     Train newT = new Train(ID, i);
                     addTrain(newT);
                 }
@@ -543,6 +543,7 @@ public class TrainControllerGui extends javax.swing.JDialog {
     
     
      private void displayValues(){
+        if(trains.size()==0)return;
         Train t = trains.get(selectedTrainIndex);
         
         TrainSelector.setSelectedIndex(selectedTrainIndex);
