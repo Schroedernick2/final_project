@@ -40,7 +40,7 @@ int main(int argc, char** argv){
 			system("gnome-terminal -- bash -c \"exec java -jar CTCOffice/CTCTesting.jar && read\"");
 			system("gnome-terminal -- bash -c \"exec python3 TrackController/Track\\ Controller.py && read\"");
 			system("gnome-terminal -- bash -c \"exec python3 TrackModel/trackmodel.py && read\"");
-			system("gnome-terminal -- bash -c \"exec java -jar TC/dist/TC.jar && read\"");
+			system("gnome-terminal -- bash -c \"exec java -jar TC/dist/TrainController.jar && read\"");
 				
 			break;
 		case 0:
@@ -48,7 +48,7 @@ int main(int argc, char** argv){
 			system("start cmd /k java -jar CTCOffice/CTCTesting.jar");
 			system("start cmd /k TrackController\\TrackController.py");
 			system("start cmd /k TrackModel\\trackmodel.py");
-			system("start cmd /k java -jar TC/dist/TC.jar");
+			system("start cmd /k java -jar TC/dist/TrainController.jar");
 				
 			break;
 		default:
