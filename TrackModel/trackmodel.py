@@ -315,8 +315,6 @@ class MainWindow(tk.Frame):
             tree = xml.etree.ElementTree.ElementTree(root)
             tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\trackmodel_trainmodel.xml")
 
-            else:
-                fill = 1
         
 
     def get_next_green_track(self, tn, d):
