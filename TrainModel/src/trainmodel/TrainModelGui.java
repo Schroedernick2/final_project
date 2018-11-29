@@ -621,7 +621,7 @@ public class TrainModelGui extends javax.swing.JDialog {
         newTrain.setAttributeNode(grade);
         
         Attr next = doc.createAttribute("next");
-        grade.setValue(""+tr.getNext());
+        grade.setValue("1");
         newTrain.setAttributeNode(next);
         
         Attr length = doc.createAttribute("length");

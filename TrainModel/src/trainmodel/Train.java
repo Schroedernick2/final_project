@@ -46,7 +46,7 @@ public class Train{
     private boolean forward;
     
     //other
-    private int next = 0;
+    private int next = 1;
     private double blockDistanceTraveled = 0;
     private double force;
     private double accelerationLimit;
