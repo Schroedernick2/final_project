@@ -250,7 +250,7 @@ class MainWindow(tk.Frame):
         self.track_controller()
         self.train_model()
         self.update_stations()
-        sleep(.5)
+        sleep(.25)
         self.data_update()
         
 
@@ -263,14 +263,72 @@ class MainWindow(tk.Frame):
 
     #Talks to train model
     def train_model(self):
-        if os.path.isfile(os.getcwd()+r"\..\xml\trackmodel_trainmodel.xml"):
-            xfile = xml.etree.ElementTree.parse(os.getcwd()+r"\..\xml\trackmodel_trainmodel.xml")
+        
+        if os.path.isfile(os.getcwd()+r"\xml\trackmodel_trainmodel.xml"):
+            xfile = xml.etree.ElementTree.parse(os.getcwd()+r"\xml\trackmodel_trainmodel.xml")
             root = xfile.getroot()
             for child in root.findall("Train"):
-                if child.get('id')[0]=='G':
-                    print("GREEN TRAIN")
-                else:
-                    print("RED TRAIN")
+                train_id = child.get('id')
+                if child.get('next') == '1':
+                    if train_id[0]=='G':
+                        direction = child.get('direction')
+                        track_num = child.get('trackNumber')
+                        new_track = self.get_next_green_track(track_num, direction)
+                        child.set('trackNumber', new_track)
+                        for outs in self.greentree.get_children():
+                            if self.greentree.item(outs, 'values')[1] == track_num:
+                                self.greentree.set(outs, column='Occupation', value='unoccupied')
+                            if self.greentree.item(outs, 'values')[1] == new_track:
+                                new_speed = self.greentree.item(outs, 'values')[4]
+                                new_ele = self.greentree.item(outs, 'values')[10]
+                                new_grade = self.greentree.item(outs, 'values')[3]
+                                new_length = self.greentree.item(outs, 'values')[2]
+                                self.greentree.set(outs, column='Occupation', value='occupied')
+                                break
+                        child.set('speed', new_speed)
+                        child.set('elevation', new_ele)
+                        child.set('grade', new_grade)
+                        child.set('length', new_length)
+                        child.set('next', '0')
+                            
+                    else:
+                        direction = child.get('direction')
+                        track_num = child.get('trackNumber')
+                        new_track = self.get_next_red_track(track_num, direction)
+                        child.set('trackNumber', new_track)
+                        for outs in self.redtree.get_children():
+                            if self.redtree.item(outs, 'values')[1] == track_num:
+                                self.redtree.set(outs, column='Occupation', value='unoccupied')
+                            if self.redtree.item(outs, 'values')[1] == new_track:
+                                new_speed = self.redtree.item(outs, 'values')[4]
+                                new_ele = self.redtree.item(outs, 'values')[10]
+                                new_grade = self.redtree.item(outs, 'values')[3]
+                                new_length = self.redtree.item(outs, 'values')[2]
+                                self.redtree.set(outs, column='Occupation', value='occupied')
+                                break
+                        child.set('speed', new_speed)
+                        child.set('elevation', new_ele)
+                        child.set('grade', new_grade)
+                        child.set('length', new_length)
+                        child.set('next', '0')
+                    
+        tree = xml.etree.ElementTree.ElementTree(root)
+        tree.write(os.getcwd()+r"\xml\trackmodel_trainmodel.xml")
+        
+
+    def get_next_green_track(self, tn, d):
+        tnn = int(tn)
+        if tnn == 0:
+            return '58'
+        else:
+            return str(tnn + 1)
+
+    def get_next_red_track(self, tn, d):
+        tnn = int(tn)
+        if tnn == 0:
+            return '9'
+        else:
+            return str(tnn + 1)
                 
 
         
@@ -294,8 +352,8 @@ class MainWindow(tk.Frame):
     
     #reads from track controller and sets switches and signals
     def read_from_track_controller(self):
-        if os.path.isfile(os.getcwd()+r"\..\xml\TrackControllerOutputs.xml"):
-            xfile = xml.etree.ElementTree.parse(os.getcwd()+r"\..\xml\TrackControllerOutputs.xml")
+        if os.path.isfile(os.getcwd()+r"\xml\TrackControllerOutputs.xml"):
+            xfile = xml.etree.ElementTree.parse(os.getcwd()+r"\xml\TrackControllerOutputs.xml")
             root = xfile.getroot()
             for child in root.findall("bit"):
                 read = child.get('name')
@@ -471,8 +529,8 @@ class MainWindow(tk.Frame):
                     
     #writes occupancies to track controller
     def write_to_track_controller(self):
-        if os.path.isfile(os.getcwd()+r"\..\xml\TrackModelOutputs.xml"):
-            xfile = xml.etree.ElementTree.parse(os.getcwd()+r"\..\xml\TrackModelOutputs.xml")
+        if os.path.isfile(os.getcwd()+r"\xml\TrackModelOutputs.xml"):
+            xfile = xml.etree.ElementTree.parse(os.getcwd()+r"\xml\TrackModelOutputs.xml")
             root = xfile.getroot()
 
             for outs in self.redtree.get_children():
@@ -528,7 +586,7 @@ class MainWindow(tk.Frame):
                 i += 1
 
         tree = xml.etree.ElementTree.ElementTree(root)
-        tree.write(os.getcwd()+r"\..\xml\TrackModelOutputs.xml")
+        tree.write(os.getcwd()+r"\xml\TrackModelOutputs.xml")
         
 
     def __init__(self, master, *args, **kwargs):
