@@ -246,8 +246,8 @@ class PanelFrame(ttk.Frame):
             self.writeOutputstoXML()
 
     def writeOutputstoXML(self):
-        if (os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\XML\TrackControllerOutputs.xml")):
-            xmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\XML\TrackControllerOutputs.xml")
+        if (os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackControllerOutputs.xml")):
+            xmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackControllerOutputs.xml")
             root = xmlFile.getroot()
 
             for outputs in self.outputTree.get_children():
@@ -264,12 +264,12 @@ class PanelFrame(ttk.Frame):
                 xml.etree.ElementTree.SubElement(root,"bit", name = self.outputTree.item(outputs, "text")).text = self.outputTree.item(outputs, 'values')[1]
                 
         tree = xml.etree.ElementTree.ElementTree(root)
-        tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\XML\TrackControllerOutputs.xml")
+        tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackControllerOutputs.xml")
     def getInputs(self):
-        if (os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\XML\CTCOutput.xml") and os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\XML\TrackModelOutputs.xml")):
-            CTCxmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\XML\CTCOutput.xml")
+        if (os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\CTCOutput.xml") and os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")):
+            CTCxmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\CTCOutput.xml")
             CTCroot = CTCxmlFile.getroot()
-            TMxmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\XML\TrackModelOutputs.xml")
+            TMxmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")
             TMroot = TMxmlFile.getroot()
             
             for inputs in self.inputTree.get_children():
@@ -284,9 +284,9 @@ class PanelFrame(ttk.Frame):
                         found = True
                 if (found == False):
                     self.inputTree.set(inputs,'Value','0')
-        elif(os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\XML\CTCOutput.xml") and not os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\XML\TrackModelOutputs.xml")):
+        elif(os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\CTCOutput.xml") and not os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")):
             print("Track Model XML not found")
-            CTCxmlFile = xml.etree.ElementTree.parse(os.getcwd()+"\XML\CTCOutput.xml")
+            CTCxmlFile = xml.etree.ElementTree.parse(os.getcwd()+"\\xml\CTCOutput.xml")
             CTCroot = CTCxmlFile.getroot()
 
             for inputs in self.inputTree.get_children():
@@ -298,9 +298,9 @@ class PanelFrame(ttk.Frame):
                 if (found == False):
                     self.inputTree.set(inputs,'Value','0')
              
-        elif(not os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\XML\CTCOutput.xml") and os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\XML\TrackModelOutputs.xml")):
+        elif(not os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\CTCOutput.xml") and os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")):
             print("CTC XML not found")
-            TMxmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\XML\TrackModelOutputs.xml")
+            TMxmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")
             TMroot = TMxmlFile.getroot()
 
             for inputs in self.inputTree.get_children():
