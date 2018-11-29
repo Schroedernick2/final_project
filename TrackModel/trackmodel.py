@@ -191,39 +191,57 @@ class MainWindow(tk.Frame):
     def power_failure(self):
         if self.red_table.set(self.red_table.focus(), column='Power Failure') == 'FAILED':
             self.red_table.set(self.red_table.focus(), column='Power Failure', value='working')
+            if (self.red_table.item(self.red_table.focus(), 'values')[18] != 'BROKEN') and (self.red_table.item(self.red_table.focus(), 'values')[17] != 'FAILED'):
+                self.red_table.set(self.red_table.focus(), column='Occupation', value='unoccupied')
         else:
             self.red_table.set(self.red_table.focus(), column='Power Failure', value='FAILED')
+            self.red_table.set(self.red_table.focus(), column='Occupation', value='occupied')
 
         if self.green_table.set(self.green_table.focus(), column='Power Failure') == 'FAILED':
             self.green_table.set(self.green_table.focus(), column='Power Failure', value='working')
+            if (self.green_table.item(self.green_table.focus(), 'values')[18] != 'BROKEN') and (self.green_table.item(self.green_table.focus(), 'values')[17] != 'FAILED'):
+                self.green_table.set(self.green_table.focus(), column='Occupation', value='unoccupied')
         else:
             self.green_table.set(self.green_table.focus(), column='Power Failure', value='FAILED')
+            self.green_table.set(self.green_table.focus(), column='Occupation', value='occupied')
 
         self.selection_clear()
 
     def break_rail(self):
         if self.red_table.set(self.red_table.focus(), column='Broken Rail') == 'BROKEN':
             self.red_table.set(self.red_table.focus(), column='Broken Rail', value='working')
+            if (self.red_table.item(self.red_table.focus(), 'values')[16] != 'FAILED') and (self.red_table.item(self.red_table.focus(), 'values')[17] != 'FAILED'):
+                self.red_table.set(self.red_table.focus(), column='Occupation', value='unoccupied')
         else:
             self.red_table.set(self.red_table.focus(), column='Broken Rail', value='BROKEN')
+            self.red_table.set(self.red_table.focus(), column='Occupation', value='occupied')
 
         if self.green_table.set(self.green_table.focus(), column='Broken Rail') == 'BROKEN':
             self.green_table.set(self.green_table.focus(), column='Broken Rail', value='working')
+            if (self.green_table.item(self.green_table.focus(), 'values')[16] != 'FAILED') and (self.green_table.item(self.green_table.focus(), 'values')[17] != 'FAILED'):
+                self.green_table.set(self.green_table.focus(), column='Occupation', value='unoccupied')
         else:
             self.green_table.set(self.green_table.focus(), column='Broken Rail', value='BROKEN')
+            self.green_table.set(self.green_table.focus(), column='Occupation', value='occupied')
 
         self.selection_clear()
 
     def tc_fail(self):
         if self.red_table.set(self.red_table.focus(), column='TC Failure') == 'FAILED':
             self.red_table.set(self.red_table.focus(), column='TC Failure', value='working')
+            if (self.red_table.item(self.red_table.focus(), 'values')[18] != 'BROKEN') and (self.red_table.item(self.red_table.focus(), 'values')[16] != 'FAILED'):
+                self.red_table.set(self.red_table.focus(), column='Occupation', value='unoccupied')
         else:
             self.red_table.set(self.red_table.focus(), column='TC Failure', value='FAILED')
+            self.red_table.set(self.red_table.focus(), column='Occupation', value='occupied')
 
         if self.green_table.set(self.green_table.focus(), column='TC Failure') == 'FAILED':
             self.green_table.set(self.green_table.focus(), column='TC Failure', value='working')
+            if (self.green_table.item(self.green_table.focus(), 'values')[18] != 'BROKEN') and (self.green_table.item(self.green_table.focus(), 'values')[16] != 'FAILED'):
+                self.green_table.set(self.green_table.focus(), column='Occupation', value='unoccupied')
         else:
             self.green_table.set(self.green_table.focus(), column='TC Failure', value='FAILED')
+            self.green_table.set(self.green_table.focus(), column='Occupation', value='occupied')
 
         self.selection_clear()
 
