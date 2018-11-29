@@ -263,17 +263,13 @@ class MainWindow(tk.Frame):
 
     #Talks to train model
     def train_model(self):
-        
-        if os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\trackmodel_trainmodel.xml"):
-            print("FOUND FILE")
-            xfile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\trackmodel_trainmodel.xml")
+        if os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+r"\xml\trackmodel_trainmodel.xml"):
+            xfile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+r"\xml\trackmodel_trainmodel.xml")
             root = xfile.getroot()
             for child in root.findall("Train"):
-                print("FOUND TRAINS")
                 train_id = child.get('id')
                 if child.get('next') == '1':
                     if train_id[0]=='G':
-                        print("FOUND LINE")
                         direction = child.get('direction')
                         track_num = child.get('trackNumber')
                         new_track = self.get_next_green_track(track_num, direction)
@@ -281,21 +277,18 @@ class MainWindow(tk.Frame):
                         for outs in self.greentree.get_children():
                             if self.greentree.item(outs, 'values')[1] == track_num:
                                 self.greentree.set(outs, column='Occupation', value='unoccupied')
-                                print("UN UPDATE")
                             if self.greentree.item(outs, 'values')[1] == new_track:
                                 new_speed = self.greentree.item(outs, 'values')[4]
                                 new_ele = self.greentree.item(outs, 'values')[10]
                                 new_grade = self.greentree.item(outs, 'values')[3]
                                 new_length = self.greentree.item(outs, 'values')[2]
                                 self.greentree.set(outs, column='Occupation', value='occupied')
-                                print("UPDATE")
                                 break
                         child.set('speed', new_speed)
                         child.set('elevation', new_ele)
                         child.set('grade', new_grade)
                         child.set('length', new_length)
                         child.set('next', '0')
-                        print("SET")
                             
                     else:
                         direction = child.get('direction')
@@ -319,8 +312,7 @@ class MainWindow(tk.Frame):
                         child.set('next', '0')
                         
             tree = xml.etree.ElementTree.ElementTree(root)
-            tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\trackmodel_trainmodel.xml")
-            print("WRITE")
+            tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+r"\xml\trackmodel_trainmodel.xml")
 
         
 
