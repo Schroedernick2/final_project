@@ -267,7 +267,10 @@ class MainWindow(tk.Frame):
             xfile = xml.etree.ElementTree.parse(os.getcwd()+r"\..\xml\trackmodel_trainmodel.xml")
             root = xfile.getroot()
             for child in root.findall("Train"):
-                print(child.get('speed'))
+                if child.get('id')[0]=='G':
+                    print("GREEN TRAIN")
+                else:
+                    print("RED TRAIN")
                 
 
         
