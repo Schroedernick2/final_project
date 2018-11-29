@@ -110,6 +110,36 @@
 	<bit name="R51T">
 		<type>INPUT</type>
 	</bit>
+	<bit name="R67T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R68T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R69T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R70T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R71T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R72T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R73T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R74T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R75T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R76T">
+		<type>INPUT</type>
+	</bit>
 	
 	
 	
@@ -136,6 +166,12 @@
 		<type>INPUT</type>
 	</bit>
 	<bit name="R6SRR">
+		<type>INPUT</type>
+	</bit>		
+	<bit name="R47UR">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R47DR">
 		<type>INPUT</type>
 	</bit>		
 
@@ -241,24 +277,24 @@
 		<assign>R44GK</assign>
 	</logic>
 	<logic>
-		<equation>~R6SNP * (R46T * R47T * R48T * R43T) * ( ~R67T) </equation>
+		<equation>~R6SNP * (R46T * R47T * R48T * R43T) * ( ~R67T ) </equation>
 		<assign>R67GK</assign>
 	</logic>
 	<logic>
-		<equation>~R5SNP * (R33T * R34T * R35T * R36T * R37T * R38T) * ( ~R71T) </equation>
+		<equation>~R5SNP * (R33T * R34T * R35T * R36T * R37T * R38T) * ( ~R71T ) </equation>
 		<assign>R71GK</assign>
 	</logic>
 	
 	<logic>
-		<equation>~R3SNP * (R16T * R17T * R18T * R19T * R20T * R21T * R22T * R23T * R24T * R25T * R26T) * ( ~R76T) </equation>
+		<equation>~R3SNP * (R16T * R17T * R18T * R19T * R20T * R21T * R22T * R23T * R24T * R25T * R26T) * ( ~R76T ) </equation>
 		<assign>R76GK</assign>
 	</logic>
 	<logic>
-		<equation>~R4SNP * (R32T * R33T * R34T * R35T * R36T * R37T) * ( ~R72T) </equation>
+		<equation>~R4SNP * (R32T * R33T * R34T * R35T * R36T * R37T) * ( ~R72T ) </equation>
 		<assign>R72GK</assign>
 	</logic>
 	<logic>
-		<equation> R46T * R47T * R48T</equation>
+		<equation> R46T * R47T * R48T * ( R47C * ~R47DR + R47UR * ~R47C + R47UR * R47DR )</equation>
 		<assign>R47C</assign>
 	</logic>
 </data>
