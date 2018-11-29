@@ -266,16 +266,16 @@ class PanelFrame(ttk.Frame):
         tree = xml.etree.ElementTree.ElementTree(root)
         tree.write("TrackControllerOutputs.xml")
     def getInputs(self):
-        if (os.path.isfile(os.getcwd()+"\CTCOutputs.xml") and os.path.isfile(os.getcwd()+"\TrackModelOutputs.xml")):
-            CTCxmlFile = xml.etree.ElementTree.parse(os.getcwd()+"\CTCOutputs.xml")
+        if (os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\CTCOffice\CTCOutput.xml") and os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\TrackModel\TrackModelOutputs.xml")):
+            CTCxmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\CTCOffice\CTCOutput.xml")
             CTCroot = CTCxmlFile.getroot()
-            TMxmlFile = xml.etree.ElementTree.parse(os.getcwd()+"\TrackModelOutputs.xml")
+            TMxmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\TrackModel\TrackModelOutputs.xml")
             TMroot = TMxmlFile.getroot()
             
             for inputs in self.inputTree.get_children():
                 found = False
                 for bits in CTCroot.findall('bit'):
-                    if bits.attrib['id'] == self.inputTree.item(inputs, "text"):
+                    if bits.attrib['name'] == self.inputTree.item(inputs, "text"):
                         self.inputTree.set(inputs,'Value', bits.text)
                         found = True
                 for bits in TMroot.findall('bit'):
@@ -284,23 +284,23 @@ class PanelFrame(ttk.Frame):
                         found = True
                 if (found == False):
                     self.inputTree.set(inputs,'Value','0')
-        elif(os.path.isfile(os.getcwd()+"\CTCOutputs.xml") and not os.path.isfile(os.getcwd()+"\TrackModelOutputs.xml")):
+        elif(os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\CTCOffice\CTCOutput.xml") and not os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\TrackModel\TrackModelOutputs.xml")):
             print("Track Model XML not found")
-            CTCxmlFile = xml.etree.ElementTree.parse(os.getcwd()+"\CTCOutputs.xml")
+            CTCxmlFile = xml.etree.ElementTree.parse(os.getcwd()+"\CTCOffice\CTCOutput.xml")
             CTCroot = CTCxmlFile.getroot()
 
             for inputs in self.inputTree.get_children():
                 found = False
                 for bits in CTCroot.findall('bit'):
-                    if bits.attrib['id'] == self.inputTree.item(inputs, "text"):
+                    if bits.attrib['name'] == self.inputTree.item(inputs, "text"):
                         self.inputTree.set(inputs,'Value', bits.text)
                         found = True
                 if (found == False):
                     self.inputTree.set(inputs,'Value','0')
              
-        elif(not os.path.isfile(os.getcwd()+"\CTCOutputs.xml") and os.path.isfile(os.getcwd()+"\TrackModelOutputs.xml")):
+        elif(not os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\CTCOffice\CTCOutput.xml") and os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\TrackModel\TrackModelOutputs.xml")):
             print("CTC XML not found")
-            TMxmlFile = xml.etree.ElementTree.parse(os.getcwd()+"\TrackModelOutputs.xml")
+            TMxmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\TrackModel\TrackModelOutputs.xml")
             TMroot = TMxmlFile.getroot()
 
             for inputs in self.inputTree.get_children():
@@ -318,7 +318,7 @@ class PanelFrame(ttk.Frame):
 
         self.logicCheck()
 
-        self.after(1000, self.getInputs)
+        self.after(500, self.getInputs)
 
 if __name__ == "__main__":
     root = tk.Tk()
