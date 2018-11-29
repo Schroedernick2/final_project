@@ -281,11 +281,9 @@ class MainWindow(tk.Frame):
                 track_number = self.redtree.item(outs, 'values')[1]
                 name_build = name_build + track_number + "T"
                 if self.redtree.item(outs, 'values')[15] == "occupied":
-                    xml.etree.ElementTree.SubElement(root, "bit",
-                                                 name=name_build).text = '0'
+                    
                 else:
-                    xml.etree.ElementTree.SubElement(root, "bit",
-                                                     name=name_build).text = '1'
+                    
                 i += 1
             for outs in self.greentree.get_children():
                 i = 1
@@ -293,12 +291,11 @@ class MainWindow(tk.Frame):
                 track_number = self.greentree.item(outs, 'values')[1]
                 name_build = name_build + track_number + "T"
                 if self.greentree.item(outs, 'values')[15] == "occupied":
-                    xml.etree.ElementTree.SubElement(root, "bit",
-                                                 name=name_build).text = '0'
+                    root.find(
                 else:
-                    xml.etree.ElementTree.SubElement(root, "bit",
-                                                     name=name_build).text = '1'
+                    
                 i += 1
+                
         else:
             root = xml.etree.ElementTree.Element("bits")
             for outs in self.redtree.get_children():
