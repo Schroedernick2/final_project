@@ -264,8 +264,8 @@ class MainWindow(tk.Frame):
     #Talks to train model
     def train_model(self):
         
-        if os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__))+"\\xml\trackmodel_trainmodel.xml"):
-            xfile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__))+"\\xml\trackmodel_trainmodel.xml")
+        if os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\trackmodel_trainmodel.xml"):
+            xfile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\trackmodel_trainmodel.xml")
             root = xfile.getroot()
             for child in root.findall("Train"):
                 train_id = child.get('id')
@@ -313,7 +313,7 @@ class MainWindow(tk.Frame):
                         child.set('next', '0')
                     
         tree = xml.etree.ElementTree.ElementTree(root)
-        tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__))+"\\xml\trackmodel_trainmodel.xml")
+        tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\trackmodel_trainmodel.xml")
         
 
     def get_next_green_track(self, tn, d):
@@ -352,8 +352,8 @@ class MainWindow(tk.Frame):
     
     #reads from track controller and sets switches and signals
     def read_from_track_controller(self):
-        if os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__))+"\\xml\TrackModelOutputs.xml"):
-            xfile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__))+"\\xml\TrackControllerOutputs.xml")
+        if os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml"):
+            xfile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackControllerOutputs.xml")
             root = xfile.getroot()
             for child in root.findall("bit"):
                 read = child.get('name')
@@ -529,8 +529,8 @@ class MainWindow(tk.Frame):
                     
     #writes occupancies to track controller
     def write_to_track_controller(self):
-        if os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__))+"\\xml\TrackModelOutputs.xml"):
-            xfile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__))+"\\xml\TrackModelOutputs.xml")
+        if os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml"):
+            xfile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")
             root = xfile.getroot()
 
             for outs in self.redtree.get_children():
@@ -586,7 +586,7 @@ class MainWindow(tk.Frame):
                 i += 1
 
         tree = xml.etree.ElementTree.ElementTree(root)
-        tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__))+"\\xml\TrackModelOutputs.xml")
+        tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")
         
 
     def __init__(self, master, *args, **kwargs):
