@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Trains></Trains>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Trains><Train authority="0.0" distanceTraveled="0.0" elevation="0" grade="0.0" id="GREEN_1" nextStation="NEXT_STATION" speed="0.0"/><Train authority="0.0" distanceTraveled="0.0" elevation="0" grade="0.0" id="RED_1" nextStation="NEXT_STATION" speed="0.0"/></Trains>
