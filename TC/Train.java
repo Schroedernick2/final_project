@@ -78,9 +78,9 @@ public class Train{
     
     /*******CONSTRUCTORS*******/
     
-    public Train(String line,int trainNumber){
+    public Train(String line){
         //set train id
-        this.trainID = line.toUpperCase()+"_"+trainNumber;
+        this.trainID = line;
         
         //default state
         this.emergencyBrake = false;
@@ -264,18 +264,18 @@ public class Train{
                     prevMew = prevMew + (samplePeriod/2)*(prevError + sampleError);
                 //^else prevMew = prevMew; using 'prevmew' as current mew after, will become next times 'prevmew'
                 double P1 = (Kp*sampleError) + (Ki*prevMew) ;
-                P1 = (double) Math.round(P1 * 100) / 100; // round to 2 decimal places for comparison
+                P1 = (double) Math.round(P1 * 10) / 10; // round to 2 decimal places for comparison
                 // Calculate Power method 2
                 if(power < ENGINE_POWER)
                     prevMew = prevMew + (samplePeriod*.5)/(1/(prevError + sampleError));
                 double P2 = (Kp/(1/sampleError)) + (Ki/(1/prevMew));
-                P2 = (double) Math.round(P2 * 100) / 100;
+                P2 = (double) Math.round(P2 * 10) / 10;
             
                 // Calculate Power method 2
                 if( power < ENGINE_POWER)
                    prevMew = prevMew + ((samplePeriod/2)*(prevError - (-sampleError)));
                 double P3 = (Kp/(1/sampleError)) + (Ki/(1/prevMew));
-                P3 = (double) Math.round(P3 * 100) / 100;
+                P3 = (double) Math.round(P3 * 10) / 10;
                 double P=0;
                 if(P1 == P2) P = P1; 
                 else if(P2 == P3) P = P2;
@@ -284,6 +284,10 @@ public class Train{
                     announcementsText =  new String(announcementsText+ "Power not 2/3 \n");
                     return;
                 }
+                System.out.println(P1);
+                System.out.println(P2);
+                System.out.println(P3);
+
                 prevError = sampleError;
                 if(P <= ENGINE_POWER)
                     setPower(P);
