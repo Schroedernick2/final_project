@@ -37,7 +37,7 @@ int main(int argc, char** argv){
 	switch(PLATFORM){
 		case 1:
 			system("gnome-terminal -- bash -c \"exec java -jar TrainModel/dist/TrainModel.jar && read\"");
-			system("gnome-terminal -- bash -c \"exec java -jar CTCOffice/dist/CTC.jar && read\"");
+			system("gnome-terminal -- bash -c \"exec java -jar CTCOffice/CTC.jar && read\"");
 			system("gnome-terminal -- bash -c \"exec python3 TrackController/Track\\ Controller.py && read\"");
 			system("gnome-terminal -- bash -c \"exec python3 TrackModel/trackmodel.py && read\"");
 			system("gnome-terminal -- bash -c \"exec java -jar TC/dist/TC.jar && read\"");
@@ -45,7 +45,7 @@ int main(int argc, char** argv){
 			break;
 		case 0:
 			system("start cmd /k java -jar TrainModel/dist/TrainModel.jar");
-			system("start cmd /k java -jar CTCOffice/dist/CTC.jar");
+			system("start cmd /k java -jar CTCOffice/CTC.jar");
 			system("start cmd /k python TrackController/Track\\ Controller.py");
 			system("start cmd /k python TrackModel/trackmodel.py");
 			system("start cmd /k java -jar TC/dist/TC.jar");
