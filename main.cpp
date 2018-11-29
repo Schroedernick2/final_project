@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
 #include <limits>
-#include <time.h>
 
 //Platform == 0 --> Windows
 //Platform == 1 --> Linux (for nick to use this shit)
@@ -16,8 +15,6 @@
 #endif
 
 using namespace std;
-
-const float START_TIME = time(0);
 
 int check_platform(){
 	switch(PLATFORM){
@@ -36,13 +33,12 @@ int check_platform(){
 int main(int argc, char** argv){
 	if(check_platform() == -1)
 		return EXIT_FAILURE;
-	cout << START_TIME << endl;
 
 	switch(PLATFORM){
 		case 1:
 			system("gnome-terminal -- bash -c \"exec java -jar TrainModel/dist/TrainModel.jar && read\"");
 			system("gnome-terminal -- bash -c \"exec java -jar CTCOffice/dist/CTC.jar && read\"");
-			system("gnome-terminal -- bash -c \"exec python3 TrackController/TrackController.py && read\"");
+			system("gnome-terminal -- bash -c \"exec python3 TrackController/Track\\ Controller.py && read\"");
 			system("gnome-terminal -- bash -c \"exec python3 TrackModel/trackmodel.py && read\"");
 			system("gnome-terminal -- bash -c \"exec java -jar TC/dist/TC.jar && read\"");
 				
@@ -50,7 +46,7 @@ int main(int argc, char** argv){
 		case 0:
 			system("start cmd /k java -jar TrainModel/dist/TrainModel.jar");
 			system("start cmd /k java -jar CTCOffice/dist/CTC.jar");
-			system("start cmd /k python TrackController/TrackController.py");
+			system("start cmd /k python TrackController/Track\\ Controller.py");
 			system("start cmd /k python TrackModel/trackmodel.py");
 			system("start cmd /k java -jar TC/dist/TC.jar");
 				

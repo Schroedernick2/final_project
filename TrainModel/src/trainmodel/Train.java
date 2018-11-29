@@ -40,11 +40,14 @@ public class Train{
     private double creationTime;
     private double time;
     private double distance;
+    private double blockLength;
     
     //direction of train
     private boolean forward;
     
     //other
+    private int next = 0;
+    private double blockDistanceTraveled = 0;
     private double force;
     private double accelerationLimit;
     private double decelerationLimit;
@@ -148,6 +151,8 @@ public class Train{
         
         return Math.round((currTime-this.creationTime)/1000)*multiplier; 
     }
+    
+    public int getNext(){ return next; }
     public double getDistance(){ return distance; }
     public double getPower(){ return power; }
     public double getForce(){ return force; }
@@ -165,6 +170,8 @@ public class Train{
     public boolean isLights(){ return lights; }
     
     /*******SETTERS*******/
+    
+    public void setBlockLength(double l){ blockLength = l; }
     
     //brake and failure setters
     public void setEmergencyBrake(boolean state){ emergencyBrake = state; }
@@ -256,6 +263,13 @@ public class Train{
             this.velocity = Math.round(this.velocity*KM_TO_MILES*100.0)/100.0;
             
             //calculate distance
-            this.distance = Math.round((this.distance+(this.velocity/3600))*100.0)/100.0; 
+            this.distance = this.distance+(this.velocity/3600);
+            
+            if((this.distance/1760) >= blockDistanceTraveled+length){
+                next = 1;
+                blockDistanceTraveled += length;
+            }
+            else
+                next = 0;
         }
 }
