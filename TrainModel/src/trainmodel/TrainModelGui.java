@@ -462,6 +462,22 @@ public class TrainModelGui extends javax.swing.JDialog {
         speed.setValue(""+tr.getSpeed());
         newTrain.setAttributeNode(speed);
         
+        Attr brakeFail = doc.createAttribute("brakeFailure");
+        brakeFail.setValue(""+tr.isBrakeFailure());
+        newTrain.setAttributeNode(brakeFail);
+        
+        Attr engFail = doc.createAttribute("engineFailure");
+        engFail.setValue(""+tr.isEngineFailure());
+        newTrain.setAttributeNode(engFail);
+        
+        Attr sigFail = doc.createAttribute("signalFailure");
+        sigFail.setValue(""+tr.isSignalFailure());
+        newTrain.setAttributeNode(sigFail);
+        
+        Attr station = doc.createAttribute("station");
+        station.setValue(""+tr.getStation());
+        newTrain.setAttributeNode(station);
+        
         Attr authority = doc.createAttribute("authority");
         authority.setValue(""+tr.getAuthority());
         newTrain.setAttributeNode(authority);
@@ -540,6 +556,11 @@ public class TrainModelGui extends javax.swing.JDialog {
                         t.setRightDoors(rightDoors);                        
                         t.setTemperature(temp);
                         t.updateVelocity();
+                        eElement.setAttribute("station",""+t.getStation());
+                        eElement.setAttribute("engineFailure",""+t.isEngineFailure());
+                        eElement.setAttribute("brakeFailure",""+t.isBrakeFailure());
+                        eElement.setAttribute("signalFailure",""+t.isSignalFailure());
+                        
                         eElement.setAttribute("speed",""+t.getSpeed());
                         eElement.setAttribute("authority",""+t.getAuthority());
                         eElement.setAttribute("actualSpeed",""+t.getVelocity());
