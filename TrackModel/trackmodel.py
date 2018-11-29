@@ -281,9 +281,11 @@ class MainWindow(tk.Frame):
                 track_number = self.redtree.item(outs, 'values')[1]
                 name_build = name_build + track_number + "T"
                 if self.redtree.item(outs, 'values')[15] == "occupied":
-                    
+                    find_string = './/bit[@name='+"\""+name_build+"\""+']'
+                    root.find(find_string).text = '0'
                 else:
-                    
+                    find_string = './/bit[@name='+"\""+name_build+"\""+']'
+                    root.find(find_string).text = '1'
                 i += 1
             for outs in self.greentree.get_children():
                 i = 1
@@ -291,9 +293,11 @@ class MainWindow(tk.Frame):
                 track_number = self.greentree.item(outs, 'values')[1]
                 name_build = name_build + track_number + "T"
                 if self.greentree.item(outs, 'values')[15] == "occupied":
-                    root.find(
+                    find_string = './/bit[@name='+"\""+name_build+"\""+']'
+                    root.find(find_string).text = '0'
                 else:
-                    
+                    find_string = './/bit[@name='+"\""+name_build+"\""+']'
+                    root.find(find_string).text = '1'
                 i += 1
                 
         else:
