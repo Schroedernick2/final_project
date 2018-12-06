@@ -211,7 +211,7 @@ public class Train{
         
         //calculate force
             double forceDown = (this.mass)*GRAVITY*(Math.cos(Math.toDegrees(Math.atan(grade/100.0)))*Math.PI/180);
-            
+
             if(this.power > ENGINE_POWER){
                 this.power = ENGINE_POWER;
             }
