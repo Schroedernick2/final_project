@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Train{
     //ID -- Line + train number
-    private String trainID;
+    private final String trainID;
     
     //brakes and failure states
     private boolean emergencyBrake;
@@ -14,9 +14,9 @@ public class Train{
     private boolean brakeFailure;
     
     //dimensions
-    private double height;
-    private double width;
-    private double length;
+    private final double height;
+    private final double width;
+    private final double length;
     private double mass;
     
     //commanded values
@@ -170,7 +170,6 @@ public class Train{
     public boolean isLights(){ return lights; }
     
     /*******SETTERS*******/
-    
     public void setBlockLength(double l){ blockLength = l; }
     
     //brake and failure setters
@@ -216,10 +215,7 @@ public class Train{
             if(this.power > ENGINE_POWER){
                 this.power = ENGINE_POWER;
             }
-            if(this.power < 0 && !this.emergencyBrake)
-                this.serviceBrake = true;
-            else
-                this.serviceBrake = false;
+            this.serviceBrake = this.power < 0 && !this.emergencyBrake;
             
             double forceFromEng; 
             if(currentVelocity==0)
@@ -249,7 +245,7 @@ public class Train{
                     this.acceleration += EMERGENCY_DECELERATION;
             }
             this.acceleration = Math.round(this.acceleration*METERS_TO_FEET*100.0)/100.0;
-        //calculate velocity
+            //calculate velocity
             this.velocity = currentVelocity/KM_TO_MILES + this.acceleration/MPH_TO_FPS;
             if(this.velocity <= 0){
                 this.velocity = 0;

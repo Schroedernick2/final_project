@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Trains><Train actualSpeed="0.0" ads="true" authority="0.0" currentPower="0.0" emergencyBrake="false" id="GREEN_1" leftDoor="false" lights="false" powerCmd="0.0" rightDoor="false" speed="0.0" temp="70"/><Train actualSpeed="0.0" ads="true" authority="0.0" currentPower="0.0" emergencyBrake="false" id="RED_1" leftDoor="false" lights="false" powerCmd="0.0" rightDoor="false" speed="0.0" temp="70"/></Trains>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Trains></Trains>

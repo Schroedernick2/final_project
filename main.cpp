@@ -37,6 +37,7 @@ int main(int argc, char** argv){
 		return EXIT_FAILURE;
 
 	system("rm xml/TrainOutputs.xml");
+	//system("rm xml/*");
 
 	switch(PLATFORM){
 		case 1:
