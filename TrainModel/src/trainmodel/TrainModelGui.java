@@ -681,7 +681,8 @@ public class TrainModelGui extends javax.swing.JDialog {
                         }
                         else{
                             Random rand = new Random();
-                            int n = rand.nextInt(t.getPassengerCount()) + 1;
+                            //int n = rand.nextInt(t.getPassengerCount()) + 1;
+                            int n = rand.nextInt(1) + 1;
                             if((t.getPassengerCount()-n)+pass <= 222)
                                 t.setPassengerCount((t.getPassengerCount()-n)+pass);
                             else
@@ -794,7 +795,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                         talkToTrackModel();
                     }catch(Exception e){
                         System.out.println("Track Model big uh-oh");
-                        System.out.println(e.getStackTrace());
+                        e.printStackTrace();
                     }
                     try{
                         talkToTrainController();
