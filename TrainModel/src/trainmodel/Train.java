@@ -25,6 +25,7 @@ public class Train{
     
     //current train description info
     private double power;
+    private boolean passengerPulled;
     private double velocity;    //actual velocity, returned to train controller
     private double acceleration;
     private double grade;
@@ -89,6 +90,7 @@ public class Train{
         this.stops = stops;
         
         //default state
+        this.passengerPulled = false;
         this.emergencyBrake = false;
         this.serviceBrake = false;
         this.engineFailure = false;
@@ -129,6 +131,7 @@ public class Train{
     public String getTrainID(){ return trainID; }
     
     //brake and failure getters
+    public boolean isPassengerPulled(){ return passengerPulled; }
     public boolean isEmergencyBrake(){ return emergencyBrake; }
     public boolean isServiceBrake(){ return serviceBrake; }
     public boolean isEngineFailure(){ return engineFailure; }
@@ -173,6 +176,7 @@ public class Train{
     public void setBlockLength(double l){ blockLength = l; }
     
     //brake and failure setters
+    public void setPassengerPulled(boolean state){ passengerPulled = state; }
     public void setEmergencyBrake(boolean state){ emergencyBrake = state; }
     public void setServiceBrake(boolean state){ serviceBrake = state; }
     public void setEngineFailure(boolean state){ engineFailure = state; }
@@ -215,8 +219,10 @@ public class Train{
             if(this.power > ENGINE_POWER){
                 this.power = ENGINE_POWER;
             }
-            this.serviceBrake = this.power < 0 && !this.emergencyBrake;
             
+            this.serviceBrake=this.power <0 && this.power!=-5 && !this.emergencyBrake;
+            this.emergencyBrake = this.isEngineFailure() || this.isBrakeFailure() || this.isSignalFailure()||this.power==-5||passengerPulled;
+                        
             double forceFromEng; 
             if(currentVelocity==0)
                 forceFromEng = (this.power*KW_TO_NMS)/1; 
@@ -228,7 +234,6 @@ public class Train{
             
             this.force = Math.round((forceFromEng - forceFriction)*100.0)/100.0;
         
-            this.emergencyBrake = this.isEngineFailure() || this.isBrakeFailure() || this.isSignalFailure();
             
             //calculate acceleration
             //accel = force/mass

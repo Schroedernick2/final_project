@@ -366,7 +366,7 @@ public class TrainModelGui extends javax.swing.JDialog {
     private void emergencyBrakeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emergencyBrakeBoxActionPerformed
         //System.out.println(emergencyBrakeBox.isSelected());
         trains.get(selectedTrainIndex).setEmergencyBrake(emergencyBrakeBox.isSelected());
-        
+        trains.get(selectedTrainIndex).setPassengerPulled(emergencyBrakeBox.isSelected());
         displayValues();
     }//GEN-LAST:event_emergencyBrakeBoxActionPerformed
 
@@ -520,6 +520,19 @@ public class TrainModelGui extends javax.swing.JDialog {
         t.transform(source,result);
         
         addTrainToTrackModelXML(tr);
+    }
+    
+    private int getMultiplier() throws Exception{
+        int m;
+        
+        Scanner infile = new Scanner(new File("./xml/multiplier.txt"));
+        
+        if(infile.hasNextLine())
+            m = infile.nextInt();
+        else
+            m = 1;
+        
+        return m;
     }
     
     private void talkToTrainController() throws Exception{    
@@ -783,7 +796,11 @@ public class TrainModelGui extends javax.swing.JDialog {
     private class Progress extends TimerTask {
         @Override
         public void run(){
-            MULTIPLIER = 10;
+            try{
+                MULTIPLIER = getMultiplier();
+            }catch(Exception e){
+                System.out.println("multiplier.txt not created yet, no biggie");
+            }
             for(int i=0;i<MULTIPLIER;i++){
                 try{
                     talkToCTC();
@@ -801,6 +818,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                         talkToTrainController();
                     }catch(Exception e){
                         System.out.println("Train Controller big uh-oh");
+                        e.printStackTrace();
                     }
                 }
 
