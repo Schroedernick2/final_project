@@ -13,10 +13,13 @@ from threading import Thread
 
 # Main Window
 class MainWindow(tk.Frame):
+    #variables
+    throughput = 0
+    
     # load file
     def load(self):
         filename = askopenfilename()
-
+        throughput = 0
         # make sure file is csv later
         with open(filename, 'r') as file:
             csv_reader = csv.reader(file, delimiter=',')
@@ -273,10 +276,14 @@ class MainWindow(tk.Frame):
                         direction = child.get('direction')
                         track_num = child.get('trackNumber')
                         new_track = self.get_next_green_track(track_num, direction)
+                        new_authority = self.get_next_green_auth(track_num, direction)
                         child.set('trackNumber', new_track)
                         for outs in self.greentree.get_children():
                             if self.greentree.item(outs, 'values')[1] == track_num:
                                 self.greentree.set(outs, column='Occupation', value='unoccupied')
+                                if self.greentree.item(outs, 'values')[6] != "":
+                                    new_station = self.next_green_station(track_num, direction)
+                                    self.throughput(self.greentree.item(outs, 'values')[6])
                             if self.greentree.item(outs, 'values')[1] == new_track:
                                 new_speed = self.greentree.item(outs, 'values')[4]
                                 new_ele = self.greentree.item(outs, 'values')[10]
@@ -289,16 +296,20 @@ class MainWindow(tk.Frame):
                         child.set('grade', new_grade)
                         child.set('length', new_length)
                         child.set('next', '0')
-                        child.set('authority', '300')
+                        child.set('authority', new_authority)
                             
                     else:
                         direction = child.get('direction')
                         track_num = child.get('trackNumber')
                         new_track = self.get_next_red_track(track_num, direction)
+                        new_authority = self.get_next_red_auth(track_num, direction)
                         child.set('trackNumber', new_track)
                         for outs in self.redtree.get_children():
                             if self.redtree.item(outs, 'values')[1] == track_num:
                                 self.redtree.set(outs, column='Occupation', value='unoccupied')
+                                if self.greentree.item(outs, 'values')[6] != "":
+                                    new_station = self.next_red_station(track_num, direction)
+                                    self.throughput(self.redtree.item(outs, 'values')[6])
                             if self.redtree.item(outs, 'values')[1] == new_track:
                                 new_speed = self.redtree.item(outs, 'values')[4]
                                 new_ele = self.redtree.item(outs, 'values')[10]
@@ -311,29 +322,168 @@ class MainWindow(tk.Frame):
                         child.set('grade', new_grade)
                         child.set('length', new_length)
                         child.set('next', '0')
-                        child.set('authority', '300')
+                        child.set('authority', new_authority)
                         
             tree = xml.etree.ElementTree.ElementTree(root)
             tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+r"\xml\trackmodel_trainmodel.xml")
 
         
-
+    #get next green track
     def get_next_green_track(self, tn, d):
         tnn = int(tn)
         if tnn == 0:
             return '58'
         else:
-            return str(tnn + 1)
+            for outs in self.greentree.get_children():
+                if self.greentree.item(outs, 'values')[1] == tn:
+                    #case for no switch
+                    if self.greentree.item(outs, 'values')[7] == "":
+                        if d == 'F':
+                            return str(tnn + 1)
+                        else:
+                            return str(tnn-1)
+                    else:
+                        switch_num = self.greentree.item(outs, 'values')[7]
+                        for outs in self.switchtree.get_children():
+                            if self.switchtree.item(outs, 'values')[0] == switch_num:
+                                switch_pos = self.switchtree.item(outs, 'values')[1]
+                                if switch_pos == "normal":
+                                    if d == 'F':
+                                        return str(self.switchtree.item(outs, 'values')[2])
+                                    else:
+                                        return str(self.switchtree.item(outs, 'values')[3])
+                                else:
+                                    if d == 'F':
+                                        return str(self.switchtree.item(outs, 'values')[4])
+                                    else:
+                                        return str(self.switchtree.item(outs, 'values')[5])
+                                
 
+    #get next red track
     def get_next_red_track(self, tn, d):
         tnn = int(tn)
         if tnn == 0:
-            return '9'
+            return '58'
         else:
-            return str(tnn + 1)
+            for outs in self.redtree.get_children():
+                if self.redtree.item(outs, 'values')[1] == tn:
+                    #case for no switch
+                    if self.redtree.item(outs, 'values')[7] == "":
+                        if d == 'F':
+                            return str(tnn + 1)
+                        else:
+                            return str(tnn-1)
+                    else:
+                        switch_num = self.redtree.item(outs, 'values')[7]
+                        for outs in self.switchtree.get_children():
+                            if self.switchtree.item(outs, 'values')[0] == switch_num:
+                                switch_pos = self.switchtree.item(outs, 'values')[1]
+                                if switch_pos == "normal":
+                                    if d == 'F':
+                                        return str(self.switchtree.item(outs, 'values')[2])
+                                    else:
+                                        return str(self.switchtree.item(outs, 'values')[3])
+                                else:
+                                    if d == 'F':
+                                        return str(self.switchtree.item(outs, 'values')[4])
+                                    else:
+                                        return str(self.switchtree.item(outs, 'values')[5])
                 
 
+    #get green auth
+    def get_next_green_auth(self, tn, d):
+        auth = 0
+        while(1):
+            ntn = self.get_next_green_track(tn, d)
+            tn = ntn
+            for outs in self.greentree.get_children():
+                if self.greentree.item(outs, 'values')[1] == ntn:
+                    auth_added = int(self.greentree.item(outs, 'values')[2])
+                    if self.greentree.item(outs, 'values')[9] == "":
+                        auth = auth + auth_added
+                    else:
+                        sig_num = self.greentree.item(outs, 'values')[9]
+                        for outs in self.signaltree.get_children():
+                            if self.signaltree.item(outs, 'values')[0] == sig_num:
+                                auth_added = self.greentree.item(outs, 'values')[2]
+                                if self.signaltree.item(outs, 'values')[2] == d:
+                                    if self.signaltree.item(outs, 'values')[1] == "red":
+                                        return str(auth + auth_added)
+                                    else:
+                                        auth = auth + auth_added
+                                        break
+                                else:
+                                    auth = auth + auth_added
+                                    break
+                break
+                            
+        return str(auth)
+
+    #get red auth
+    def get_next_red_auth(self, tn, d):
+        auth = 0
+        while(1):
+            ntn = self.get_next_red_track(tn, d)
+            tn = ntn
+            for outs in self.redtree.get_children():
+                if self.redtree.item(outs, 'values')[1] == ntn:
+                    auth_added = int(self.redtree.item(outs, 'values')[2])
+                    if self.redtree.item(outs, 'values')[9] == "":
+                        auth = auth + auth_added
+                    else:
+                        sig_num = self.redtree.item(outs, 'values')[9]
+                        for outs in self.signaltree.get_children():
+                            if self.signaltree.item(outs, 'values')[0] == sig_num:
+                                auth_added = self.redtree.item(outs, 'values')[2]
+                                if self.signaltree.item(outs, 'values')[2] == d:
+                                    if self.signaltree.item(outs, 'values')[1] == "red":
+                                        return str(auth + auth_added)
+                                    else:
+                                        auth = auth + auth_added
+                                        break
+                                else:
+                                    auth = auth + auth_added
+                                    break
+                break
+                            
+        return str(auth)
+    
+
+    #def next green station
+    def next_green_station(self, tn, d):
+        while(1):
+            ntn = self.get_next_green_track(tn, d)
+            tn = ntn
+            for outs in self.greentree.get_children():
+                if self.greentree.item(outs, 'values')[1] == ntn:
+                    if self.greentree.item(outs, 'values')[6] == "":
+                        break
+                    else:
+                        return self.greentree.item(outs, 'values')[6]
         
+
+    #def next red station
+    def next_red_station(self, tn, d):
+        while(1):
+            ntn = self.get_next_red_track(tn, d)
+            tn = ntn
+            for outs in self.redtree.get_children():
+                if self.redtree.item(outs, 'values')[1] == ntn:
+                    if self.redtree.item(outs, 'values')[6] == "":
+                        break
+                    else:
+                        return self.redtree.item(outs, 'values')[6]
+
+
+    #def throughput
+    def throughput(self, st):
+        for outs in self.stationtree.get_children():
+            if self.stationtree.item(outs, 'values')[0] == st:
+                output = self.stationtree.item(outs, 'values')[1]
+                self.stationtree.set(outs, column="Passenger Count", value=0)
+                throughput = throughput + int(output)
+                
+                
     #update stations
     def update_stations(self):
         for outs in self.stationtree.get_children():
