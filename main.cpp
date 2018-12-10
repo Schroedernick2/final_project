@@ -50,7 +50,7 @@ int main(int argc, char** argv){
 			system("del /Q xml\\*");
 			system("start cmd /k java -jar TrainModel/dist/TrainModel.jar");
 			system("start cmd /k java -jar CTCOffice/CTC.jar");
-			system("start cmd /k TrackController\\TrackController.py");
+			system("start cmd /k TrackController\\TrackController.exe");
 			system("start cmd /k TrackModel\\trackmodel.py");
 			system("start cmd /k java -jar TC/dist/TrainController.jar");
 				
