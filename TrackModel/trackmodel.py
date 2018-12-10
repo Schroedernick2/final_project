@@ -183,7 +183,7 @@ class MainWindow(tk.Frame):
 
                     if sw != 0:
                         self.switch_table.insert('', 'end',
-                                                 values=(sw, 'normal', holdr[12], holdr[13], holdr[14], holdr[15]))
+                                                 values=(sw, 'normal', holdr[12], holdr[14], holdr[13], holdr[15]))
 
                     if r[16] != '':
                         self.cross_table.insert('', 'end', values=(r[16], 'up'))
@@ -288,7 +288,7 @@ class MainWindow(tk.Frame):
                         track_num = child.get('trackNumber')
                         new_track = self.get_next_green_track(track_num, direction)
                         if (new_track == '151'):
-                            new_track = '85'
+                            new_track = '86'
                             change_dir = 'y'
                         new_authority = self.get_next_green_auth(track_num, direction)
                         child.set('trackNumber', new_track)
@@ -297,7 +297,7 @@ class MainWindow(tk.Frame):
                                 self.greentree.set(outs, column='Occupation', value='unoccupied')
                                 if self.greentree.item(outs, 'values')[6] != "":
                                     new_station = self.next_green_station(track_num, direction)
-                                    child.set('next_station', new_station)
+                                    child.set('nextStation', new_station)
                                     self.throughput_calc(self.greentree.item(outs, 'values')[6])
                             if self.greentree.item(outs, 'values')[1] == new_track:
                                 new_speed = self.greentree.item(outs, 'values')[4]
@@ -352,7 +352,7 @@ class MainWindow(tk.Frame):
         tnn = int(tn)
         if tnn == 0:
             return '62'
-        if tnn == 150:
+        if tnn == 100:
             return '151'
         else:
             for outs in self.greentree.get_children():
@@ -418,7 +418,7 @@ class MainWindow(tk.Frame):
             print("AUTH: " + str(auth))
             ntn = self.get_next_green_track(tn, d)
             if (ntn == '151'):
-                ntn = '85'
+                ntn = '86'
                 d = 'r'
             if ntn == 'yard':
                 break
