@@ -461,6 +461,10 @@ public class TrainModelGui extends javax.swing.JDialog {
         speed.setValue(""+tr.getSpeed());
         newTrain.setAttributeNode(speed);
         
+        Attr speedLimit = doc.createAttribute("speedLimit");
+        speedLimit.setValue(""+tr.getSpeedLimit());
+        newTrain.setAttributeNode(speedLimit);
+        
         Attr brakeFail = doc.createAttribute("brakeFailure");
         brakeFail.setValue(""+tr.isBrakeFailure());
         newTrain.setAttributeNode(brakeFail);
@@ -576,6 +580,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                         eElement.setAttribute("signalFailure",""+t.isSignalFailure());
                         
                         eElement.setAttribute("speed",""+t.getSpeed());
+                        eElement.setAttribute("speedLimit",""+t.getSpeedLimit());
                         eElement.setAttribute("authority",""+t.getAuthority());
                         eElement.setAttribute("actualSpeed",""+t.getVelocity());
                         eElement.setAttribute("emergencyBrake",""+t.isEmergencyBrake());
@@ -685,14 +690,12 @@ public class TrainModelGui extends javax.swing.JDialog {
                 for(Train t : trains){
                     if(t.getTrainID().equals(ID)){
                         t.setAuthority(authority);
-                        t.setSpeed(speed);
+                        t.setSpeedLimit(speed);
                         t.setElevation(elevation);
                         t.setGrade(grade);
                         t.setStation(nextStation);
                         t.setBlockLength(length);
-                        
-                        System.out.println(pass);
-                        
+                                                
                         if(pass>=222){
                             t.setPassengerCount(222);
                         }
@@ -743,6 +746,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                 created = created.replaceAll("\\s+","");
                 int t_num = Integer.parseInt(eElement.getAttribute("IDNum"));
                 String line = eElement.getAttribute("Line");
+                Double suggSpeed = Double.parseDouble(eElement.getAttribute("SpeedSugg"));
                                         
                 if(created.equals("0")){
                     ArrayList<String> stops = new ArrayList<String>();
@@ -752,7 +756,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                                 stops.add(m.item(l).getTextContent());
                     }
                     
-                    addTrain(new Train(line,t_num,1,0,stops));
+                    addTrain(new Train(line,t_num,1,0,stops,suggSpeed));
                     eElement.getChildNodes().item(0).setTextContent("1");                    
                 }
             }

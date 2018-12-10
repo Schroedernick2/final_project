@@ -22,6 +22,7 @@ public class Train{
     //commanded values
     private double speed;
     private double authority;
+    private double speedLimit;
     
     //current train description info
     private double power;
@@ -83,7 +84,7 @@ public class Train{
     
     /*******CONSTRUCTORS*******/
     
-    public Train(String line,int trainNumber,int crewCount,int passCount,ArrayList<String> stops){
+    public Train(String line,int trainNumber,int crewCount,int passCount,ArrayList<String> stops, double suggSpeed){
         //set train id
         this.trainID = line.toUpperCase()+"_"+trainNumber;
         
@@ -96,6 +97,8 @@ public class Train{
         this.engineFailure = false;
         this.signalFailure = false;
         this.brakeFailure = false;
+        
+        this.speed = suggSpeed;
         
         //dimensions
         this.height = Math.round(TRAIN_HEIGHT*METERS_TO_FEET*100.0)/100.0;
@@ -158,6 +161,7 @@ public class Train{
     public int getNext(){ return next; }
     public double getDistance(){ return distance; }
     public double getPower(){ return power; }
+    public double getSpeedLimit(){ return speedLimit; }
     public double getForce(){ return force; }
     public double getVelocity(){ return velocity; }
     public double getAcceleration(){ return acceleration; }
@@ -182,6 +186,8 @@ public class Train{
     public void setEngineFailure(boolean state){ engineFailure = state; }
     public void setSignalFailure(boolean state){ signalFailure = state; }
     public void setBrakeFailure(boolean state){ brakeFailure = state; }
+    
+    public void setSpeedLimit(double s){ speedLimit = s; }
     
     //command value setters
     public void setSpeed(double speed){ this.speed = speed; }
