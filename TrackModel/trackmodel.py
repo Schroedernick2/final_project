@@ -19,7 +19,7 @@ class MainWindow(tk.Frame):
     # load file
     def load(self):
         filename = askopenfilename()
-        throughput = 0
+        self.throughput = 0
         # make sure file is csv later
         with open(filename, 'r') as file:
             csv_reader = csv.reader(file, delimiter=',')
@@ -31,6 +31,7 @@ class MainWindow(tk.Frame):
             holdr = 0
             rc = ''
             stations = []
+            #loop through csv
             for r in csv_reader:
                 if i == 0:
                     i += 1
@@ -40,6 +41,7 @@ class MainWindow(tk.Frame):
                     sw = 0
                     st = ''
                     rc = ''
+                    #get station name and insert
                     if r[0] == "Red":
                         infr = r[6]
                         if "UNDERGROUND" in infr:
@@ -103,7 +105,7 @@ class MainWindow(tk.Frame):
                                                   values=(r[1], r[2], r[3], r[4], r[5], ug, st, sw, r[16], r[17], r[8], r[11],
                                                           r[10], 'false', 'off', 'unoccupied', 'working',
                                                           'working', 'working'))
-
+                    #adds green rails to project
                     if r[0] == "Green":
                         infr = r[6]
                         sw = 0
@@ -186,7 +188,7 @@ class MainWindow(tk.Frame):
                         self.signal_table.insert('', 'end', values=(r[17], 'red', r[18]))
 
 
-        
+        #start thread to keep it running
         Thread(target=self.data_update).start()
 
 
@@ -210,6 +212,8 @@ class MainWindow(tk.Frame):
 
         self.selection_clear()
 
+
+    #Brek rail
     def break_rail(self):
         if self.red_table.set(self.red_table.focus(), column='Broken Rail') == 'BROKEN':
             self.red_table.set(self.red_table.focus(), column='Broken Rail', value='working')
@@ -229,6 +233,8 @@ class MainWindow(tk.Frame):
 
         self.selection_clear()
 
+
+    #Cause tc fail
     def tc_fail(self):
         if self.red_table.set(self.red_table.focus(), column='TC Failure') == 'FAILED':
             self.red_table.set(self.red_table.focus(), column='TC Failure', value='working')
@@ -248,6 +254,7 @@ class MainWindow(tk.Frame):
 
         self.selection_clear()
 
+
     #Main Loop updates data and xmls
     def data_update(self):
         self.track_controller()
@@ -256,7 +263,6 @@ class MainWindow(tk.Frame):
         sleep(.25)
         self.data_update()
         
-
 
     #Writes XML to Track Controller
     def track_controller(self):
@@ -283,7 +289,8 @@ class MainWindow(tk.Frame):
                                 self.greentree.set(outs, column='Occupation', value='unoccupied')
                                 if self.greentree.item(outs, 'values')[6] != "":
                                     new_station = self.next_green_station(track_num, direction)
-                                    self.throughput(self.greentree.item(outs, 'values')[6])
+                                    child.set('next_station', new_station)
+                                    self.throughput_calc(self.greentree.item(outs, 'values')[6])
                             if self.greentree.item(outs, 'values')[1] == new_track:
                                 new_speed = self.greentree.item(outs, 'values')[4]
                                 new_ele = self.greentree.item(outs, 'values')[10]
@@ -309,7 +316,8 @@ class MainWindow(tk.Frame):
                                 self.redtree.set(outs, column='Occupation', value='unoccupied')
                                 if self.redtree.item(outs, 'values')[6] != "":
                                     new_station = self.next_red_station(track_num, direction)
-                                    self.throughput(self.redtree.item(outs, 'values')[6])
+                                    child.set('next_station', new_station)
+                                    self.throughput_calc(self.redtree.item(outs, 'values')[6])
                             if self.redtree.item(outs, 'values')[1] == new_track:
                                 new_speed = self.redtree.item(outs, 'values')[4]
                                 new_ele = self.redtree.item(outs, 'values')[10]
@@ -338,7 +346,7 @@ class MainWindow(tk.Frame):
                 if self.greentree.item(outs, 'values')[1] == tn:
                     #case for no switch
                     if self.greentree.item(outs, 'values')[7] == "":
-                        if d == 'F':
+                        if d == 'f':
                             return str(tnn + 1)
                         else:
                             return str(tnn-1)
@@ -348,12 +356,12 @@ class MainWindow(tk.Frame):
                             if self.switchtree.item(outs, 'values')[0] == switch_num:
                                 switch_pos = self.switchtree.item(outs, 'values')[1]
                                 if switch_pos == "normal":
-                                    if d == 'F':
+                                    if d == 'f':
                                         return str(self.switchtree.item(outs, 'values')[2])
                                     else:
                                         return str(self.switchtree.item(outs, 'values')[3])
                                 else:
-                                    if d == 'F':
+                                    if d == 'f':
                                         return str(self.switchtree.item(outs, 'values')[4])
                                     else:
                                         return str(self.switchtree.item(outs, 'values')[5])
@@ -369,7 +377,7 @@ class MainWindow(tk.Frame):
                 if self.redtree.item(outs, 'values')[1] == tn:
                     #case for no switch
                     if self.redtree.item(outs, 'values')[7] == "":
-                        if d == 'F':
+                        if d == 'f':
                             return str(tnn + 1)
                         else:
                             return str(tnn-1)
@@ -379,12 +387,12 @@ class MainWindow(tk.Frame):
                             if self.switchtree.item(outs, 'values')[0] == switch_num:
                                 switch_pos = self.switchtree.item(outs, 'values')[1]
                                 if switch_pos == "normal":
-                                    if d == 'F':
+                                    if d == 'f':
                                         return str(self.switchtree.item(outs, 'values')[2])
                                     else:
                                         return str(self.switchtree.item(outs, 'values')[3])
                                 else:
-                                    if d == 'F':
+                                    if d == 'f':
                                         return str(self.switchtree.item(outs, 'values')[4])
                                     else:
                                         return str(self.switchtree.item(outs, 'values')[5])
@@ -477,12 +485,12 @@ class MainWindow(tk.Frame):
 
 
     #def throughput
-    def throughput(self, st):
+    def throughput_calc(self, st):
         for outs in self.stationtree.get_children():
             if self.stationtree.item(outs, 'values')[0] == st:
                 output = self.stationtree.item(outs, 'values')[1]
                 self.stationtree.set(outs, column="Passenger Count", value=0)
-                throughput = throughput + int(output)
+                self.throughput = self.throughput + int(output)
                 
                 
     #update stations
@@ -710,6 +718,8 @@ class MainWindow(tk.Frame):
                     find_string = './/bit[@name='+"\""+name_build+"\""+']'
                     root.find(find_string).text = '1'
                 i += 1
+
+            root.find('throughput').text = str(self.throughput)
                 
         else:
             root = xml.etree.ElementTree.Element("bits")
@@ -738,10 +748,14 @@ class MainWindow(tk.Frame):
                                                      name=name_build).text = '1'
                 i += 1
 
+            xml.etree.ElementTree.SubElement(root, "throughput",
+                                                     name='throughput').text = str(self.throughput)
+
         tree = xml.etree.ElementTree.ElementTree(root)
         tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")
         
 
+    #Create window and initialize
     def __init__(self, master, *args, **kwargs):
         self.master = master
         master.title("Track Model UI")
