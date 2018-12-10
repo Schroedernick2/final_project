@@ -43,6 +43,7 @@ public class Train{
     private double time;
     private double distance;
     private double blockLength;
+    private double prevDistance;
     
     //direction of train
     private boolean forward;
@@ -105,6 +106,8 @@ public class Train{
         this.width = Math.round(TRAIN_WIDTH*METERS_TO_FEET*100.0)/100.0;
         this.length = Math.round(TRAIN_LENGTH*METERS_TO_FEET*100.0)/100.0;
         this.mass = Math.round((TRAIN_MASS*TONS_TO_POUNDS)+(WEIGHT_PER_PERSON*(crewCount+passCount))*100.0)/100.0;
+        
+        this.prevDistance = 0;
         
         //current info
         this.temperature = 70;
@@ -271,9 +274,12 @@ public class Train{
             //calculate distance
             this.distance = this.distance+(this.velocity/3600);
             
-            if((this.distance*1760) >= blockDistanceTraveled+blockLength){
+            blockDistanceTraveled = this.distance-this.prevDistance;
+            
+            if((blockDistanceTraveled*1760) >= prevDistance+blockLength){
                 next = 1;
-                blockDistanceTraveled += blockLength;
+                prevDistance += blockDistanceTraveled;
+                blockDistanceTraveled = 0;
             }
             else
                 next = 0;
