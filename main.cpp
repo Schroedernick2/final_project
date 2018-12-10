@@ -36,9 +36,6 @@ int main(int argc, char** argv){
 	if(check_platform() == -1)
 		return EXIT_FAILURE;
 
-	//system("rm xml/TrainOutputs.xml");
-	
-
 	switch(PLATFORM){
 		case 1:
 			system("rm xml/*");
