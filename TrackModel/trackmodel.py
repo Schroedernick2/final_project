@@ -283,9 +283,13 @@ class MainWindow(tk.Frame):
                 train_id = child.get('id')
                 if child.get('next') == '1':
                     if train_id[0]=='G':
+                        change_dir = 'n'
                         direction = child.get('direction')
                         track_num = child.get('trackNumber')
                         new_track = self.get_next_green_track(track_num, direction)
+                        if (new_track == '151'):
+                            new_track = '85'
+                            change_dir = 'y'
                         new_authority = self.get_next_green_auth(track_num, direction)
                         child.set('trackNumber', new_track)
                         for outs in self.greentree.get_children():
@@ -302,12 +306,15 @@ class MainWindow(tk.Frame):
                                 new_length = self.greentree.item(outs, 'values')[2]
                                 self.greentree.set(outs, column='Occupation', value='occupied')
                                 break
+                        if change_dir == 'y':
+                            direction = 'r'
                         child.set('speed', new_speed)
                         child.set('elevation', new_ele)
                         child.set('grade', new_grade)
                         child.set('length', new_length)
                         child.set('next', '0')
                         child.set('authority', new_authority)
+                        child.set('direction', direction)
                             
                     else:
                         direction = child.get('direction')
@@ -345,6 +352,8 @@ class MainWindow(tk.Frame):
         tnn = int(tn)
         if tnn == 0:
             return '62'
+        if tnn == 150:
+            return '151'
         else:
             for outs in self.greentree.get_children():
                 if self.greentree.item(outs, 'values')[1] == tn:
@@ -408,6 +417,9 @@ class MainWindow(tk.Frame):
         while(1):
             print("AUTH: " + str(auth))
             ntn = self.get_next_green_track(tn, d)
+            if (ntn == '151'):
+                ntn = '85'
+                d = 'r'
             if ntn == 'yard':
                 break
             tn = ntn
@@ -450,7 +462,7 @@ class MainWindow(tk.Frame):
                         for outs in self.signaltree.get_children():
                             if self.signaltree.item(outs, 'values')[0] == sig_num:
                                 auth_added = self.redtree.item(outs, 'values')[2]
-                                if self.signaltree.item(outs, 'values')[2] == d:
+                                if self.signaltree.item(outs, 'values')[2] == d.upper():
                                     if self.signaltree.item(outs, 'values')[1] == "red":
                                         return str(auth + auth_added)
                                     else:
@@ -459,7 +471,7 @@ class MainWindow(tk.Frame):
                                 else:
                                     auth = auth + auth_added
                                     break
-                break
+            break
                             
         return str(auth)
     
@@ -468,6 +480,9 @@ class MainWindow(tk.Frame):
     def next_green_station(self, tn, d):
         while(1):
             ntn = self.get_next_green_track(tn, d)
+            if (ntn == '151'):
+                ntn = '85'
+                d = 'r'
             tn = ntn
             for outs in self.greentree.get_children():
                 if self.greentree.item(outs, 'values')[1] == ntn:
