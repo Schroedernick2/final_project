@@ -681,7 +681,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                 
                 double authority = Double.parseDouble(eElement.getAttribute("authority").replaceAll("\\s+",""));
                 double speed = Double.parseDouble(eElement.getAttribute("speed").replaceAll("\\s+",""));
-                int elevation = Integer.parseInt(eElement.getAttribute("elevation").replaceAll("\\s+",""));
+                double elevation = Double.parseDouble(eElement.getAttribute("elevation").replaceAll("\\s+",""));
                 double grade = Double.parseDouble(eElement.getAttribute("grade").replaceAll("\\s+",""));
                 String nextStation= eElement.getAttribute("nextStation").replaceAll("\\s+","");
                 double length = Double.parseDouble(eElement.getAttribute("length").replaceAll("\\s+",""));

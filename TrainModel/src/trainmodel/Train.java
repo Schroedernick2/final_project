@@ -30,7 +30,7 @@ public class Train{
     private double velocity;    //actual velocity, returned to train controller
     private double acceleration;
     private double grade;
-    private int elevation;
+    private double elevation;
     private String station;
     private int passengerCount;
     private int crewCount;
@@ -166,7 +166,7 @@ public class Train{
     public double getVelocity(){ return velocity; }
     public double getAcceleration(){ return acceleration; }
     public double getGrade(){ return grade; }
-    public int getElevation(){ return elevation; }
+    public double getElevation(){ return elevation; }
     public String getStation(){ return station; }
     public int getPassengerCount(){ return passengerCount; }
     public int getCrewCount(){ return crewCount; }
@@ -196,7 +196,7 @@ public class Train{
     //other setters
     public void setPower(double power){ this.power = power; }
     public void setGrade(double grade){ this.grade = grade; }
-    public void setElevation(int elevation){ this.elevation = elevation; }
+    public void setElevation(double elevation){ this.elevation = elevation; }
     public void setStation(String station){ this.station = station; }
     public void setPassengerCount(int passengerCount){ this.passengerCount = passengerCount;}
     public void setCrewCount(int crewCount){ this.crewCount = crewCount; }
