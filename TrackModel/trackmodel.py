@@ -307,7 +307,7 @@ class MainWindow(tk.Frame):
                         for outs in self.redtree.get_children():
                             if self.redtree.item(outs, 'values')[1] == track_num:
                                 self.redtree.set(outs, column='Occupation', value='unoccupied')
-                                if self.greentree.item(outs, 'values')[6] != "":
+                                if self.redtree.item(outs, 'values')[6] != "":
                                     new_station = self.next_red_station(track_num, direction)
                                     self.throughput(self.redtree.item(outs, 'values')[6])
                             if self.redtree.item(outs, 'values')[1] == new_track:
