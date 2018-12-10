@@ -47,9 +47,7 @@ int main(int argc, char** argv){
 				
 			break;
 		case 0:
-			system("del /Q xml\\TrainOutputs.xml");
-			system("del /Q xml\\traincontroller_trainmodel.xml");
-			system("del /Q xml\\trackmodel_trainmodel.xml");
+			system("del /Q xml\\*");
 			system("start cmd /k java -jar TrainModel/dist/TrainModel.jar");
 			system("start cmd /k java -jar CTCOffice/CTC.jar");
 			system("start cmd /k TrackController\\TrackController.exe");
