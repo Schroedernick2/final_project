@@ -55,8 +55,8 @@ public class Train{
     //private final double TRAIN_WIDTH = 2.65; //m
     //private final double TRAIN_MASS = 40.9; //t
     private final double MAX_SPEED = 70; //km/h
-    private double Ki = 0.0;
-    private double Kp = 1.0;
+    private double Ki = 0.001;
+    private double Kp = 0.5;
     //private final int MAX_CAPACITY = 222; 
     //private final double MEDIUM_ACCELERATION = 0.5; //m/s^2
     //private final double SERVICE_DECELERATION = -1.2; //m/s^2
@@ -112,7 +112,7 @@ public class Train{
         //this.acceleration = 0;
         //this.grade = 0;
         //this.elevation = 0;
-        this.samplePeriod = 5;
+        this.samplePeriod = 1;
         this.creationTime = System.currentTimeMillis();
         
         //other
@@ -170,9 +170,28 @@ public class Train{
     //brake and failure setters
     public void setEmergencyBrake(boolean state){ emergencyBrake = state; }
     public void setServiceBrake(boolean state){ serviceBrake = state; }
-    public void setEngineFailure(boolean state){ engineFailure = state; }
-    public void setSignalFailure(boolean state){ signalFailure = state; }
-    public void setBrakeFailure(boolean state){ brakeFailure = state; }
+    public void setEngineFailure(boolean state){ 
+        if(!state){setEmergencyBrake(false);}
+        else {
+            setPower(0);             // send P = 0 to TM
+            setEmergencyBrake(true); // send EB sig to TM
+        }
+        engineFailure = state; }
+    public void setSignalFailure(boolean state){ 
+        if(!state){setEmergencyBrake(false);}
+        else {
+            setPower(0);             // send P = 0 to TM
+            setEmergencyBrake(true); // send EB sig to TM
+        }
+        signalFailure = state; }
+    public void setBrakeFailure(boolean state){ 
+        if(!state){setEmergencyBrake(false);}
+        else {
+            setPower(0);             // send P = 0 to TM
+            setEmergencyBrake(true); // send EB sig to TM
+        }
+        brakeFailure = state; 
+    }
     
     //command value setters
     public void setActualSpeed(double speed){ this.ActualSpeed = speed;}
@@ -201,28 +220,67 @@ public class Train{
     
     public void updatePower(){
                
+        double currentVelocity;
+        
         if(brakeFailure || signalFailure || engineFailure){
             // failure mode activated, use Emergency Brake, no Power
-            this.power = -1;
+            this.power = -5;
         }
-        // add condition for activating servicce brake ..
-        // if()
-        
-        //speed at time of function call
-        double currentVelocity = ActualSpeed; //mph
-        //get speed to be achieved
-        double commandedVelocity = SuggestedSpeed; //mph 
-        //error check for a value too high
-        if(commandedVelocity > MAX_SPEED*KM_TO_MILES) commandedVelocity = MAX_SPEED*KM_TO_MILES;
-        double sampleError = commandedVelocity - currentVelocity;
-        //Calculate power from Vcurr and Vcmd. 
-        if(power < ENGINE_POWER)
-            prevMew = prevMew + (samplePeriod/2)*(prevError + sampleError);
-        //^else prevMew = prevMew; using 'prevmew' as current mew after, will become next times 'prevmew'
-        double P1 = (Kp*sampleError) + (Ki*prevMew) ;
-        prevError = sampleError;
-        this.power = P1;
-        
-       
+        else{
+            // add condition for activating servicce brake ..
+            // if()
+            
+            //speed at time of function call
+            currentVelocity = ActualSpeed; //mph
+            //get speed to be achieved
+            double commandedVelocity = SuggestedSpeed; //mph 
+            
+            double c = (Math.pow(currentVelocity,2))*.000088;
+            if(emergencyBrake) //IF EB active, outside of failure mode
+                setPower(-5);
+            else if(serviceBrake)
+                setPower(-1);
+            else if((authority <= c) && currentVelocity > 1){
+                setPower(-1);
+                setServiceBrake(true);
+            }
+            else if((authority <= c) && currentVelocity <= 1){
+                setPower(0);
+                setServiceBrake(false);                
+            }
+            else{
+                //error check for a value too high
+                if(commandedVelocity > MAX_SPEED*KM_TO_MILES) commandedVelocity = MAX_SPEED*KM_TO_MILES;
+                double sampleError = commandedVelocity - currentVelocity;
+                //Calculate power from Vcurr and Vcmd. 
+                //Calculate Power method 1
+                if(power < ENGINE_POWER)
+                    prevMew = prevMew + (samplePeriod/2)*(prevError + sampleError);
+                //^else prevMew = prevMew; using 'prevmew' as current mew after, will become next times 'prevmew'
+                double P1 = (Kp*sampleError) + (Ki*prevMew) ;
+                P1 = (double) Math.round(P1 * 100) / 100; // round to 2 decimal places for comparison
+                // Calculate Power method 2
+                if(power < ENGINE_POWER)
+                    prevMew = prevMew + (samplePeriod*.5)/(1/(prevError + sampleError));
+                double P2 = (Kp/(1/sampleError)) + (Ki/(1/prevMew));
+                P2 = (double) Math.round(P2 * 100) / 100;
+            
+                // Calculate Power method 2
+                if( power < ENGINE_POWER)
+                   prevMew = prevMew + ((samplePeriod/2)*(prevError - (-sampleError)));
+                double P3 = (Kp/(1/sampleError)) + (Ki/(1/prevMew));
+                P3 = (double) Math.round(P3 * 100) / 100;
+                
+                prevError = sampleError;
+                if(P1 <= ENGINE_POWER)
+                    setPower(P1);
+                else if(P1 > 120)
+                    setPower(120);                
+                // else its bugging out!
+            
+                
+                
+            }          
         }
+    }
 }

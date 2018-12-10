@@ -1,11 +1,12 @@
 #include <iostream>
 #include <stdlib.h>
 #include <limits>
-#include <time.h>
 
 //Platform == 0 --> Windows
 //Platform == 1 --> Linux (for nick to use this shit)
 //Platform == -1 --> other (unsupported)
+
+//compile for windows: x86_64-w64-mingw32-g++ -static-libgcc -static-libstdc++ main.cpp -o windows_executable.exe
 
 #if defined(_WIN32) || defined(_WIN64)
 	#define PLATFORM 0
@@ -16,8 +17,6 @@
 #endif
 
 using namespace std;
-
-const float START_TIME = time(0);
 
 int check_platform(){
 	switch(PLATFORM){
@@ -36,23 +35,27 @@ int check_platform(){
 int main(int argc, char** argv){
 	if(check_platform() == -1)
 		return EXIT_FAILURE;
-	cout << START_TIME << endl;
+
+	//system("rm xml/TrainOutputs.xml");
+	
 
 	switch(PLATFORM){
 		case 1:
+			system("rm xml/*");
 			system("gnome-terminal -- bash -c \"exec java -jar TrainModel/dist/TrainModel.jar && read\"");
-			system("gnome-terminal -- bash -c \"exec java -jar CTCOffice/dist/CTC.jar && read\"");
+			system("gnome-terminal -- bash -c \"exec java -jar CTCOffice/CTC.jar && read\"");
 			system("gnome-terminal -- bash -c \"exec python3 TrackController/TrackController.py && read\"");
 			system("gnome-terminal -- bash -c \"exec python3 TrackModel/trackmodel.py && read\"");
-			system("gnome-terminal -- bash -c \"exec java -jar TC/dist/TC.jar && read\"");
+			system("gnome-terminal -- bash -c \"exec java -jar TC/dist/TrainController.jar && read\"");
 				
 			break;
 		case 0:
+			system("del /Q xml\\*");
 			system("start cmd /k java -jar TrainModel/dist/TrainModel.jar");
-			system("start cmd /k java -jar CTCOffice/dist/CTC.jar");
-			system("start cmd /k python TrackController/TrackController.py");
-			system("start cmd /k python TrackModel/trackmodel.py");
-			system("start cmd /k java -jar TC/dist/TC.jar");
+			system("start cmd /k java -jar CTCOffice/CTC.jar");
+			system("start cmd /k TrackController\\TrackController.py");
+			system("start cmd /k TrackModel\\trackmodel.py");
+			system("start cmd /k java -jar TC/dist/TrainController.jar");
 				
 			break;
 		default:

@@ -1,11 +1,7 @@
-try:
-	from tkinter import ttk
-	import tkinter as tk
-	from tkinter.scrolledtext import ScrolledText
-	from tkinter import filedialog
-except ImportError:
-	import Tkinter as tk
-	import ttk
+from tkinter import ttk
+import tkinter as tk
+from tkinter.scrolledtext import ScrolledText
+from tkinter import filedialog
 import xml.etree.ElementTree
 import os
 import boolean
@@ -14,7 +10,7 @@ class MainWindow(tk.Frame):
     tabcounter = 1
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
-        root.geometry("860x480")
+        root.geometry("605x480")
         self.tab_frame = ttk.Notebook(root)
         self.tab_frame.grid(column = 1, row = 1)
         
@@ -62,9 +58,8 @@ class PanelFrame(ttk.Frame):
         self.inputTree.column('#2',width = 50, stretch=tk.NO)
         self.inputTree.column('#0', width = 100, stretch=tk.NO, anchor ="e")
         self.inputTreeview = self.inputTree
-        self.inputTree.grid(row=1,rowspan=10, columnspan=2, column = 1, sticky='nsew')
+        self.inputTree.grid(row=11,rowspan=10, columnspan=1, column = 1, sticky='nsew')
         
-
         self.outputTree = ttk.Treeview( self, columns=('Type', 'Value'))
         outputvsb = ttk.Scrollbar(self, orient="vertical", command=self.outputTree.yview)
         self.outputTree.heading('#0', text='Bit')
@@ -73,9 +68,8 @@ class PanelFrame(ttk.Frame):
         self.outputTree.column('#1', width = 100, stretch=tk.NO)
         self.outputTree.column('#2', width = 50, stretch=tk.NO)
         self.outputTree.column('#0', width = 100, stretch=tk.NO)
-        self.outputTree.grid(row=11, rowspan=10, columnspan=2, column = 1, sticky='nsew')
+        self.outputTree.grid(row=11, rowspan=10, columnspan=1, column = 2, sticky='nsew')
         self.outputTreeview = self.outputTree
-        
         
         self.logicTree = ttk.Treeview(self, columns=2)
         logicvsb = ttk.Scrollbar(self, orient="vertical", command=self.logicTree.yview)
@@ -83,7 +77,7 @@ class PanelFrame(ttk.Frame):
         self.logicTree.heading('#1', text='Assign To')
         self.logicTree.column('#1', width = 100, stretch=tk.YES, anchor = 'w')
         self.logicTree.column('#0', width = 500, stretch=tk.YES, anchor='e')
-        self.logicTree.grid(row=1,rowspan=10, column = 3, sticky='nsew')
+        self.logicTree.grid(row=1,rowspan=10, columnspan = 3, column = 1, sticky='nsew')
         self.logicTreeview = self.logicTree
 
         self.acceptbutton = tk.Button(self, text="Accept", command=self.acceptTest)
@@ -119,7 +113,7 @@ class PanelFrame(ttk.Frame):
         self.logicCheck()
 
     def acceptTest(self):
-        self.Test = False
+        self.Test = True
         self.acceptbutton.destroy()
 
         for inputs in self.inputTree.get_children():
@@ -137,11 +131,15 @@ class PanelFrame(ttk.Frame):
                 assignBit = self.logicTree.item(item, 'values')[0]
                 logic = logic.replace("+", "OR")
                 logic = logic.replace("*", "AND")
+                
 
                 logicList = logic.split()
+                
                 for n in logicList:
                     if n != "AND" or "OR":
+                       
                         if n[0] =='(':
+                            
                             n = n[1:]
                             for bit in self.inputTree.get_children():
                                 if self.inputTree.item(bit, "text") == n:
@@ -156,7 +154,60 @@ class PanelFrame(ttk.Frame):
                                     elif self.outputTree.item(bit, "values")[1] == '1':
                                         logic =logic.replace(n, 'True')
                             n = '(' + n
+                        elif n[:2] == '~(':
+                            
+                            n = n[2:]
+                            
+                            for bit in self.inputTree.get_children():
+                                if self.inputTree.item(bit, "text") == n:
+                                    if self.inputTree.item(bit, "values")[1] == '0':
+                                        logic =logic.replace(n, 'False')
+                                    elif self.inputTree.item(bit, "values")[1] == '1':
+                                        logic =logic.replace(n, 'True')
+                            for bit in self.outputTree.get_children():
+                                if self.outputTree.item(bit, "text") == n:
+                                    if self.outputTree.item(bit, "values")[1] == '0':
+                                        logic =logic.replace(n, 'False')
+                                    elif self.outputTree.item(bit, "values")[1] == '1':
+                                        logic = logic.replace(n, 'True')
+                            n = '~(' + n
+
+                        elif n[0] =='~' :
+                            
+                            n = n[1:]
+                            for bit in self.inputTree.get_children():
+                                if self.inputTree.item(bit, "text") == n:
+                                    if self.inputTree.item(bit, "values")[1] == '0':
+                                        logic =logic.replace(n, 'False')
+                                    elif self.inputTree.item(bit, "values")[1] == '1':
+                                        logic =logic.replace(n, 'True')
+                            for bit in self.outputTree.get_children():
+                                if self.outputTree.item(bit, "text") == n:
+                                    if self.outputTree.item(bit, "values")[1] == '0':
+                                        logic =logic.replace(n, 'False')
+                                    elif self.outputTree.item(bit, "values")[1] == '1':
+                                        logic =logic.replace(n, 'True')
+                            n = 'NOT ' + n
+                        
+                        elif n[len(n)-1] == ')' and n[0] =='~':
+                            
+                            n = n[:-1]
+                            n = n[1:]
+                            for bit in self.inputTree.get_children():
+                                if self.inputTree.item(bit, "text") == n:
+                                    if self.inputTree.item(bit, "values")[1] == '0':
+                                        logic =logic.replace(n, 'False')
+                                    elif self.inputTree.item(bit, "values")[1] == '1':
+                                        logic =logic.replace(n, 'True')
+                            for bit in self.outputTree.get_children():
+                                if self.outputTree.item(bit, "text") == n:
+                                    if self.outputTree.item(bit, "values")[1] == '0':
+                                        logic =logic.replace(n, 'False')
+                                    elif self.outputTree.item(bit, "values")[1] == '1':
+                                        logic =logic.replace(n, 'True')
+                            n = "NOT " + n + ')'    
                         elif n[len(n)-1] == ')':
+                            
                             n = n[:-1]
                             for bit in self.inputTree.get_children():
                                 if self.inputTree.item(bit, "text") == n:
@@ -172,6 +223,7 @@ class PanelFrame(ttk.Frame):
                                         logic =logic.replace(n, 'True')
                             n = n + ')'
                         else:
+                            
                             for bit in self.inputTree.get_children():
                                 if self.inputTree.item(bit, "text") == n:
                                     if self.inputTree.item(bit, "values")[1] == '0':
@@ -186,15 +238,16 @@ class PanelFrame(ttk.Frame):
                                         logic =logic.replace(n, 'True')
                                                 
                 finalValue = algebra.parse(logic)
+        
                 for output in self.outputTree.get_children():
                     if self.outputTree.item(output, "text") == assignBit:
                         self.outputTree.set(output,'Value',finalValue.simplify())
-                        
-        self.writeOutputstoXML()
+        if self.Test:
+            self.writeOutputstoXML()
 
     def writeOutputstoXML(self):
-        if (os.path.isfile(os.getcwd()+"\TrackControllerOutputs.xml")):
-            xmlFile = xml.etree.ElementTree.parse(os.getcwd()+"\TrackControllerOutputs.xml")
+        if (os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackControllerOutputs.xml")):
+            xmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackControllerOutputs.xml")
             root = xmlFile.getroot()
 
             for outputs in self.outputTree.get_children():
@@ -211,13 +264,12 @@ class PanelFrame(ttk.Frame):
                 xml.etree.ElementTree.SubElement(root,"bit", name = self.outputTree.item(outputs, "text")).text = self.outputTree.item(outputs, 'values')[1]
                 
         tree = xml.etree.ElementTree.ElementTree(root)
-        tree.write("TrackControllerOutputs.xml")
+        tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackControllerOutputs.xml")
     def getInputs(self):
-        if (os.path.isfile(os.getcwd()+"\CTCOutputs.xml") and os.path.isfile(os.getcwd()+"\TrackModelOutputs.xml")):
-            CTCxmlFile = xml.etree.ElementTree.parse(os.getcwd()+"\CTCOutputs.xml")
+        if (os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\CTCOutput.xml") and os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")):
+            CTCxmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\CTCOutput.xml")
             CTCroot = CTCxmlFile.getroot()
-
-            TMxmlFile = xml.etree.ElementTree.parse(os.getcwd()+"\TrackModelOutputs.xml")
+            TMxmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")
             TMroot = TMxmlFile.getroot()
             
             for inputs in self.inputTree.get_children():
@@ -231,11 +283,10 @@ class PanelFrame(ttk.Frame):
                         self.inputTree.set(inputs,'Value', bits.text)
                         found = True
                 if (found == False):
-                    print(self.inputTree.item(inputs, "text")+ "was not found")
                     self.inputTree.set(inputs,'Value','0')
-        elif(os.path.isfile(os.getcwd()+"\CTCOutputs.xml") and not os.path.isfile(os.getcwd()+"\TrackModelOutputs.xml")):
+        elif(os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\CTCOutput.xml") and not os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")):
             print("Track Model XML not found")
-            CTCxmlFile = xml.etree.ElementTree.parse(os.getcwd()+"\CTCOutputs.xml")
+            CTCxmlFile = xml.etree.ElementTree.parse(os.getcwd()+"\\xml\CTCOutput.xml")
             CTCroot = CTCxmlFile.getroot()
 
             for inputs in self.inputTree.get_children():
@@ -245,12 +296,11 @@ class PanelFrame(ttk.Frame):
                         self.inputTree.set(inputs,'Value', bits.text)
                         found = True
                 if (found == False):
-                    print(self.inputTree.item(inputs, "text")+ "was not found")
                     self.inputTree.set(inputs,'Value','0')
              
-        elif(not os.path.isfile(os.getcwd()+"\CTCOutputs.xml") and os.path.isfile(os.getcwd()+"\TrackModelOutputs.xml")):
+        elif(not os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\CTCOutput.xml") and os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")):
             print("CTC XML not found")
-            TMxmlFile = xml.etree.ElementTree.parse(os.getcwd()+"\TrackModelOutputs.xml")
+            TMxmlFile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")
             TMroot = TMxmlFile.getroot()
 
             for inputs in self.inputTree.get_children():
@@ -260,7 +310,6 @@ class PanelFrame(ttk.Frame):
                         self.inputTree.set(inputs,'Value', bits.text)
                         found = True
                 if (found == False):
-                    print(self.inputTree.item(inputs, "text")+ "was not found")
                     self.inputTree.set(inputs,'Value','0')
         else:
             print("CTC XML and Track Model XML not found")
@@ -269,9 +318,10 @@ class PanelFrame(ttk.Frame):
 
         self.logicCheck()
 
-        self.after(1000, self.getInputs)
+        self.after(500, self.getInputs)
 
 if __name__ == "__main__":
     root = tk.Tk()
+    root.title("Track Controller")
     main = MainWindow(root)
     root.mainloop()

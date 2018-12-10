@@ -4,7 +4,6 @@ import java.util.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -39,7 +38,7 @@ public class TrainModelGui extends javax.swing.JDialog {
             f2.close();
         
         }catch(Exception e){
-            System.out.println("File FUCK");
+            System.out.println("File error");
         }
         
         this.trains = trains;
@@ -367,7 +366,7 @@ public class TrainModelGui extends javax.swing.JDialog {
     private void emergencyBrakeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emergencyBrakeBoxActionPerformed
         //System.out.println(emergencyBrakeBox.isSelected());
         trains.get(selectedTrainIndex).setEmergencyBrake(emergencyBrakeBox.isSelected());
-        
+        trains.get(selectedTrainIndex).setPassengerPulled(emergencyBrakeBox.isSelected());
         displayValues();
     }//GEN-LAST:event_emergencyBrakeBoxActionPerformed
 
@@ -394,7 +393,7 @@ public class TrainModelGui extends javax.swing.JDialog {
             lengthLabel.setText("Length: "+ t.getLength() +" ft");
             massLabel.setText("Mass: "+ t.getMass() +" lbs");
 
-            distanceLabel.setText("Distance Traveled: "+ t.getDistance() + " miles");
+            distanceLabel.setText("Distance Traveled: "+ Math.round(t.getDistance()*100.0)/100.0 + " miles");
             //activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
             //forceLabel.setText("Force: "+ t.getForce() + " N");
             powerLabel.setText("Power: "+ t.getPower() +" kw");
@@ -462,6 +461,22 @@ public class TrainModelGui extends javax.swing.JDialog {
         speed.setValue(""+tr.getSpeed());
         newTrain.setAttributeNode(speed);
         
+        Attr brakeFail = doc.createAttribute("brakeFailure");
+        brakeFail.setValue(""+tr.isBrakeFailure());
+        newTrain.setAttributeNode(brakeFail);
+        
+        Attr engFail = doc.createAttribute("engineFailure");
+        engFail.setValue(""+tr.isEngineFailure());
+        newTrain.setAttributeNode(engFail);
+        
+        Attr sigFail = doc.createAttribute("signalFailure");
+        sigFail.setValue(""+tr.isSignalFailure());
+        newTrain.setAttributeNode(sigFail);
+        
+        Attr station = doc.createAttribute("station");
+        station.setValue(""+tr.getStation());
+        newTrain.setAttributeNode(station);
+        
         Attr authority = doc.createAttribute("authority");
         authority.setValue(""+tr.getAuthority());
         newTrain.setAttributeNode(authority);
@@ -473,10 +488,6 @@ public class TrainModelGui extends javax.swing.JDialog {
         Attr powerCmd = doc.createAttribute("powerCmd");
         powerCmd.setValue("0.0");
         newTrain.setAttributeNode(powerCmd);
-
-        Attr currentPower = doc.createAttribute("currentPower");
-        currentPower.setValue(""+tr.getPower());
-        newTrain.setAttributeNode(currentPower);
         
         Attr emergencyBrake = doc.createAttribute("emergencyBrake");
         emergencyBrake.setValue(""+tr.isEmergencyBrake());
@@ -509,6 +520,19 @@ public class TrainModelGui extends javax.swing.JDialog {
         t.transform(source,result);
         
         addTrainToTrackModelXML(tr);
+    }
+    
+    private int getMultiplier() throws Exception{
+        int m;
+        
+        Scanner infile = new Scanner(new File("./xml/multiplier.txt"));
+        
+        if(infile.hasNextLine())
+            m = infile.nextInt();
+        else
+            m = 1;
+        
+        return m;
     }
     
     private void talkToTrainController() throws Exception{    
@@ -544,10 +568,14 @@ public class TrainModelGui extends javax.swing.JDialog {
                         t.setRightDoors(rightDoors);                        
                         t.setTemperature(temp);
                         t.updateVelocity();
+                        eElement.setAttribute("station",""+t.getStation());
+                        eElement.setAttribute("engineFailure",""+t.isEngineFailure());
+                        eElement.setAttribute("brakeFailure",""+t.isBrakeFailure());
+                        eElement.setAttribute("signalFailure",""+t.isSignalFailure());
+                        
                         eElement.setAttribute("speed",""+t.getSpeed());
                         eElement.setAttribute("authority",""+t.getAuthority());
                         eElement.setAttribute("actualSpeed",""+t.getVelocity());
-                        eElement.setAttribute("currentPower",""+t.getPower());
                         eElement.setAttribute("emergencyBrake",""+t.isEmergencyBrake());
                     }
                 }   
@@ -591,6 +619,10 @@ public class TrainModelGui extends javax.swing.JDialog {
         Attr distance = doc.createAttribute("distanceTraveled");
         distance.setValue(""+tr.getDistance());
         newTrain.setAttributeNode(distance);
+        
+        Attr passengersAtStation = doc.createAttribute("passengersAtStation");
+        passengersAtStation.setValue("0");
+        newTrain.setAttributeNode(passengersAtStation);
 
         Attr elev = doc.createAttribute("elevation");
         elev.setValue(""+tr.getElevation());
@@ -598,7 +630,23 @@ public class TrainModelGui extends javax.swing.JDialog {
         
         Attr grade = doc.createAttribute("grade");
         grade.setValue(""+tr.getGrade());
-        newTrain.setAttributeNode(grade);     
+        newTrain.setAttributeNode(grade);
+        
+        Attr next = doc.createAttribute("next");
+        next.setValue("1");
+        newTrain.setAttributeNode(next);
+        
+        Attr length = doc.createAttribute("length");
+        length.setValue("0.0");
+        newTrain.setAttributeNode(length);
+     
+        Attr direction = doc.createAttribute("direction");
+        direction.setValue("f");
+        newTrain.setAttributeNode(direction);
+        
+        Attr tNum = doc.createAttribute("trackNumber");
+        tNum.setValue("0");
+        newTrain.setAttributeNode(tNum);
         
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer t = tf.newTransformer();
@@ -629,6 +677,8 @@ public class TrainModelGui extends javax.swing.JDialog {
                 int elevation = Integer.parseInt(eElement.getAttribute("elevation").replaceAll("\\s+",""));
                 double grade = Double.parseDouble(eElement.getAttribute("grade").replaceAll("\\s+",""));
                 String nextStation= eElement.getAttribute("nextStation").replaceAll("\\s+","");
+                double length = Double.parseDouble(eElement.getAttribute("length").replaceAll("\\s+",""));
+                int pass = Integer.parseInt(eElement.getAttribute("passengersAtStation").replaceAll("\\s+",""));
                 
                 for(Train t : trains){
                     if(t.getTrainID().equals(ID)){
@@ -637,9 +687,24 @@ public class TrainModelGui extends javax.swing.JDialog {
                         t.setElevation(elevation);
                         t.setGrade(grade);
                         t.setStation(nextStation);
+                        t.setBlockLength(length);
+                        
+                        if(pass>222){
+                            t.setPassengerCount(222);
+                        }
+                        else{
+                            Random rand = new Random();
+                            //int n = rand.nextInt(t.getPassengerCount()) + 1;
+                            int n = rand.nextInt(1) + 1;
+                            if((t.getPassengerCount()-n)+pass <= 222)
+                                t.setPassengerCount((t.getPassengerCount()-n)+pass);
+                            else
+                                t.setPassengerCount(222);
+                        }
        
                         t.updateVelocity();
                         eElement.setAttribute("distanceTraveled",""+t.getDistance());
+                        eElement.setAttribute("next",""+t.getNext());
                     }
                 }   
             }
@@ -653,24 +718,15 @@ public class TrainModelGui extends javax.swing.JDialog {
     }
     
     private void talkToCTC() throws Exception{
-        //New Train from CTC
-        //power from TrainController
-        //elevation, grade, speed & authority, passenger's at station 
-    
-        File trainControllerXML = new File("./xml/ctc_trainmodel.xml");
+        File trainControllerXML = new File("./xml/TrainOutputs.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(trainControllerXML);
-        
-        //doc.getDocumentElement().normalize();
-        
-        //System.out.println("Root: "+doc.getDocumentElement().getNodeName());
-        
+                        
         NodeList nList = doc.getElementsByTagName("Dispatch");
         
         for(int i=0;i<nList.getLength();i++){
             Node nNode = nList.item(i);
-            //System.out.println("Current: "+nNode.getNodeName());
             
             if(nNode.getNodeType() == Node.ELEMENT_NODE){
                 Element eElement = (Element) nNode;
@@ -696,7 +752,7 @@ public class TrainModelGui extends javax.swing.JDialog {
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer t = tf.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("./xml/ctc_trainmodel.xml"));
+            StreamResult result = new StreamResult(new File("./xml/TrainOutputs.xml"));
             t.transform(source,result);
         }
     }
@@ -738,34 +794,37 @@ public class TrainModelGui extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
    
     private class Progress extends TimerTask {
-        //private int runs=0;
         @Override
         public void run(){
-            MULTIPLIER = 1;
+            try{
+                MULTIPLIER = getMultiplier();
+            }catch(Exception e){
+                System.out.println("multiplier.txt not created yet, no biggie");
+            }
             for(int i=0;i<MULTIPLIER;i++){
                 try{
                     talkToCTC();
                 }catch(Exception e){
-                    System.out.println("CTC FUCK");
+                    System.out.println("CTC big uh-oh");
                 }              
                 if(trains.size()>0){
                     try{
                         talkToTrackModel();
                     }catch(Exception e){
-                        System.out.println("Track Model FUCK");
+                        System.out.println("Track Model big uh-oh");
+                        e.printStackTrace();
                     }
                     try{
                         talkToTrainController();
                     }catch(Exception e){
-                        System.out.println("Train Controller FUCK");
+                        System.out.println("Train Controller big uh-oh");
+                        e.printStackTrace();
                     }
                 }
 
                 for(Train t : trains)
                     t.updateVelocity();
                 displayValues();
-            
-            //runs++;
             }
         }
     }

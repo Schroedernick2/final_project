@@ -1,11 +1,29 @@
 package traincontroller;
 import java.util.*;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Attr;
+import java.io.File;
+import java.io.FileWriter;
+
+
 /**
  *
- * @author jay
+ * @author Jay Pitser
  */
 public class TrainControllerGui extends javax.swing.JDialog {
 
+    private int MULTIPLIER=1;
     private int selectedTrainIndex = 0;
     private ArrayList<Train> trains;
     /**
@@ -14,6 +32,19 @@ public class TrainControllerGui extends javax.swing.JDialog {
     public TrainControllerGui(java.awt.Frame parent, boolean modal, ArrayList<Train> trains) {
         super(parent, modal);
         initComponents();
+        
+        try{
+            FileWriter f1 = new FileWriter("./xml/traincontroller_trainmodel.xml",false);
+
+            String content = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><Trains></Trains>";
+            
+            f1.write(content);
+            
+            f1.close();
+        
+        }catch(Exception e){
+            System.out.println("File is a bitch");
+        }
         
         this.trains = trains;
         Timer timer = new Timer();
@@ -71,7 +102,7 @@ public class TrainControllerGui extends javax.swing.JDialog {
         CurrentTrainHeader.setText("Current Train:");
 
         TrainSelector.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        TrainSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Train 1", "Train 2" }));
+        TrainSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "N/A" }));
         TrainSelector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TrainSelectorActionPerformed(evt);
@@ -260,26 +291,27 @@ public class TrainControllerGui extends javax.swing.JDialog {
                         .addComponent(CurrentStationHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(251, 251, 251)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(PowerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ServiceBrakeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(98, 98, 98)
+                        .addComponent(FailureModesHeader)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(EmergencyBrake, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(124, 124, 124))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(EmergencyBrake, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(124, 124, 124))
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(251, 251, 251)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(88, 88, 88)
-                                        .addComponent(FailureModesHeader))
-                                    .addComponent(EngineFailureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(BrakeFailureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(SignalFailureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                    .addComponent(PowerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ServiceBrakeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(87, 87, 87)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(SignalFailureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(BrakeFailureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(EngineFailureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,12 +359,14 @@ public class TrainControllerGui extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addComponent(FailureModesHeader)
-                        .addGap(58, 58, 58)
+                        .addGap(54, 54, 54)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(LeftDoorsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(LeftDoorsValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(BrakeFailureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(LeftDoorsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(LeftDoorsValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(12, 12, 12)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -350,12 +384,11 @@ public class TrainControllerGui extends javax.swing.JDialog {
                                 .addComponent(AnnouncementsHeader)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(BrakeFailureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(24, 24, 24)
                                 .addComponent(SignalFailureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(48, 48, 48)
+                                .addGap(24, 24, 24)
                                 .addComponent(EngineFailureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(41, 41, 41)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(AnnouncementsBox, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -366,6 +399,18 @@ public class TrainControllerGui extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    //*<?xml version="1.0" encoding="UTF-8" standalone="no"?><Trains>
+    // <Train actualSpeed="0.0" ads="true" authority="0.0" currentPower="0.0" emergencyBrake="false" 
+    // id="GREEN_1" leftDoor="false" lights="false" powerCmd="0.0" rightDoor="false" speed="0.0" temp="70"/>
+    
+    // <Train actualSpeed="0.0" ads="true" authority="0.0" currentPower="0.0" emergencyBrake="false" id="RED_1" 
+    //leftDoor="false" lights="false" powerCmd="0.0" rightDoor="false" speed="0.0" temp="70"/></Trains>
+      
+    
+    
+    
+    
     private void ACValueStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ACValueStateChanged
         trains.get(selectedTrainIndex).setTemperature((int) ACValue.getValue());
         displayValues();
@@ -373,6 +418,8 @@ public class TrainControllerGui extends javax.swing.JDialog {
 
     private void EmergencyBrakeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmergencyBrakeActionPerformed
         trains.get(selectedTrainIndex).setEmergencyBrake(EmergencyBrake.isSelected());
+        
+        //WRITE TO XML
         displayValues();
     }//GEN-LAST:event_EmergencyBrakeActionPerformed
 
@@ -417,51 +464,69 @@ public class TrainControllerGui extends javax.swing.JDialog {
         displayValues();
     }//GEN-LAST:event_RightDoorsValueActionPerformed
       
+    //XML format to use
+    //*<?xml version="1.0" encoding="UTF-8" standalone="no"?><Trains>
+    //      TRAIN OBJ Format
+    // <Train actualSpeed="0.0" ads="true" authority="0.0" currentPower="0.0" emergencyBrake="false" 
+    // id="GREEN_1" leftDoor="false" lights="false" powerCmd="0.0" rightDoor="false" speed="0.0" temp="70"/>
     
-    //Brake Failure, enter safe state
-    private void brakeFailureAction(int index){
-        Train t = trains.get(index);
-        if(t.isBrakeFailure()){
-            t.setBrakeFailure(false);// Can now set a power, resume as normal
-            t.setEmergencyBrake(false);
-            t.updatePower();
-        }
-        else {
-            t.setBrakeFailure(true);
-            t.setPower(0);             // send P = 0 to TM
-            t.setEmergencyBrake(true); // send EB sig to TM
-        }
-    }    
-    
-    
-    // engine failure, enter safe state
-    private void engineFailureAction(int index){ 
-        Train t = trains.get(index);
-        if(t.isEngineFailure()){
-            t.setEngineFailure(false);// Can now set a power, resume as normal
-            t.setEmergencyBrake(false);
-            t.updatePower();
-        }
-        else {
-            t.setEngineFailure(true);
-            t.setPower(0);             // send P = 0 to TM
-            t.setEmergencyBrake(true); // send EB sig to TM
-        }
-    }     
-
-    // signal pickup failure
-    private void signalFailureAction(int index){
-        Train t = trains.get(index);
-        if(t.isSignalFailure()){
-            t.setSignalFailure(false);// Can now set a power, resume as normal
-            t.setEmergencyBrake(false);
-            t.updatePower();
-        }
-        else {
-            t.setSignalFailure(true);
-            t.setPower(0);             // send P = 0 to TM
-            t.setEmergencyBrake(true); // send EB sig to TM
-        }
+    private void talkToTrainModel() throws Exception{
+        // WRITE Power, EmergencyBrake, other low priority values
+        // READ for new Train, Vcmd, Vact, Authority, Station, Failures, ServiceBrake, EB
+        File trainControllerXML = new File("./xml/traincontroller_trainmodel.xml");
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(trainControllerXML);
+                        
+        NodeList nList = doc.getElementsByTagName("Train");
+        
+        for(int i=0;i<nList.getLength();i++){
+            Node nNode = nList.item(i);
+            
+            if(nNode.getNodeType() == Node.ELEMENT_NODE){
+                Element eElement = (Element) nNode;
+                
+                String ID = eElement.getAttribute("id");
+                ID = ID.replaceAll("\\s+","");
+                
+                double vcmd = Double.parseDouble(eElement.getAttribute("speed").replaceAll("\\s+",""));
+                double vact = Double.parseDouble(eElement.getAttribute("currentVelocity").replaceAll("\\s+",""));
+                boolean eb = Boolean.parseBoolean(eElement.getAttribute("emergencyBrake").replaceAll("\\s+",""));
+                double auth = Double.parseDouble(eElement.getAttribute("authority").replaceAll("\\s+",""));
+                boolean signalF = Boolean.parseBoolean(eElement.getAttribute("signalFailure").replaceAll("\\s+",""));
+                boolean brakeF = Boolean.parseBoolean(eElement.getAttribute("brakeFailure").replaceAll("\\s+",""));
+                boolean engineF = Boolean.parseBoolean(eElement.getAttribute("engineFailure").replaceAll("\\s+",""));
+                String stationID = new String(eElement.getAttribute("station").replaceAll("\\s+",""));
+               
+                for(Train t : trains){
+                    if(t.getTrainID().equals(ID)){
+                        t.setSpeed(vcmd);
+                        t.setActualSpeed(vact);
+                        t.setAuthority(auth);
+                        t.setEmergencyBrake(eb);
+                        t.updatePower();
+                        t.setBrakeFailure(brakeF);
+                        t.setSignalFailure(signalF);
+                        t.setEngineFailure(engineF);
+                        t.setStation(stationID);
+                        eElement.setAttribute("leftDoors",""+t.isLeftDoors());
+                        eElement.setAttribute("rightDoors",""+t.isRightDoors());
+                        eElement.setAttribute("lights",""+t.isHeadlights());
+                        eElement.setAttribute("powerCmd",""+t.getPower());
+                        eElement.setAttribute("temp",""+t.getTemperature());
+                        eElement.setAttribute("ads",""+t.isAdvertisements());
+                        //eElement.setAttribute("emergencyBrake",""+t.isEmergencyBrake());
+                    }
+                }   
+            }
+            
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer t = tf.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File("./xml/traincontroller_trainmodel.xml"));
+            t.transform(source,result);
+        }        
+        
     }
     
     
@@ -522,6 +587,18 @@ public class TrainControllerGui extends javax.swing.JDialog {
         trains.add(t);
         String[] trainIDs = getIDs();
         this.TrainSelector.setModel(new javax.swing.DefaultComboBoxModel<>(trainIDs));
+       //open dialog box for entering ki,kp
+        displayValues();
+        KvalueDialog Kdialog = new KvalueDialog(new javax.swing.JFrame(), true, t);
+        Kdialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                Kdialog.bye();
+            }
+        });
+        Kdialog.setVisible(true);
+        Kdialog.main( null);
+        
         // set Ki,Kp (pop up window)
         
     }
@@ -569,63 +646,26 @@ public class TrainControllerGui extends javax.swing.JDialog {
     
     
     private class Progress extends TimerTask{
-        private int runs=0;
+        //private int runs=0;
         @Override
-        public void run(){            
-            if(runs==0){
-                addTrain(new Train("RED",1,1,40));
-                addTrain(new Train("GREEN",1,1,86));
-                
-                System.out.println("Added Train RED1");
-                System.out.println("Added Train GREEN1");
-                
-                trains.get(0).setSpeed(10);
-                trains.get(1).setSpeed(20);
-                trains.get(0).setAuthority(2000);
-                trains.get(1).setAuthority(4000);
-            }
+        public void run(){
+            MULTIPLIER = 1;
+            for(int i=0;i<MULTIPLIER;i++){
+                if(trains.size()>=0){        //CHECK THIS BC size=0 at init, and need to call this to read 4 new train
+                    try{
+                        talkToTrainModel();
+                    }catch(Exception e){
+                        System.out.println("Train Model FUCKED!");
+                    }
+                }
+                for(Train t : trains)
+                    t.updatePower();
+                displayValues();
             
-            if(runs==30){
-                addTrain(new Train("GREEN",2,1,120));
-                System.out.println("Added Train GREEN2");
-                trains.get(2).setSpeed(30);
-                trains.get(2).setAuthority(3000);
-                trains.get(2).setServiceBrake(true);
-                trains.get(1).setBrakeFailure(true);
-            }
-            
-            if(runs==45){
-                System.out.println("Changing speed for Green1...");
-                trains.get(1).setSpeed(10);
-            }
-            
-            if(runs==70){
-                System.out.println("Changing speed for GREEN2");
-                trains.get(2).setSpeed(40);
-            }
-            
-            if(runs==80){
-                System.out.println("Added Train RED2");
-                addTrain(new Train("RED",2,1,131));
-                trains.get(3).setSpeed(35);
-                trains.get(3).setAuthority(2400);
-            } 
-
-            
-            if(runs==105){
-                System.out.println("Changing speed to 100 for RED1");
-                trains.get(0).setSpeed(100);
-                trains.get(0).setStation("NEXT NEXT STATION");
-            }
-            
-            for(Train t : trains)
-                t.updatePower();
-            displayValues();
-            //activeTimeLabel.setText("Time Active: "+ t.getTime() + " seconds");
-            
-            runs++;
+            //runs++;
             }
         }
+    }
     
 
 }

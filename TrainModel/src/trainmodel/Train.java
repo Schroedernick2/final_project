@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Train{
     //ID -- Line + train number
-    private String trainID;
+    private final String trainID;
     
     //brakes and failure states
     private boolean emergencyBrake;
@@ -14,9 +14,9 @@ public class Train{
     private boolean brakeFailure;
     
     //dimensions
-    private double height;
-    private double width;
-    private double length;
+    private final double height;
+    private final double width;
+    private final double length;
     private double mass;
     
     //commanded values
@@ -25,6 +25,7 @@ public class Train{
     
     //current train description info
     private double power;
+    private boolean passengerPulled;
     private double velocity;    //actual velocity, returned to train controller
     private double acceleration;
     private double grade;
@@ -40,11 +41,14 @@ public class Train{
     private double creationTime;
     private double time;
     private double distance;
+    private double blockLength;
     
     //direction of train
     private boolean forward;
     
     //other
+    private int next = 1;
+    private double blockDistanceTraveled = 0;
     private double force;
     private double accelerationLimit;
     private double decelerationLimit;
@@ -86,6 +90,7 @@ public class Train{
         this.stops = stops;
         
         //default state
+        this.passengerPulled = false;
         this.emergencyBrake = false;
         this.serviceBrake = false;
         this.engineFailure = false;
@@ -126,6 +131,7 @@ public class Train{
     public String getTrainID(){ return trainID; }
     
     //brake and failure getters
+    public boolean isPassengerPulled(){ return passengerPulled; }
     public boolean isEmergencyBrake(){ return emergencyBrake; }
     public boolean isServiceBrake(){ return serviceBrake; }
     public boolean isEngineFailure(){ return engineFailure; }
@@ -148,6 +154,8 @@ public class Train{
         
         return Math.round((currTime-this.creationTime)/1000)*multiplier; 
     }
+    
+    public int getNext(){ return next; }
     public double getDistance(){ return distance; }
     public double getPower(){ return power; }
     public double getForce(){ return force; }
@@ -165,8 +173,10 @@ public class Train{
     public boolean isLights(){ return lights; }
     
     /*******SETTERS*******/
+    public void setBlockLength(double l){ blockLength = l; }
     
     //brake and failure setters
+    public void setPassengerPulled(boolean state){ passengerPulled = state; }
     public void setEmergencyBrake(boolean state){ emergencyBrake = state; }
     public void setServiceBrake(boolean state){ serviceBrake = state; }
     public void setEngineFailure(boolean state){ engineFailure = state; }
@@ -205,15 +215,14 @@ public class Train{
         
         //calculate force
             double forceDown = (this.mass)*GRAVITY*(Math.cos(Math.toDegrees(Math.atan(grade/100.0)))*Math.PI/180);
-            
+
             if(this.power > ENGINE_POWER){
                 this.power = ENGINE_POWER;
             }
-            if(this.power < 0 && !this.emergencyBrake)
-                this.serviceBrake = true;
-            else
-                this.serviceBrake = false;
             
+            this.serviceBrake=this.power <0 && this.power!=-5 && !this.emergencyBrake;
+            this.emergencyBrake = this.isEngineFailure() || this.isBrakeFailure() || this.isSignalFailure()||this.power==-5||passengerPulled;
+                        
             double forceFromEng; 
             if(currentVelocity==0)
                 forceFromEng = (this.power*KW_TO_NMS)/1; 
@@ -225,8 +234,6 @@ public class Train{
             
             this.force = Math.round((forceFromEng - forceFriction)*100.0)/100.0;
         
-            if(this.isEngineFailure() || this.isBrakeFailure() || this.isSignalFailure())
-                this.emergencyBrake = true;
             
             //calculate acceleration
             //accel = force/mass
@@ -236,14 +243,14 @@ public class Train{
                 this.acceleration = this.accelerationLimit;
             
             //check if braking
-            if(this.emergencyBrake || this.serviceBrake){
+            if(this.emergencyBrake || this.serviceBrake || this.power == -5){
                 if(this.serviceBrake && !this.emergencyBrake)
                     this.acceleration += SERVICE_DECELERATION;
                 else
                     this.acceleration += EMERGENCY_DECELERATION;
             }
             this.acceleration = Math.round(this.acceleration*METERS_TO_FEET*100.0)/100.0;
-        //calculate velocity
+            //calculate velocity
             this.velocity = currentVelocity/KM_TO_MILES + this.acceleration/MPH_TO_FPS;
             if(this.velocity <= 0){
                 this.velocity = 0;
@@ -256,6 +263,13 @@ public class Train{
             this.velocity = Math.round(this.velocity*KM_TO_MILES*100.0)/100.0;
             
             //calculate distance
-            this.distance = Math.round((this.distance+(this.velocity/3600))*100.0)/100.0; 
+            this.distance = this.distance+(this.velocity/3600);
+            
+            if((this.distance/1760) >= blockDistanceTraveled+length){
+                next = 1;
+                blockDistanceTraveled += length;
+            }
+            else
+                next = 0;
         }
 }

@@ -13,10 +13,13 @@ from threading import Thread
 
 # Main Window
 class MainWindow(tk.Frame):
+    #variables
+    throughput = 0
+    
     # load file
     def load(self):
         filename = askopenfilename()
-
+        self.throughput = 0
         # make sure file is csv later
         with open(filename, 'r') as file:
             csv_reader = csv.reader(file, delimiter=',')
@@ -28,6 +31,7 @@ class MainWindow(tk.Frame):
             holdr = 0
             rc = ''
             stations = []
+            #loop through csv
             for r in csv_reader:
                 if i == 0:
                     i += 1
@@ -37,6 +41,7 @@ class MainWindow(tk.Frame):
                     sw = 0
                     st = ''
                     rc = ''
+                    #get station name and insert
                     if r[0] == "Red":
                         infr = r[6]
                         if "UNDERGROUND" in infr:
@@ -100,7 +105,7 @@ class MainWindow(tk.Frame):
                                                   values=(r[1], r[2], r[3], r[4], r[5], ug, st, sw, r[16], r[17], r[8], r[11],
                                                           r[10], 'false', 'off', 'unoccupied', 'working',
                                                           'working', 'working'))
-
+                    #adds green rails to project
                     if r[0] == "Green":
                         infr = r[6]
                         sw = 0
@@ -183,7 +188,7 @@ class MainWindow(tk.Frame):
                         self.signal_table.insert('', 'end', values=(r[17], 'red', r[18]))
 
 
-        
+        #start thread to keep it running
         Thread(target=self.data_update).start()
 
 
@@ -191,49 +196,73 @@ class MainWindow(tk.Frame):
     def power_failure(self):
         if self.red_table.set(self.red_table.focus(), column='Power Failure') == 'FAILED':
             self.red_table.set(self.red_table.focus(), column='Power Failure', value='working')
+            if (self.red_table.item(self.red_table.focus(), 'values')[18] != 'BROKEN') and (self.red_table.item(self.red_table.focus(), 'values')[17] != 'FAILED'):
+                self.red_table.set(self.red_table.focus(), column='Occupation', value='unoccupied')
         else:
             self.red_table.set(self.red_table.focus(), column='Power Failure', value='FAILED')
+            self.red_table.set(self.red_table.focus(), column='Occupation', value='occupied')
 
         if self.green_table.set(self.green_table.focus(), column='Power Failure') == 'FAILED':
             self.green_table.set(self.green_table.focus(), column='Power Failure', value='working')
+            if (self.green_table.item(self.green_table.focus(), 'values')[18] != 'BROKEN') and (self.green_table.item(self.green_table.focus(), 'values')[17] != 'FAILED'):
+                self.green_table.set(self.green_table.focus(), column='Occupation', value='unoccupied')
         else:
             self.green_table.set(self.green_table.focus(), column='Power Failure', value='FAILED')
+            self.green_table.set(self.green_table.focus(), column='Occupation', value='occupied')
 
         self.selection_clear()
 
+
+    #Brek rail
     def break_rail(self):
         if self.red_table.set(self.red_table.focus(), column='Broken Rail') == 'BROKEN':
             self.red_table.set(self.red_table.focus(), column='Broken Rail', value='working')
+            if (self.red_table.item(self.red_table.focus(), 'values')[16] != 'FAILED') and (self.red_table.item(self.red_table.focus(), 'values')[17] != 'FAILED'):
+                self.red_table.set(self.red_table.focus(), column='Occupation', value='unoccupied')
         else:
             self.red_table.set(self.red_table.focus(), column='Broken Rail', value='BROKEN')
+            self.red_table.set(self.red_table.focus(), column='Occupation', value='occupied')
 
         if self.green_table.set(self.green_table.focus(), column='Broken Rail') == 'BROKEN':
             self.green_table.set(self.green_table.focus(), column='Broken Rail', value='working')
+            if (self.green_table.item(self.green_table.focus(), 'values')[16] != 'FAILED') and (self.green_table.item(self.green_table.focus(), 'values')[17] != 'FAILED'):
+                self.green_table.set(self.green_table.focus(), column='Occupation', value='unoccupied')
         else:
             self.green_table.set(self.green_table.focus(), column='Broken Rail', value='BROKEN')
+            self.green_table.set(self.green_table.focus(), column='Occupation', value='occupied')
 
         self.selection_clear()
 
+
+    #Cause tc fail
     def tc_fail(self):
         if self.red_table.set(self.red_table.focus(), column='TC Failure') == 'FAILED':
             self.red_table.set(self.red_table.focus(), column='TC Failure', value='working')
+            if (self.red_table.item(self.red_table.focus(), 'values')[18] != 'BROKEN') and (self.red_table.item(self.red_table.focus(), 'values')[16] != 'FAILED'):
+                self.red_table.set(self.red_table.focus(), column='Occupation', value='unoccupied')
         else:
             self.red_table.set(self.red_table.focus(), column='TC Failure', value='FAILED')
+            self.red_table.set(self.red_table.focus(), column='Occupation', value='occupied')
 
         if self.green_table.set(self.green_table.focus(), column='TC Failure') == 'FAILED':
             self.green_table.set(self.green_table.focus(), column='TC Failure', value='working')
+            if (self.green_table.item(self.green_table.focus(), 'values')[18] != 'BROKEN') and (self.green_table.item(self.green_table.focus(), 'values')[16] != 'FAILED'):
+                self.green_table.set(self.green_table.focus(), column='Occupation', value='unoccupied')
         else:
             self.green_table.set(self.green_table.focus(), column='TC Failure', value='FAILED')
+            self.green_table.set(self.green_table.focus(), column='Occupation', value='occupied')
 
         self.selection_clear()
+
 
     #Main Loop updates data and xmls
     def data_update(self):
         self.track_controller()
         self.train_model()
         self.update_stations()
+        sleep(.25)
         self.data_update()
-        sleep(10)
+        
 
     #Writes XML to Track Controller
     def track_controller(self):
@@ -243,32 +272,455 @@ class MainWindow(tk.Frame):
 
     #Talks to train model
     def train_model(self):
+        if os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+r"\xml\trackmodel_trainmodel.xml"):
+            xfile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+r"\xml\trackmodel_trainmodel.xml")
+            root = xfile.getroot()
+            for child in root.findall("Train"):
+                train_id = child.get('id')
+                if child.get('next') == '1':
+                    if train_id[0]=='G':
+                        direction = child.get('direction')
+                        track_num = child.get('trackNumber')
+                        new_track = self.get_next_green_track(track_num, direction)
+                        new_authority = self.get_next_green_auth(track_num, direction)
+                        child.set('trackNumber', new_track)
+                        for outs in self.greentree.get_children():
+                            if self.greentree.item(outs, 'values')[1] == track_num:
+                                self.greentree.set(outs, column='Occupation', value='unoccupied')
+                                if self.greentree.item(outs, 'values')[6] != "":
+                                    new_station = self.next_green_station(track_num, direction)
+                                    child.set('next_station', new_station)
+                                    self.throughput_calc(self.greentree.item(outs, 'values')[6])
+                            if self.greentree.item(outs, 'values')[1] == new_track:
+                                new_speed = self.greentree.item(outs, 'values')[4]
+                                new_ele = self.greentree.item(outs, 'values')[10]
+                                new_grade = self.greentree.item(outs, 'values')[3]
+                                new_length = self.greentree.item(outs, 'values')[2]
+                                self.greentree.set(outs, column='Occupation', value='occupied')
+                                break
+                        child.set('speed', new_speed)
+                        child.set('elevation', new_ele)
+                        child.set('grade', new_grade)
+                        child.set('length', new_length)
+                        child.set('next', '0')
+                        child.set('authority', new_authority)
+                            
+                    else:
+                        direction = child.get('direction')
+                        track_num = child.get('trackNumber')
+                        new_track = self.get_next_red_track(track_num, direction)
+                        new_authority = self.get_next_red_auth(track_num, direction)
+                        child.set('trackNumber', new_track)
+                        for outs in self.redtree.get_children():
+                            if self.redtree.item(outs, 'values')[1] == track_num:
+                                self.redtree.set(outs, column='Occupation', value='unoccupied')
+                                if self.redtree.item(outs, 'values')[6] != "":
+                                    new_station = self.next_red_station(track_num, direction)
+                                    child.set('next_station', new_station)
+                                    self.throughput_calc(self.redtree.item(outs, 'values')[6])
+                            if self.redtree.item(outs, 'values')[1] == new_track:
+                                new_speed = self.redtree.item(outs, 'values')[4]
+                                new_ele = self.redtree.item(outs, 'values')[10]
+                                new_grade = self.redtree.item(outs, 'values')[3]
+                                new_length = self.redtree.item(outs, 'values')[2]
+                                self.redtree.set(outs, column='Occupation', value='occupied')
+                                break
+                        child.set('speed', new_speed)
+                        child.set('elevation', new_ele)
+                        child.set('grade', new_grade)
+                        child.set('length', new_length)
+                        child.set('next', '0')
+                        child.set('authority', new_authority)
+                        
+            tree = xml.etree.ElementTree.ElementTree(root)
+            tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+r"\xml\trackmodel_trainmodel.xml")
+
         
-        
-    #Read Track Controller XML
-    def read_xml(self):
-        print("READ")
+    #get next green track
+    def get_next_green_track(self, tn, d):
+        tnn = int(tn)
+        if tnn == 0:
+            return '58'
+        else:
+            for outs in self.greentree.get_children():
+                if self.greentree.item(outs, 'values')[1] == tn:
+                    #case for no switch
+                    if self.greentree.item(outs, 'values')[7] == "":
+                        if d == 'f':
+                            return str(tnn + 1)
+                        else:
+                            return str(tnn-1)
+                    else:
+                        switch_num = self.greentree.item(outs, 'values')[7]
+                        for outs in self.switchtree.get_children():
+                            if self.switchtree.item(outs, 'values')[0] == switch_num:
+                                switch_pos = self.switchtree.item(outs, 'values')[1]
+                                if switch_pos == "normal":
+                                    if d == 'f':
+                                        return str(self.switchtree.item(outs, 'values')[2])
+                                    else:
+                                        return str(self.switchtree.item(outs, 'values')[3])
+                                else:
+                                    if d == 'f':
+                                        return str(self.switchtree.item(outs, 'values')[4])
+                                    else:
+                                        return str(self.switchtree.item(outs, 'values')[5])
+                                
+
+    #get next red track
+    def get_next_red_track(self, tn, d):
+        tnn = int(tn)
+        if tnn == 0:
+            return '58'
+        else:
+            for outs in self.redtree.get_children():
+                if self.redtree.item(outs, 'values')[1] == tn:
+                    #case for no switch
+                    if self.redtree.item(outs, 'values')[7] == "":
+                        if d == 'f':
+                            return str(tnn + 1)
+                        else:
+                            return str(tnn-1)
+                    else:
+                        switch_num = self.redtree.item(outs, 'values')[7]
+                        for outs in self.switchtree.get_children():
+                            if self.switchtree.item(outs, 'values')[0] == switch_num:
+                                switch_pos = self.switchtree.item(outs, 'values')[1]
+                                if switch_pos == "normal":
+                                    if d == 'f':
+                                        return str(self.switchtree.item(outs, 'values')[2])
+                                    else:
+                                        return str(self.switchtree.item(outs, 'values')[3])
+                                else:
+                                    if d == 'f':
+                                        return str(self.switchtree.item(outs, 'values')[4])
+                                    else:
+                                        return str(self.switchtree.item(outs, 'values')[5])
+                
+
+    #get green auth
+    def get_next_green_auth(self, tn, d):
+        auth = 0
+        while(1):
+            ntn = self.get_next_green_track(tn, d)
+            tn = ntn
+            for outs in self.greentree.get_children():
+                if self.greentree.item(outs, 'values')[1] == ntn:
+                    auth_added = int(self.greentree.item(outs, 'values')[2])
+                    if self.greentree.item(outs, 'values')[9] == "":
+                        auth = auth + auth_added
+                    else:
+                        sig_num = self.greentree.item(outs, 'values')[9]
+                        for outs in self.signaltree.get_children():
+                            if self.signaltree.item(outs, 'values')[0] == sig_num:
+                                auth_added = self.greentree.item(outs, 'values')[2]
+                                if self.signaltree.item(outs, 'values')[2] == d:
+                                    if self.signaltree.item(outs, 'values')[1] == "red":
+                                        return str(auth + auth_added)
+                                    else:
+                                        auth = auth + auth_added
+                                        break
+                                else:
+                                    auth = auth + auth_added
+                                    break
+                break
+                            
+        return str(auth)
 
 
+    #get red auth
+    def get_next_red_auth(self, tn, d):
+        auth = 0
+        while(1):
+            ntn = self.get_next_red_track(tn, d)
+            tn = ntn
+            for outs in self.redtree.get_children():
+                if self.redtree.item(outs, 'values')[1] == ntn:
+                    auth_added = int(self.redtree.item(outs, 'values')[2])
+                    if self.redtree.item(outs, 'values')[9] == "":
+                        auth = auth + auth_added
+                    else:
+                        sig_num = self.redtree.item(outs, 'values')[9]
+                        for outs in self.signaltree.get_children():
+                            if self.signaltree.item(outs, 'values')[0] == sig_num:
+                                auth_added = self.redtree.item(outs, 'values')[2]
+                                if self.signaltree.item(outs, 'values')[2] == d:
+                                    if self.signaltree.item(outs, 'values')[1] == "red":
+                                        return str(auth + auth_added)
+                                    else:
+                                        auth = auth + auth_added
+                                        break
+                                else:
+                                    auth = auth + auth_added
+                                    break
+                break
+                            
+        return str(auth)
+    
+
+    #def next green station
+    def next_green_station(self, tn, d):
+        while(1):
+            ntn = self.get_next_green_track(tn, d)
+            tn = ntn
+            for outs in self.greentree.get_children():
+                if self.greentree.item(outs, 'values')[1] == ntn:
+                    if self.greentree.item(outs, 'values')[6] == "":
+                        break
+                    else:
+                        return self.greentree.item(outs, 'values')[6]
+        
+
+    #def next red station
+    def next_red_station(self, tn, d):
+        while(1):
+            ntn = self.get_next_red_track(tn, d)
+            tn = ntn
+            for outs in self.redtree.get_children():
+                if self.redtree.item(outs, 'values')[1] == ntn:
+                    if self.redtree.item(outs, 'values')[6] == "":
+                        break
+                    else:
+                        return self.redtree.item(outs, 'values')[6]
+
+
+    #def throughput
+    def throughput_calc(self, st):
+        for outs in self.stationtree.get_children():
+            if self.stationtree.item(outs, 'values')[0] == st:
+                output = self.stationtree.item(outs, 'values')[1]
+                self.stationtree.set(outs, column="Passenger Count", value=0)
+                self.throughput = self.throughput + int(output)
+                
+                
+    #update stations
     def update_stations(self):
         for outs in self.stationtree.get_children():
             y = self.stationtree.item(outs, 'values')[1]
-            x = random.randint(1, 21)
+            x = random.randint(1, 6)
             y = int(y) + x
             self.stationtree.set(outs, column="Passenger Count", value=y)
 
+
+    #Determines if number
+    def is_number(self, s):
+        try:
+            float(s)
+            return True
+        except ValueError:
+            return False
+
+    
     #reads from track controller and sets switches and signals
     def read_from_track_controller(self):
-        
+        if os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml"):
+            xfile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackControllerOutputs.xml")
+            root = xfile.getroot()
+            for child in root.findall("bit"):
+                read = child.get('name')
+                position = int(child.text)
+                line_select = read[0]
+                
+                #selects line to alter
+                if line_select == 'R':
+                    #selects track block and type                  
+                    if self.is_number(read[2]):
+                        track_block = read[1:3]
+                        if read[3] == "G":
+                            for outs in self.redtree.get_children():
+                                if self.redtree.item(outs, 'values')[1] == track_block:
+                                    sig_num = self.redtree.item(outs, 'values')[9]
+                                    break
+                            for outs in self.signaltree.get_children():
+                                if self.signaltree.item(outs, 'values')[0] == sig_num:
+                                    if position == 1:
+                                        self.signaltree.set(outs, column='Color', value='green')
+                                    else:
+                                        self.signaltree.set(outs, column='Color', value='red')
+                                    break
+                            
+                        elif read[3] == "S":
+                            print("add Red Switch 2 number code")
+                                
+                        else:
+                            for outs in self.redtree.get_children():
+                                if self.redtree.item(outs, 'values')[1] == track_block:
+                                    cross_num = self.redtree.item(outs, 'values')[8]
+                                    break
+                            for outs in self.crosstree.get_children():
+                                if self.crosstree.item(outs, 'values')[0] == cross_num:
+                                    if position == 1:
+                                        self.crosstree.set(outs, column='Position', value='up')
+                                    else:
+                                        self.crosstree.set(outs, column='Position', value='down')
+                                    break
+                    else:
+                        track_block = read[1]
+                        if read[2] == "G":
+                            for outs in self.redtree.get_children():
+                                if self.redtree.item(outs, 'values')[1] == track_block:
+                                    sig_num = self.redtree.item(outs, 'values')[9]
+                                    break
+                            for outs in self.signaltree.get_children():
+                                if self.signaltree.item(outs, 'values')[0] == sig_num:
+                                    if position == 1:
+                                        self.signaltree.set(outs, column='Color', value='green')
+                                    else:
+                                        self.signaltree.set(outs, column='Color', value='red')
+                                    break
+                                
+                        elif read[2] == "S":
+                            tb6 = int(track_block) + 6
+                            cmp_tb = str(tb6)
+                            for outs in self.switchtree.get_children():
+                                if self.switchtree.item(outs, 'values')[0] == cmp_tb:
+                                    if position == 0:
+                                        self.switchtree.set(outs, column='Position', value='reverse')
+                                    else:
+                                        self.switchtree.set(outs, column='Position', value='normal')
+                                    break
+                                                                
+                        else:
+                            for outs in self.redtree.get_children():
+                                if self.redtree.item(outs, 'values')[1] == track_block:
+                                    cross_num = self.redtree.item(outs, 'values')[8]
+                                    break
+                            for outs in self.crosstree.get_children():
+                                if self.crosstree.item(outs, 'values')[0] == cross_num:
+                                    if position == 1:
+                                        self.crosstree.set(outs, column='Position', value='up')
+                                    else:
+                                        self.crosstree.set(outs, column='Position', value='down')
+                                    break
 
+                else:
+                    if self.is_number(read[3]):
+                        track_block = read[1:4]
+                        if read[4] == "G":
+                            for outs in self.greentree.get_children():
+                                if self.greentree.item(outs, 'values')[1] == track_block:
+                                    sig_num = self.greentree.item(outs, 'values')[9]
+                                    break
+                            for outs in self.signaltree.get_children():
+                                if self.signaltree.item(outs, 'values')[0] == sig_num:
+                                    if position == 1:
+                                        self.signaltree.set(outs, column='Color', value='green')
+                                    else:
+                                        self.signaltree.set(outs, column='Color', value='red')
+                                    break
+                        elif read[4] == "S":
+                            print("add Green Switch 3 number code")
+                        else:
+                            for outs in self.greentree.get_children():
+                                if self.greentree.item(outs, 'values')[1] == track_block:
+                                    cross_num = self.greentree.item(outs, 'values')[8]
+                                    break
+                            for outs in self.crosstree.get_children():
+                                if self.crosstree.item(outs, 'values')[0] == cross_num:
+                                    if position == 1:
+                                        self.crosstree.set(outs, column='Position', value='up')
+                                    else:
+                                        self.crosstree.set(outs, column='Position', value='down')
+                                    break
+
+                    elif self.is_number(read[2]):
+                        track_block = read[1:3]
+                        if read[3] == "G":
+                            for outs in self.greentree.get_children():
+                                if self.greentree.item(outs, 'values')[1] == track_block:
+                                    sig_num = self.greentree.item(outs, 'values')[9]
+                                    break
+                            for outs in self.signaltree.get_children():
+                                if self.signaltree.item(outs, 'values')[0] == sig_num:
+                                    if position == 1:
+                                        self.signaltree.set(outs, column='Color', value='green')
+                                    else:
+                                        self.signaltree.set(outs, column='Color', value='red')
+                        elif read[3] == "S":
+                            print("add Green Switch 2 number code")
+                        else:
+                            for outs in self.greentree.get_children():
+                                if self.greentree.item(outs, 'values')[1] == track_block:
+                                    cross_num = self.greentree.item(outs, 'values')[8]
+                                    break
+                            for outs in self.crosstree.get_children():
+                                if self.crosstree.item(outs, 'values')[0] == cross_num:
+                                    if position == 1:
+                                        self.crosstree.set(outs, column='Position', value='up')
+                                    else:
+                                        self.crosstree.set(outs, column='Position', value='down')
+                                    break
+                    else:
+                        track_block = read[1]
+                        if read[2] == "G":
+                            for outs in self.greentree.get_children():
+                                if self.greentree.item(outs, 'values')[1] == track_block:
+                                    sig_num = self.greentree.item(outs, 'values')[9]
+                                    break
+                            for outs in self.signaltree.get_children():
+                                if self.signaltree.item(outs, 'values')[0] == sig_num:
+                                    if position == 1:
+                                        self.signaltree.set(outs, column='Color', value='green')
+                                    else:
+                                        self.signaltree.set(outs, column='Color', value='red')
+                        elif read[2] == "S":
+                            tb6 = int(track_block)
+                            cmp_tb = str(tb6)
+                            for outs in self.switchtree.get_children():
+                                if self.switchtree.item(outs, 'values')[0] == cmp_tb:
+                                    if position == 0:
+                                        self.switchtree.set(outs, column='Position', value='reverse')
+                                    else:
+                                        self.switchtree.set(outs, column='Position', value='normal')
+                                    break
+                        else:
+                            for outs in self.greentree.get_children():
+                                if self.greentree.item(outs, 'values')[1] == track_block:
+                                    cross_num = self.greentree.item(outs, 'values')[8]
+                                    break
+                            for outs in self.crosstree.get_children():
+                                if self.crosstree.item(outs, 'values')[0] == cross_num:
+                                    if position == 1:
+                                        self.crosstree.set(outs, column='Position', value='up')
+                                    else:
+                                        self.crosstree.set(outs, column='Position', value='down')
+                                    break
+
+
+                    
     #writes occupancies to track controller
     def write_to_track_controller(self):
-        if os.path.isfile(os.getcwd()+"\toTrackController.xml"):
-            xfile = xml.etree.ElementTree.parse(os.getcwd()+"\toTrackController.xml")
+        if os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml"):
+            xfile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")
             root = xfile.getroot()
 
-            for outputs in self.red_table.get_children():
-                filler = 1
+            for outs in self.redtree.get_children():
+                i = 1
+                name_build = "R"
+                track_number = self.redtree.item(outs, 'values')[1]
+                name_build = name_build + track_number + "T"
+                if self.redtree.item(outs, 'values')[15] == "occupied":
+                    find_string = './/bit[@name='+"\""+name_build+"\""+']'
+                    root.find(find_string).text = '0'
+                else:
+                    find_string = './/bit[@name='+"\""+name_build+"\""+']'
+                    root.find(find_string).text = '1'
+                i += 1
+            for outs in self.greentree.get_children():
+                i = 1
+                name_build = "G"
+                track_number = self.greentree.item(outs, 'values')[1]
+                name_build = name_build + track_number + "T"
+                if self.greentree.item(outs, 'values')[15] == "occupied":
+                    find_string = './/bit[@name='+"\""+name_build+"\""+']'
+                    root.find(find_string).text = '0'
+                else:
+                    find_string = './/bit[@name='+"\""+name_build+"\""+']'
+                    root.find(find_string).text = '1'
+                i += 1
+
+            root.find('throughput').text = str(self.throughput)
+                
         else:
             root = xml.etree.ElementTree.Element("bits")
             for outs in self.redtree.get_children():
@@ -296,10 +748,14 @@ class MainWindow(tk.Frame):
                                                      name=name_build).text = '1'
                 i += 1
 
+            xml.etree.ElementTree.SubElement(root, "throughput",
+                                                     name='throughput').text = str(self.throughput)
+
         tree = xml.etree.ElementTree.ElementTree(root)
-        tree.write("toTrackController.xml")
+        tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")
         
 
+    #Create window and initialize
     def __init__(self, master, *args, **kwargs):
         self.master = master
         master.title("Track Model UI")
