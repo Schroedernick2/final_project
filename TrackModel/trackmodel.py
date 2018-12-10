@@ -96,13 +96,15 @@ class MainWindow(tk.Frame):
                             rc = ''
                         if sw == 0:
                             self.red_table.insert('', 'end',
-                                                  values=(r[1], r[2], r[3], r[4], r[5], ug, st, '', r[16], r[17], r[8],
+                                                  values=(r[1], r[2], str(int(float(r[3])*1.09361)), r[4], str(int(float(r[5])*0.621371)),
+                                                          ug, st, '', r[16], r[17], str("{0:0.1f}".format(float(r[8])*3.28084)),
                                                           r[11],
                                                           r[10], 'false', 'off', 'unoccupied', 'working',
                                                           'working', 'working'))
                         else:
                             self.red_table.insert('', 'end',
-                                                  values=(r[1], r[2], r[3], r[4], r[5], ug, st, sw, r[16], r[17], r[8], r[11],
+                                                  values=(r[1], r[2], str(int(float(r[3])*1.09361)), r[4], str(int(float(r[5])*0.621371)), ug, st, sw, r[16], r[17],
+                                                          str("{0:0.1f}".format(float(r[8])*3.28084)), r[11],
                                                           r[10], 'false', 'off', 'unoccupied', 'working',
                                                           'working', 'working'))
                     #adds green rails to project
@@ -161,14 +163,16 @@ class MainWindow(tk.Frame):
 
                         if sw == 0:
                             self.green_table.insert('', 'end',
-                                                    values=(r[1], r[2], r[3], r[4], r[5], ug, st, '', r[16], r[17], r[8],
+                                                    values=(r[1], r[2], str(int(float(r[3])*1.09361)), r[4], str(int(float(r[5])*0.621371)), ug, st, '',
+                                                            r[16], r[17], str("{0:0.1f}".format(float(r[8])*3.28084)),
                                                             r[11],
                                                             r[10], 'false', 'off', 'unoccupied', 'working',
                                                             'working', 'working'))
                         else:
                             self.green_table.insert('', 'end',
                                                     values=(
-                                                    r[1], r[2], r[3], r[4], r[5], ug, st, sw, r[16], r[17], r[8], r[11],
+                                                    r[1], r[2], str(int(float(r[3])*1.09361)), r[4], str(int(float(r[5])*0.621371)),
+                                                    ug, st, sw, r[16], r[17], str("{0:0.1f}".format(float(r[8])*3.28084)), r[11],
                                                     r[10], 'false', 'off', 'unoccupied', 'working',
                                                     'working', 'working'))
 
