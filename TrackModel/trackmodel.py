@@ -342,11 +342,9 @@ class MainWindow(tk.Frame):
         
     #get next green track
     def get_next_green_track(self, tn, d):
-        if tn == 'yard':
-            return -1
         tnn = int(tn)
         if tnn == 0:
-            return '58'
+            return '62'
         else:
             for outs in self.greentree.get_children():
                 if self.greentree.item(outs, 'values')[1] == tn:
@@ -377,7 +375,7 @@ class MainWindow(tk.Frame):
     def get_next_red_track(self, tn, d):
         tnn = int(tn)
         if tnn == 0:
-            return '58'
+            return '9'
         else:
             for outs in self.redtree.get_children():
                 if self.redtree.item(outs, 'values')[1] == tn:
@@ -408,30 +406,30 @@ class MainWindow(tk.Frame):
     def get_next_green_auth(self, tn, d):
         auth = 0
         while(1):
+            print("AUTH: " + str(auth))
             ntn = self.get_next_green_track(tn, d)
-            if ntn == -1:
+            if ntn == 'yard':
                 break
             tn = ntn
             for outs in self.greentree.get_children():
                 if self.greentree.item(outs, 'values')[1] == ntn:
                     auth_added = int(self.greentree.item(outs, 'values')[2])
                     if self.greentree.item(outs, 'values')[9] == "":
-                        auth = auth + auth_added
+                        auth = auth + int(auth_added)
                     else:
                         sig_num = self.greentree.item(outs, 'values')[9]
                         for outs in self.signaltree.get_children():
                             if self.signaltree.item(outs, 'values')[0] == sig_num:
                                 auth_added = self.greentree.item(outs, 'values')[2]
-                                if self.signaltree.item(outs, 'values')[2] == d:
+                                if self.signaltree.item(outs, 'values')[2] == d.upper():
                                     if self.signaltree.item(outs, 'values')[1] == "red":
-                                        return str(auth + auth_added)
+                                        return str(auth + int(auth_added))
                                     else:
-                                        auth = auth + auth_added
+                                        auth = auth + int(auth_added)
                                         break
                                 else:
-                                    auth = auth + auth_added
+                                    auth = auth + int(auth_added)
                                     break
-                break
                             
         return str(auth)
 
@@ -693,9 +691,6 @@ class MainWindow(tk.Frame):
                                     else:
                                         self.crosstree.set(outs, column='Position', value='down')
                                     break
-            
-        else:
-            print("Track Controller value not created yet")
 
                     
     #writes occupancies to track controller
