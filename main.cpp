@@ -37,18 +37,20 @@ int main(int argc, char** argv){
 		return EXIT_FAILURE;
 
 	//system("rm xml/TrainOutputs.xml");
-	system("rm xml/*");
+	
 
 	switch(PLATFORM){
 		case 1:
+			system("rm xml/*");
 			system("gnome-terminal -- bash -c \"exec java -jar TrainModel/dist/TrainModel.jar && read\"");
 			system("gnome-terminal -- bash -c \"exec java -jar CTCOffice/CTC.jar && read\"");
-			system("gnome-terminal -- bash -c \"exec python3 TrackController/Track\\ Controller.py && read\"");
+			system("gnome-terminal -- bash -c \"exec python3 TrackController/TrackController.py && read\"");
 			system("gnome-terminal -- bash -c \"exec python3 TrackModel/trackmodel.py && read\"");
 			system("gnome-terminal -- bash -c \"exec java -jar TC/dist/TrainController.jar && read\"");
 				
 			break;
 		case 0:
+			system("del /Q xml\\*");
 			system("start cmd /k java -jar TrainModel/dist/TrainModel.jar");
 			system("start cmd /k java -jar CTCOffice/CTC.jar");
 			system("start cmd /k TrackController\\TrackController.py");
