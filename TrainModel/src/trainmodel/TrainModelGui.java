@@ -365,7 +365,7 @@ public class TrainModelGui extends javax.swing.JDialog {
 
     private void emergencyBrakeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emergencyBrakeBoxActionPerformed
         //System.out.println(emergencyBrakeBox.isSelected());
-        trains.get(selectedTrainIndex).setEmergencyBrake(emergencyBrakeBox.isSelected());
+        //trains.get(selectedTrainIndex).setEmergencyBrake(emergencyBrakeBox.isSelected());
         trains.get(selectedTrainIndex).setPassengerPulled(emergencyBrakeBox.isSelected());
         displayValues();
     }//GEN-LAST:event_emergencyBrakeBoxActionPerformed
@@ -567,7 +567,9 @@ public class TrainModelGui extends javax.swing.JDialog {
                         t.setLeftDoors(leftDoors);
                         t.setRightDoors(rightDoors);                        
                         t.setTemperature(temp);
+                        
                         t.updateVelocity();
+                        
                         eElement.setAttribute("station",""+t.getStation());
                         eElement.setAttribute("engineFailure",""+t.isEngineFailure());
                         eElement.setAttribute("brakeFailure",""+t.isBrakeFailure());
@@ -689,17 +691,23 @@ public class TrainModelGui extends javax.swing.JDialog {
                         t.setStation(nextStation);
                         t.setBlockLength(length);
                         
-                        if(pass>222){
+                        System.out.println(pass);
+                        
+                        if(pass>=222){
                             t.setPassengerCount(222);
                         }
                         else{
                             Random rand = new Random();
-                            //int n = rand.nextInt(t.getPassengerCount()) + 1;
-                            int n = rand.nextInt(1) + 1;
-                            if((t.getPassengerCount()-n)+pass <= 222)
-                                t.setPassengerCount((t.getPassengerCount()-n)+pass);
-                            else
-                                t.setPassengerCount(222);
+                            if(t.getPassengerCount()!=0){
+                                int n = rand.nextInt(t.getPassengerCount()) + 1;
+                                if((t.getPassengerCount()-n)+pass <= 222)
+                                    t.setPassengerCount((t.getPassengerCount()-n)+pass);
+                                else 
+                                    t.setPassengerCount(222);
+                            }
+                            else{
+                                t.setPassengerCount(pass);
+                            }
                         }
        
                         t.updateVelocity();
