@@ -350,7 +350,7 @@ class MainWindow(tk.Frame):
 
 
     #get green auth for station
-    def green_station_auth(self, tn, d)
+    def green_station_auth(self, tn, d):
         auth = 0
         while(1):
             ntn = self.get_next_green_track(tn, d)
