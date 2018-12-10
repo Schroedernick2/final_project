@@ -265,9 +265,9 @@ public class Train{
             //calculate distance
             this.distance = this.distance+(this.velocity/3600);
             
-            if((this.distance/1760) >= blockDistanceTraveled+length){
+            if((this.distance/1760) >= blockDistanceTraveled+blockLength){
                 next = 1;
-                blockDistanceTraveled += length;
+                blockDistanceTraveled += blockLength;
             }
             else
                 next = 0;
