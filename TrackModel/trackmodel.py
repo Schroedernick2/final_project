@@ -342,6 +342,8 @@ class MainWindow(tk.Frame):
         
     #get next green track
     def get_next_green_track(self, tn, d):
+        if tn == 'yard':
+            return -1
         tnn = int(tn)
         if tnn == 0:
             return '58'
@@ -407,6 +409,8 @@ class MainWindow(tk.Frame):
         auth = 0
         while(1):
             ntn = self.get_next_green_track(tn, d)
+            if ntn == -1:
+                break
             tn = ntn
             for outs in self.greentree.get_children():
                 if self.greentree.item(outs, 'values')[1] == ntn:
