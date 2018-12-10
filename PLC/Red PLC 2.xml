@@ -1,0 +1,300 @@
+<?xml version="1.0" ?>
+
+<data>	
+	
+	<bit name="R16T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R17T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R18T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R19T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R20T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R21T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R22T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R23T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R24T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R25T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R26T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R27T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R28T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R29T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R30T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R31T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R32T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R33T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R34T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R35T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R36T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R37T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R38T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R39T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R40T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R41T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R42T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R43T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R44T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R45T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R46T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R47T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R48T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R49T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R50T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R51T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R67T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R68T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R69T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R70T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R71T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R72T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R73T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R74T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R75T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R76T">
+		<type>INPUT</type>
+	</bit>
+	
+	
+	
+	
+	<bit name="R3SNR">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R3SRR">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R4SNR">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R4SRR">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R5SNR">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R5SRR">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R6SNR">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R6SRR">
+		<type>INPUT</type>
+	</bit>		
+	<bit name="R47UR">
+		<type>INPUT</type>
+	</bit>
+	<bit name="R47DR">
+		<type>INPUT</type>
+	</bit>		
+
+	
+	<bit name="R26GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R28GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R31GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R33GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R37GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R39GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R42GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R76GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R67GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R71GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R72GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R44GK">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R3SNP">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R4SNP">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R5SNP">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R6SNP">
+		<type>OUTPUT</type>
+	</bit>
+	<bit name="R47C">
+		<type>OUTPUT</type>
+	</bit>
+	
+	<logic>
+		<equation>R3SNP * ~R3SRR + R3SNR * ~R3SRR + R3SNR * R3SRR</equation>
+		<assign>R3SNP</assign>
+	</logic>
+	<logic>
+		<equation>R4SNP * ~R4SRR + R4SNR * ~R4SRR + R4SNR * R4SRR</equation>
+		<assign>R4SNP</assign>
+	</logic>
+	<logic>
+		<equation>R5SNP * ~R5SRR + R5SNR * ~R5SRR + R5SNR * R5SRR</equation>
+		<assign>R5SNP</assign>
+	</logic>
+	<logic>
+		<equation>R6SNP * ~R6SRR + R6SNR * ~R6SRR + R6SNR * R6SRR</equation>
+		<assign>R6SNP</assign>
+	</logic>
+    <logic>
+		<equation>~R3SNP * (R72T * R73T * R74T * R75T * R76T * R27T) * ( ~R26T + ~R25T + ~R24T ) + R3SNP * (R27T * R28T * R29T * R30T * R31T) * ( ~R26T + ~R25T + ~R24T ) </equation>
+		<assign>R26GK</assign>
+	</logic>
+	<logic>
+		<equation>R3SNP * (R16T * R17T * R18T * R19T * R20T * R21T * R22T * R23T * R24T * R25T * R26T) * ( ~R28T + ~R29T + ~R30T )</equation>
+		<assign>R28GK</assign>
+	</logic>
+	<logic>
+		<equation>R4SNP * (R32T * R33T * R34T * R35T * R36T * R37T) * ( ~R26T + ~R25T + ~R24T ) </equation>
+		<assign>R31GK</assign>
+	</logic>
+	<logic>
+		<equation>R4SNP * (R32T * R33T * R34T * R35T * R36T * R37T) * ( ~R35T + ~R36T + ~R37T ) + ~R4SNP * (R72T * R73T * R74T * R75T * R76T * R32T) * ( ~R35T + ~R36T + ~R37T ) </equation>
+		<assign>R33GK</assign>
+	</logic>
+	 <logic>
+		<equation>~R5SNP * (R67T * R68T * R69T * R70T * R71T * R32T) * ( ~R35T + ~R36T + ~R37T ) + R5SNP * (R38T * R39T * R40T * R41T * R42T) * ( ~R35T + ~R36T + ~R37T ) </equation>
+		<assign>R37GK</assign>
+	</logic>	
+	<logic>
+		<equation>R5SNP * (R38T * R37T * R36T * R35T * R34T * R33T * R22T * R23T * R24T * R25T * R26T) * ( ~R39T + ~R40T + ~R41T )</equation>
+		<assign>R39GK</assign>
+	</logic>	
+	<logic>
+		<equation>R6SNP * (R43T * R44T * R45T * R46T * R47T * R48T * R49T * R50T * R51T) * ( ~R40T + ~R41T + ~R42T ) </equation>
+		<assign>R42GK</assign>
+	</logic>
+	<logic>
+		<equation>R6SNP * (R39T * R40T * R41T * R42T * R43T) * ( ~R44T + ~R45T + ~R46T ) + ~R6SNP * (R67T * R68T * R69T * R70T * R71T * R43T) * ( ~R44T + ~R45T + ~R46T ) </equation>
+		<assign>R44GK</assign>
+	</logic>
+	<logic>
+		<equation>~R6SNP * (R46T * R47T * R48T * R43T) * ( ~R67T ) </equation>
+		<assign>R67GK</assign>
+	</logic>
+	<logic>
+		<equation>~R5SNP * (R33T * R34T * R35T * R36T * R37T * R38T) * ( ~R71T ) </equation>
+		<assign>R71GK</assign>
+	</logic>
+	
+	<logic>
+		<equation>~R3SNP * (R16T * R17T * R18T * R19T * R20T * R21T * R22T * R23T * R24T * R25T * R26T) * ( ~R76T ) </equation>
+		<assign>R76GK</assign>
+	</logic>
+	<logic>
+		<equation>~R4SNP * (R32T * R33T * R34T * R35T * R36T * R37T) * ( ~R72T ) </equation>
+		<assign>R72GK</assign>
+	</logic>
+	<logic>
+		<equation> R46T * R47T * R48T * ( R47C * ~R47DR + R47UR * ~R47C + R47UR * R47DR )</equation>
+		<assign>R47C</assign>
+	</logic>
+</data>
