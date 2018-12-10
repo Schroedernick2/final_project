@@ -517,7 +517,7 @@ class MainWindow(tk.Frame):
     
     #reads from track controller and sets switches and signals
     def read_from_track_controller(self):
-        if os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml"):
+        if os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackControllerOutputs.xml"):
             xfile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackControllerOutputs.xml")
             root = xfile.getroot()
             for child in root.findall("bit"):
@@ -689,7 +689,9 @@ class MainWindow(tk.Frame):
                                     else:
                                         self.crosstree.set(outs, column='Position', value='down')
                                     break
-
+            
+        else:
+            print("Track Controller value not created yet")
 
                     
     #writes occupancies to track controller
