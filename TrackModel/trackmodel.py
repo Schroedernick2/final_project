@@ -419,6 +419,7 @@ class MainWindow(tk.Frame):
                             
         return str(auth)
 
+
     #get red auth
     def get_next_red_auth(self, tn, d):
         auth = 0
