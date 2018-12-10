@@ -291,13 +291,15 @@ class MainWindow(tk.Frame):
                             new_track = '86'
                             change_dir = 'y'
                         new_authority = self.get_next_green_auth(track_num, direction)
+                        new_station = self.next_green_station(track_num, direction)
+                        station_auth = self.green_station_auth(track_num, direction)
+                        child.set('nextStation', new_station)
+                        child.set('stationAuthority', station_auth)
                         child.set('trackNumber', new_track)
                         for outs in self.greentree.get_children():
                             if self.greentree.item(outs, 'values')[1] == track_num:
                                 self.greentree.set(outs, column='Occupation', value='unoccupied')
                                 if self.greentree.item(outs, 'values')[6] != "":
-                                    new_station = self.next_green_station(track_num, direction)
-                                    child.set('nextStation', new_station)
                                     self.throughput_calc(self.greentree.item(outs, 'values')[6])
                             if self.greentree.item(outs, 'values')[1] == new_track:
                                 new_speed = self.greentree.item(outs, 'values')[4]
@@ -346,7 +348,26 @@ class MainWindow(tk.Frame):
             tree = xml.etree.ElementTree.ElementTree(root)
             tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+r"\xml\trackmodel_trainmodel.xml")
 
-        
+
+    #get green auth for station
+    def green_station_auth(self, tn, d)
+        auth = 0
+        while(1):
+            ntn = self.get_next_green_track(tn, d)
+            if (ntn == '151'):
+                ntn = '85'
+                d = 'r'
+            tn = ntn
+            for outs in self.greentree.get_children():
+                if self.greentree.item(outs, 'values')[1] == ntn:
+                    auth = auth + int(self.greentree.item(outs, 'values')[2])
+                    if self.greentree.item(outs, 'values')[6] == "":
+                        break
+                    else:
+                        return str(auth)
+                    
+                    
+    
     #get next green track
     def get_next_green_track(self, tn, d):
         tnn = int(tn)
