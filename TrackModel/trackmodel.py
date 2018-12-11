@@ -306,10 +306,9 @@ class MainWindow(tk.Frame):
                         change_dir = 'n'
                         direction = child.get('direction')
                         track_num = child.get('trackNumber')
-                        new_track = self.get_next_green_track(track_num, direction)
-                        if (new_track == '151'):
-                            new_track = '86'
-                            change_dir = 'y'
+                        val_ret = self.get_next_green_track(track_num, direction)
+                        new_track = val_ret[0]
+                        direction = val_ret[1]
                         new_authority = self.get_next_green_auth(track_num, direction)
                         new_station = self.next_green_station(track_num, direction)
                         station_auth = self.green_station_auth(track_num, direction)
@@ -391,19 +390,20 @@ class MainWindow(tk.Frame):
     #get next green track
     def get_next_green_track(self, tn, d):
         tnn = int(tn)
+        retList = [tn, d]
         if tnn == 0:
-            return '62'
+            return ['62', 'f']
         if tnn == 100:
-            return '151'
+            return ['85', 'r']
         else:
             for outs in self.greentree.get_children():
                 if self.greentree.item(outs, 'values')[1] == tn:
                     #case for no switch
                     if self.greentree.item(outs, 'values')[7] == "":
                         if d == 'f':
-                            return str(tnn + 1)
+                            return [str(tnn + 1), d]
                         else:
-                            return str(tnn-1)
+                            return [str(tnn-1), d]
                     else:
                         switch_num = self.greentree.item(outs, 'values')[7]
                         for outs in self.switchtree.get_children():
@@ -411,14 +411,14 @@ class MainWindow(tk.Frame):
                                 switch_pos = self.switchtree.item(outs, 'values')[1]
                                 if switch_pos == "normal":
                                     if d == 'f':
-                                        return str(self.switchtree.item(outs, 'values')[2])
+                                        return [str(self.switchtree.item(outs, 'values')[2]), 'f']
                                     else:
-                                        return str(self.switchtree.item(outs, 'values')[3])
+                                        return [str(self.switchtree.item(outs, 'values')[3]), 'r']
                                 else:
                                     if d == 'f':
-                                        return str(self.switchtree.item(outs, 'values')[4])
+                                        return [str(self.switchtree.item(outs, 'values')[4]), 'f']
                                     else:
-                                        return str(self.switchtree.item(outs, 'values')[5])
+                                        return [str(self.switchtree.item(outs, 'values')[5]), 'r']
                                 
 
     #get next red track
@@ -1009,7 +1009,7 @@ class MainWindow(tk.Frame):
         self.temp_button = tk.Button(master, text="Set", command=self.change_temp)
         self.temp_button.grid(row=9, padx=0, pady=5, column=19, sticky="nsew")
         self.cur_temp = tk.Label(master, text=self.temperature)
-        self.cur_temp.grid(row=8, padx=5, pady=5, column=19, sticky="nse")
+        self.cur_temp.grid(row=8, padx=5, pady=5, column=18, sticky="nse")
 
         #Row and Column configures
         self.columnconfigure(2, weight=1)  # column with treeview
