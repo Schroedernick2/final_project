@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Trains><Train actualSpeed="5.06" ads="true" authority="327.0" blockDistanceTraveled="0.059024999999995664" brakeFailure="false" emergencyBrake="false" engineFailure="false" id="GREEN_1" leftDoor="false" lights="false" powerCmd="0.9365" rightDoor="false" scheduledStation="MT LEBANON" signalFailure="false" speed="10.0" speedLimit="37.0" station="DORMONT" stationAuthority="109.0" temp="70"/></Trains>>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Trains></Trains>

@@ -460,7 +460,7 @@ class MainWindow(tk.Frame):
             new_val = self.get_next_green_track(tn, d)
             ntn = new_val[0]
             d = new_val[1]
-            if ntn == 'yard' || ntn == 'n/a':
+            if ntn == 'yard' or ntn == 'n/a':
                 break
             tn = ntn
             for outs in self.greentree.get_children():
@@ -521,7 +521,7 @@ class MainWindow(tk.Frame):
         while(1):
             new_val = self.get_next_green_track(tn, d)
             ntn = new_val[0]
-            if ntn == 'n/a' || ntn == 'yard':
+            if ntn == 'n/a' or ntn == 'yard':
                 break
             d = new_val[1]
             tn = ntn
