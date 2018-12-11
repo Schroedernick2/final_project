@@ -388,11 +388,13 @@ class MainWindow(tk.Frame):
     
     #get next green track
     def get_next_green_track(self, tn, d):
+        if tn == 'n/a':
+            return 'n/a'
         tnn = int(tn)
         retList = [tn, d]
         if tnn == 0:
             return ['62', 'f']
-        if tnn == 100:
+        elif tnn == 100:
             return ['85', 'r']
         else:
             for outs in self.greentree.get_children():
@@ -455,11 +457,10 @@ class MainWindow(tk.Frame):
     def get_next_green_auth(self, tn, d):
         auth = 0
         while(1):
-            print("AUTH: " + str(auth))
             new_val = self.get_next_green_track(tn, d)
             ntn = new_val[0]
             d = new_val[1]
-            if ntn == 'yard':
+            if ntn == 'yard' || ntn == 'n/a':
                 break
             tn = ntn
             for outs in self.greentree.get_children():
@@ -520,6 +521,8 @@ class MainWindow(tk.Frame):
         while(1):
             new_val = self.get_next_green_track(tn, d)
             ntn = new_val[0]
+            if ntn == 'n/a' || ntn == 'yard':
+                break
             d = new_val[1]
             tn = ntn
             for outs in self.greentree.get_children():
@@ -556,9 +559,10 @@ class MainWindow(tk.Frame):
     def update_stations(self):
         for outs in self.stationtree.get_children():
             y = self.stationtree.item(outs, 'values')[1]
-            x = random.randint(1, 6)
-            y = int(y) + x
-            self.stationtree.set(outs, column="Passenger Count", value=y)
+            if int(y) < 30:
+                x = random.randint(1, 2)
+                y = int(y) + x
+                self.stationtree.set(outs, column="Passenger Count", value=y)
 
 
     #Determines if number
