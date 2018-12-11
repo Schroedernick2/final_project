@@ -741,7 +741,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                         eElement.setAttribute("distanceTraveled",""+t.getDistance());
                         eElement.setAttribute("next",""+t.getNext());
                         
-                        if(t.stops.get(t.numberOfStops).contains(nextStation)){
+                        if(t.stops.get(t.numberOfStops).equals(nextStation)){
                             t.numberOfStops++;
                         }
                     }
