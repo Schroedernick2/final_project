@@ -748,6 +748,8 @@ class MainWindow(tk.Frame):
                                     else:
                                         self.crosstree.set(outs, column='Position', value='down')
                                     break
+        else:
+            print("No Track Controller Outputs")
 
                     
     #writes occupancies to track controller
