@@ -15,6 +15,7 @@ from threading import Thread
 class MainWindow(tk.Frame):
     #variables
     throughput = 0
+    temperature = 0
     
     # load file
     def load(self):
@@ -257,6 +258,25 @@ class MainWindow(tk.Frame):
             self.green_table.set(self.green_table.focus(), column='Occupation', value='occupied')
 
         self.selection_clear()
+
+    #change temperature
+    def change_temp(self):
+        num = self.e1.get()
+        if self.is_number(num):
+            self.temperature = num
+            self.cur_temp['text'] = (str(self.temperature))
+            if int(num) < 32:
+                for outs in self.redtree.get_children():
+                    self.redtree.set(outs, column='Track Heater', value='on')
+                for outs in self.greentree.get_children():
+                    self.greentree.set(outs, column='Track Heater', value='on')
+            else:
+                for outs in self.redtree.get_children():
+                    self.redtree.set(outs, column='Track Heater', value='off')
+                for outs in self.greentree.get_children():
+                    self.greentree.set(outs, column='Track Heater', value='off')
+        else:
+            print("Please enter a number")
 
 
     #Main Loop updates data and xmls
@@ -796,9 +816,11 @@ class MainWindow(tk.Frame):
         tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackModelOutputs.xml")
         
 
-    #Create window and initialize
+    #Create window and initialize UI
     def __init__(self, master, *args, **kwargs):
         self.master = master
+        self.throughput = 0
+        self.temperature = 70
         master.title("Track Model UI")
         tk.Frame.__init__(self, *args, **kwargs)
         menubar = tk.Menu(master)
@@ -810,6 +832,7 @@ class MainWindow(tk.Frame):
         self.label = tk.Label(master, text='Red Line')
         self.label.grid(row=0, column=0, sticky='nsw')
 
+        #red table
         self.red_table = ttk.Treeview(master, height=7, columns=('Section', 'Block', 'Length', 'Grade', 'Speed',
                                                                  'Underground', 'Station', 'Switch', 'railway x-ing', 'signal',
                                                                  'Elevation',
@@ -862,6 +885,7 @@ class MainWindow(tk.Frame):
         self.glabel = tk.Label(master, text='Green Line')
         self.glabel.grid(row=2, column=0, columnspan=1, sticky='sw')
 
+        #green table
         self.green_table = ttk.Treeview(master, height=7, columns=('Section', 'Block', 'Length', 'Grade', 'Speed',
                                                                    'Underground', 'Station', 'Switch', 'railway x-ing', 'signal',
                                                                    'Elevation',
@@ -914,6 +938,7 @@ class MainWindow(tk.Frame):
         self.slabel = tk.Label(master, text='Switches, Crossing, Signals, and Murphy')
         self.slabel.grid(row=4, column=0, columnspan=1, sticky='sw')
 
+        #switch table
         self.switch_table = ttk.Treeview(master, height=7, columns=('Switch', 'Position', 'Forward Normal',
                                                                     'Reverse Normal', 'Forward Reverse',
                                                                     'Reverse Reverse'), selectmode='extended')
@@ -934,6 +959,7 @@ class MainWindow(tk.Frame):
         self.switch_table.grid(row=5, column=0, rowspan=6, columnspan=7, padx=5, pady=5, sticky='nsew')
         self.switchtree = self.switch_table
 
+        #cross table
         self.cross_table = ttk.Treeview(master, height=7, columns=('Crossing', 'Position'), selectmode='extended')
         self.cross_table.heading('#1', text='Crossing', anchor=tk.CENTER)
         self.cross_table.heading('#2', text='Position', anchor=tk.CENTER)
@@ -944,6 +970,7 @@ class MainWindow(tk.Frame):
         self.cross_table.grid(row=5, column=13, rowspan=6, padx=5, pady=5, sticky='nsew')
         self.crosstree = self.cross_table
 
+        #signal table
         self.signal_table = ttk.Treeview(master, height=7, columns=('Signal', 'Color', 'Direction'), selectmode='extended')
         self.signal_table.heading('#1', text='Signal', anchor=tk.CENTER)
         self.signal_table.heading('#2', text='Color', anchor=tk.CENTER)
@@ -955,6 +982,7 @@ class MainWindow(tk.Frame):
         self.signal_table.grid(row=5, column=15, rowspan=6, padx=5, pady=5, sticky='nsew')
         self.signaltree = self.signal_table
 
+        #station table
         self.station_table = ttk.Treeview(master, height=7, columns=('Station', 'Passenger Count'),
                                           selectmode='extended')
         self.station_table.heading('#1', text='Station', anchor=tk.CENTER)
@@ -965,6 +993,7 @@ class MainWindow(tk.Frame):
         self.station_table.grid(row=5, rowspan=6, column=17, padx=5, pady=5, sticky='nsew')
         self.stationtree = self.station_table
 
+        #murphy buttons
         self.pf_button = tk.Button(master, text="Power Failure", command=self.power_failure)
         self.pf_button.grid(row=5, padx=5, pady=5, column=18, sticky="nsew")
         self.tc_button = tk.Button(master, text="TC Failure", command=self.tc_fail)
@@ -972,10 +1001,21 @@ class MainWindow(tk.Frame):
         self.br_button = tk.Button(master, text="Broken Rail", command=self.break_rail)
         self.br_button.grid(row=7, padx=5, pady=5, column=18, sticky="nsew")
 
+        #Temperature UI
+        self.temp_label = tk.Label(master, text="TEMP(F)")
+        self.temp_label.grid(row=8, padx=5, pady=5, column=18, sticky="nsw")
+        self.e1 = tk.Entry(master, width='10')
+        self.e1.grid(row=9, padx=5, pady=5, column=18, sticky="nsew")
+        self.temp_button = tk.Button(master, text="Set", command=self.change_temp)
+        self.temp_button.grid(row=9, padx=0, pady=5, column=19, sticky="nsew")
+        self.cur_temp = tk.Label(master, text=self.temperature)
+        self.cur_temp.grid(row=8, padx=5, pady=5, column=19, sticky="nse")
+
+        #Row and Column configures
         self.columnconfigure(2, weight=1)  # column with treeview
         self.rowconfigure(2, weight=1)  # row with treeview
-
         self.config()
+
 
     @staticmethod
     def greet():
