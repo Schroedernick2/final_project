@@ -465,6 +465,21 @@ public class TrainModelGui extends javax.swing.JDialog {
         speedLimit.setValue(""+tr.getSpeedLimit());
         newTrain.setAttributeNode(speedLimit);
         
+        Attr stationAuth = doc.createAttribute("stationAuthority");
+        stationAuth.setValue(""+tr.getStationAuthority());
+        newTrain.setAttributeNode(stationAuth);        
+        
+        //scheduledStation
+        //blockDistanceTraveled
+        
+        Attr scheduledStation = doc.createAttribute("scheduledStation");
+        scheduledStation.setValue(tr.stops.get(tr.numberOfStops));
+        newTrain.setAttributeNode(scheduledStation);
+        
+        Attr blockDistanceTraveled = doc.createAttribute("blockDistanceTraveled");
+        blockDistanceTraveled.setValue(""+tr.getBlockDistanceTraveled()*1760);
+        newTrain.setAttributeNode(blockDistanceTraveled);
+        
         Attr brakeFail = doc.createAttribute("brakeFailure");
         brakeFail.setValue(""+tr.isBrakeFailure());
         newTrain.setAttributeNode(brakeFail);
@@ -574,6 +589,8 @@ public class TrainModelGui extends javax.swing.JDialog {
                         
                         t.updateVelocity();
                         
+                        eElement.setAttribute("blockDistanceTraveled",""+t.getBlockDistanceTraveled());
+                        eElement.setAttribute("scheduledStation",""+t.stops.get(t.numberOfStops));
                         eElement.setAttribute("station",""+t.getStation());
                         eElement.setAttribute("engineFailure",""+t.isEngineFailure());
                         eElement.setAttribute("brakeFailure",""+t.isBrakeFailure());
@@ -582,6 +599,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                         eElement.setAttribute("speed",""+t.getSpeed());
                         eElement.setAttribute("speedLimit",""+t.getSpeedLimit());
                         eElement.setAttribute("authority",""+t.getAuthority());
+                        eElement.setAttribute("stationAuthority",""+t.getStationAuthority());
                         eElement.setAttribute("actualSpeed",""+t.getVelocity());
                         eElement.setAttribute("emergencyBrake",""+t.isEmergencyBrake());
                     }
@@ -614,6 +632,10 @@ public class TrainModelGui extends javax.swing.JDialog {
         Attr speed = doc.createAttribute("speed");
         speed.setValue(""+tr.getSpeed());
         newTrain.setAttributeNode(speed);
+        
+        Attr stationAuthority = doc.createAttribute("stationAuthority");
+        stationAuthority.setValue("0.0");
+        newTrain.setAttributeNode(stationAuthority);        
         
         Attr authority = doc.createAttribute("authority");
         authority.setValue(""+tr.getAuthority());
@@ -686,6 +708,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                 String nextStation= eElement.getAttribute("nextStation").replaceAll("\\s+","");
                 double length = Double.parseDouble(eElement.getAttribute("length").replaceAll("\\s+",""));
                 int pass = Integer.parseInt(eElement.getAttribute("passengersAtStation").replaceAll("\\s+",""));
+                double stationAuthority = Double.parseDouble(eElement.getAttribute("stationAuthority").replaceAll("\\s+",""));
                 
                 for(Train t : trains){
                     if(t.getTrainID().equals(ID)){
@@ -695,6 +718,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                         t.setGrade(grade);
                         t.setStation(nextStation);
                         t.setBlockLength(length);
+                        t.setStationAuthority(stationAuthority);
                                                 
                         if(pass>=222){
                             t.setPassengerCount(222);
@@ -716,6 +740,10 @@ public class TrainModelGui extends javax.swing.JDialog {
                         t.updateVelocity();
                         eElement.setAttribute("distanceTraveled",""+t.getDistance());
                         eElement.setAttribute("next",""+t.getNext());
+                        
+                        if(t.stops.get(t.numberOfStops).contains(nextStation)){
+                            t.numberOfStops++;
+                        }
                     }
                 }   
             }

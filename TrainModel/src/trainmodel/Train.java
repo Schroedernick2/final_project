@@ -44,6 +44,7 @@ public class Train{
     private double distance;
     private double blockLength;
     private double prevDistance;
+    private double stationAuthority;
     
     //direction of train
     private boolean forward;
@@ -54,7 +55,8 @@ public class Train{
     private double force;
     private double accelerationLimit;
     private double decelerationLimit;
-    private ArrayList<String> stops;
+    public ArrayList<String> stops;
+    public int numberOfStops;
     
     
     //constant values
@@ -88,6 +90,8 @@ public class Train{
     public Train(String line,int trainNumber,int crewCount,int passCount,ArrayList<String> stops, double suggSpeed){
         //set train id
         this.trainID = line.toUpperCase()+"_"+trainNumber;
+        
+        this.numberOfStops = 0;
         
         this.stops = stops;
         
@@ -154,6 +158,8 @@ public class Train{
     public double getSpeed(){ return speed; }
     public double getAuthority(){ return authority; }
     
+    public double getBlockDistanceTraveled(){ return blockDistanceTraveled; }
+    
     //current train description getters
     public double getTime(int multiplier){ 
         double currTime = System.currentTimeMillis();
@@ -210,6 +216,8 @@ public class Train{
     public void setLights(boolean state){ lights = state; }   
     
     /*******MEMBER FUNCTIONS*******/
+    public double getStationAuthority(){ return stationAuthority; }
+    public void setStationAuthority(double sa){ this.stationAuthority = sa; }
     
     //function to update mass.. should be used when passenger/crew count changes
     private void updateMass(){
