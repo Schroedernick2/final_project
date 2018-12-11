@@ -372,10 +372,9 @@ class MainWindow(tk.Frame):
     def green_station_auth(self, tn, d):
         auth = 0
         while(1):
-            ntn = self.get_next_green_track(tn, d)
-            if (ntn == '151'):
-                ntn = '85'
-                d = 'r'
+            new_val = self.get_next_green_track(tn, d)
+            ntn = new_val[0]
+            d = new_val[1]
             tn = ntn
             for outs in self.greentree.get_children():
                 if self.greentree.item(outs, 'values')[1] == ntn:
@@ -457,10 +456,9 @@ class MainWindow(tk.Frame):
         auth = 0
         while(1):
             print("AUTH: " + str(auth))
-            ntn = self.get_next_green_track(tn, d)
-            if (ntn == '151'):
-                ntn = '86'
-                d = 'r'
+            new_val = self.get_next_green_track(tn, d)
+            ntn = new_val[0]
+            d = new_val[1]
             if ntn == 'yard':
                 break
             tn = ntn
@@ -520,10 +518,9 @@ class MainWindow(tk.Frame):
     #def next green station
     def next_green_station(self, tn, d):
         while(1):
-            ntn = self.get_next_green_track(tn, d)
-            if (ntn == '151'):
-                ntn = '85'
-                d = 'r'
+            new_val = self.get_next_green_track(tn, d)
+            ntn = new_val[0]
+            d = new_val[1]
             tn = ntn
             for outs in self.greentree.get_children():
                 if self.greentree.item(outs, 'values')[1] == ntn:
