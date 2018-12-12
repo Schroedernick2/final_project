@@ -602,7 +602,7 @@ class MainWindow(tk.Frame):
                         st = self.greentree.item(outs, 'values')[6]
                         for outs in self.stationtree.get_children():
                             if st == self.stationtree.item(outs, 'values')[0]:
-                                return [st, self.stationtree.item(outs, 'values')[1]]
+                                return [st, str(self.stationtree.item(outs, 'values')[1])]
         
 
     #def next red station
