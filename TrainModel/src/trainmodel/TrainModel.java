@@ -5,7 +5,7 @@ import java.util.*;
 public class TrainModel {
     public static void main(String[] args) {
         ArrayList<Train> trains = new ArrayList<Train>();
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 TrainModelGui dialog = new TrainModelGui(new javax.swing.JFrame(),true, trains);
