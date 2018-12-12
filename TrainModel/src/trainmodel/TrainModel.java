@@ -8,7 +8,7 @@ public class TrainModel {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TrainModelGui dialog = new TrainModelGui(new javax.swing.JFrame(), true, trains);
+                TrainModelGui dialog = new TrainModelGui(new javax.swing.JFrame(),true, trains);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

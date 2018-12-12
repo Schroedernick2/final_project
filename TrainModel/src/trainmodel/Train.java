@@ -83,16 +83,16 @@ public class Train{
     private final double METERS_TO_MILES = 0.000621371;
     private final double KM_TO_MILES = 0.621371;
     private final double MPH_TO_FPS = 1.46667;
-    private final double MPH_TO_MPS = 0.44704; //miles per hour to meters per second
+    private final double MPH_TO_MPS = 0.44704; //mph to meters per second
     
     /*******CONSTRUCTORS*******/
     
-    public Train(String line,int trainNumber,int crewCount,int passCount,ArrayList<String> stops, double suggSpeed){
+    public Train(String line,int trainNumber,int crewCount,int passCount,
+            ArrayList<String> stops, double suggSpeed){
         //set train id
-        this.trainID = line.toUpperCase()+"_"+trainNumber;
+        this.trainID = line.toUpperCase() + "_" + trainNumber;
         
         this.numberOfStops = 0;
-        
         this.stops = stops;
         
         //default state
@@ -106,10 +106,11 @@ public class Train{
         this.speed = suggSpeed;
         
         //dimensions
-        this.height = Math.round(TRAIN_HEIGHT*METERS_TO_FEET*100.0)/100.0;
-        this.width = Math.round(TRAIN_WIDTH*METERS_TO_FEET*100.0)/100.0;
-        this.length = Math.round(TRAIN_LENGTH*METERS_TO_FEET*100.0)/100.0;
-        this.mass = Math.round((TRAIN_MASS*TONS_TO_POUNDS)+(WEIGHT_PER_PERSON*(crewCount+passCount))*100.0)/100.0;
+        this.height = Math.round(TRAIN_HEIGHT * METERS_TO_FEET * 100.0) / 100.0;
+        this.width = Math.round(TRAIN_WIDTH * METERS_TO_FEET * 100.0) / 100.0;
+        this.length = Math.round(TRAIN_LENGTH * METERS_TO_FEET * 100.0) / 100.0;
+        this.mass = Math.round((TRAIN_MASS * TONS_TO_POUNDS)
+                +(WEIGHT_PER_PERSON * (crewCount+passCount)) * 100.0) / 100.0;
         
         this.prevDistance = 0;
         
@@ -184,6 +185,8 @@ public class Train{
     public int getTemperature(){ return temperature; }
     public boolean isAdvertisements(){ return advertisements; }
     public boolean isLights(){ return lights; }
+    public double getStationAuthority(){ return stationAuthority; }
+
     
     /*******SETTERS*******/
     public void setBlockLength(double l){ blockLength = l; }
@@ -201,27 +204,30 @@ public class Train{
     //command value setters
     public void setSpeed(double speed){ this.speed = speed; }
     public void setAuthority(double authority){ this.authority = authority; }
+    public void setStationAuthority(double sa){ this.stationAuthority = sa; }
     
     //other setters
     public void setPower(double power){ this.power = power; }
     public void setGrade(double grade){ this.grade = grade; }
     public void setElevation(double elevation){ this.elevation = elevation; }
     public void setStation(String station){ this.station = station; }
-    public void setPassengerCount(int passengerCount){ this.passengerCount = passengerCount;}
+    public void setPassengerCount(int passengerCount){ 
+        this.passengerCount = passengerCount;
+    }
     public void setCrewCount(int crewCount){ this.crewCount = crewCount; }
     public void setLeftDoors(boolean state){ leftDoors = state; }
     public void setRightDoors(boolean state){ rightDoors = state; }
     public void setTemperature(int temp){ temperature = temp; }
     public void setAdvertisements(boolean state){ advertisements = state; }
-    public void setLights(boolean state){ lights = state; }   
+    public void setLights(boolean state){ lights = state; }
     
     /*******MEMBER FUNCTIONS*******/
-    public double getStationAuthority(){ return stationAuthority; }
-    public void setStationAuthority(double sa){ this.stationAuthority = sa; }
     
     //function to update mass.. should be used when passenger/crew count changes
     private void updateMass(){
-        this.mass = Math.round(((TRAIN_MASS*TONS_TO_POUNDS)+(WEIGHT_PER_PERSON*(this.crewCount+this.passengerCount)))*100.0)/100.0;
+        this.mass = Math.round(((TRAIN_MASS * TONS_TO_POUNDS) 
+                + (WEIGHT_PER_PERSON * (this.crewCount + this.passengerCount))) 
+                * 100.0) / 100.0;
     }
     public void updateVelocity(){
         //update mass just in case
@@ -231,44 +237,63 @@ public class Train{
         double currentVelocity = this.velocity; //mph
         
         //calculate force
-            double forceDown = (this.mass)*GRAVITY*(Math.cos(Math.toDegrees(Math.atan(grade/100.0)))*Math.PI/180);
+            double forceDown = (this.mass) * GRAVITY 
+                    * (Math.cos(Math.toDegrees(Math.atan(grade / 100.0))) 
+                    * Math.PI / 180);
 
             if(this.power > ENGINE_POWER){
                 this.power = ENGINE_POWER;
             }
             
-            this.serviceBrake=this.power <0 && this.power!=-5 && !this.emergencyBrake;
-            this.emergencyBrake = this.isEngineFailure() || this.isBrakeFailure() || this.isSignalFailure()||this.power==-5||passengerPulled;
+            this.serviceBrake = ((this.power < 0) && (this.power != -5)) 
+                    && (!this.emergencyBrake);
+            this.emergencyBrake = this.isEngineFailure() 
+                    || this.isBrakeFailure() || this.isSignalFailure() 
+                    || (this.power == -5) || passengerPulled;
                         
             double forceFromEng; 
-            if(currentVelocity==0)
-                forceFromEng = (this.power*KW_TO_NMS)/1; 
-            else
-                forceFromEng = (this.power*KW_TO_NMS)/(currentVelocity*MPH_TO_MPS);
-         
-            double forceNormal = (this.mass)*GRAVITY*(Math.sin(Math.toDegrees(Math.atan(grade/100.0)))*Math.PI/180);
-            double forceFriction = forceNormal + (COEFFICIENT_OF_FRICTION*forceDown);
+            if(currentVelocity == 0){
+                forceFromEng = (this.power * KW_TO_NMS) / 1;
+            }
+            else{
+                forceFromEng = (this.power * KW_TO_NMS) 
+                        / (currentVelocity * MPH_TO_MPS);
+            }
             
-            this.force = Math.round((forceFromEng - forceFriction)*100.0)/100.0;
+            double forceNormal = (this.mass) * GRAVITY 
+                    * (Math.sin(Math.toDegrees(Math.atan(grade / 100.0))) 
+                    * Math.PI / 180);
+            double forceFriction = forceNormal 
+                    + (COEFFICIENT_OF_FRICTION * forceDown);
+            
+            this.force = Math.round((forceFromEng - forceFriction) * 100.0) 
+                    / 100.0;
         
-            
             //calculate acceleration
             //accel = force/mass
-            this.acceleration = Math.round((this.force / this.mass)*100.0)/100.0;
+            this.acceleration = Math.round((this.force / this.mass) * 100.0) 
+                    / 100.0;
             //if accel > limit, accel = limit
-            if(this.acceleration > this.accelerationLimit)
+            if(this.acceleration > this.accelerationLimit){
                 this.acceleration = this.accelerationLimit;
+            }
             
             //check if braking
-            if(this.emergencyBrake || this.serviceBrake || this.power == -5){
-                if(this.serviceBrake && !this.emergencyBrake)
+            if(this.emergencyBrake || this.serviceBrake || (this.power == -5)){
+                if(this.serviceBrake && !this.emergencyBrake){
                     this.acceleration += SERVICE_DECELERATION;
-                else
+                }
+                else{
                     this.acceleration += EMERGENCY_DECELERATION;
+                }
             }
-            this.acceleration = Math.round(this.acceleration*METERS_TO_FEET*100.0)/100.0;
+            
+            this.acceleration = Math.round(this.acceleration * METERS_TO_FEET 
+                    * 100.0) / 100.0;
             //calculate velocity
-            this.velocity = currentVelocity/KM_TO_MILES + this.acceleration/MPH_TO_FPS;
+            this.velocity = (currentVelocity / KM_TO_MILES) 
+                    + (this.acceleration / MPH_TO_FPS);
+            
             if(this.velocity <= 0){
                 this.velocity = 0;
                 this.acceleration = 0;
@@ -277,19 +302,22 @@ public class Train{
                 this.velocity = SPEED_LIMIT; 
                 this.acceleration = 0;
             }
-            this.velocity = Math.round(this.velocity*KM_TO_MILES*100.0)/100.0;
+            
+            this.velocity = Math.round(this.velocity * KM_TO_MILES * 100.0) 
+                    / 100.0;
             
             //calculate distance
-            this.distance = this.distance+(this.velocity/3600);
+            this.distance = this.distance + (this.velocity / 3600);
             
-            blockDistanceTraveled = this.distance-this.prevDistance;
+            blockDistanceTraveled = this.distance - this.prevDistance;
             
-            if((blockDistanceTraveled*1760) >= prevDistance+blockLength){
+            if((blockDistanceTraveled * 1760) >= ((prevDistance * 1760) + blockLength)){
                 next = 1;
                 prevDistance += blockDistanceTraveled;
                 blockDistanceTraveled = 0;
             }
-            else
+            else{
                 next = 0;
+            }
         }
 }
