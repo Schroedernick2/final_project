@@ -396,6 +396,12 @@ class MainWindow(tk.Frame):
             return ['62', 'f']
         elif tnn == 100:
             return ['85', 'r']
+        elif tnn == 150:
+            return ['28', 'r']
+        elif tnn == 77 and d == 'r':
+            return ['101', 'f']
+        elif tnn == 1:
+            return ['13', 'f']
         else:
             for outs in self.greentree.get_children():
                 if self.greentree.item(outs, 'values')[1] == tn:
@@ -466,13 +472,12 @@ class MainWindow(tk.Frame):
             for outs in self.greentree.get_children():
                 if self.greentree.item(outs, 'values')[1] == ntn:
                     auth_added = int(self.greentree.item(outs, 'values')[2])
-                    if self.greentree.item(outs, 'values')[9] == "":
+                    if self.greentree.item(outs, 'values')[9] == "" and self.greentree.item(outs, 'values')[8] == "":
                         auth = auth + int(auth_added)
-                    else:
+                    elif self.greentree.item(outs, 'values')[9] != "" and self.greentree.item(outs, 'values')[8] == "":
                         sig_num = self.greentree.item(outs, 'values')[9]
                         for outs in self.signaltree.get_children():
                             if self.signaltree.item(outs, 'values')[0] == sig_num:
-                                auth_added = self.greentree.item(outs, 'values')[2]
                                 if self.signaltree.item(outs, 'values')[2] == d.upper():
                                     if self.signaltree.item(outs, 'values')[1] == "red":
                                         return str(auth + int(auth_added))
@@ -482,7 +487,16 @@ class MainWindow(tk.Frame):
                                 else:
                                     auth = auth + int(auth_added)
                                     break
-                            
+                    else:
+                        cross_num = self.greentree.item(outs, 'values')[8]
+                        for outs in self.crosstree.get_children():
+                            if self.crosstree.item(outs, 'values')[0] == cross_num:
+                                if self.crosstree.item(outs, 'values')[1] == "down":
+                                    return str(auth + int(auth_added))
+                                else:
+                                    auth = auth + int(auth_added)
+                                    break
+                        
         return str(auth)
 
 

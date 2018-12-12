@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Trains><Train actualSpeed="18.04" ads="true" authority="327.0" blockDistanceTraveled="0.030066666666666464" brakeFailure="false" emergencyBrake="false" engineFailure="false" id="GREEN_1" leftDoor="false" lights="false" powerCmd="3.333719" rightDoor="false" scheduledStation="PIONEER" signalFailure="false" speed="50.0" speedLimit="37.0" station="DORMONT" stationAuthority="109.0" temp="70"/></Trains>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Trains></Trains>
