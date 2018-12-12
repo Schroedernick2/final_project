@@ -463,7 +463,7 @@ public class Train {
 
         blockDistanceTraveled = this.distance - this.prevDistance;
 
-        if ((blockDistanceTraveled * 1760) >= ((prevDistance * 1760) + blockLength)) {
+        if ((blockDistanceTraveled * 1760) >= blockLength) {
             next = 1;
             prevDistance += blockDistanceTraveled;
             blockDistanceTraveled = 0;
