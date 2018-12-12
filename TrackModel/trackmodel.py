@@ -578,7 +578,7 @@ class MainWindow(tk.Frame):
     def read_from_track_controller(self):
         if os.path.isfile(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackControllerOutputs.xml"):
             xfile = xml.etree.ElementTree.parse(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+"\\xml\TrackControllerOutputs.xml")
-            if xfile.getroot() != null:
+            if xfile.getroot() != "":
                 root = xfile.getroot()
                 for child in root.findall("bit"):
                     read = child.get('name')
