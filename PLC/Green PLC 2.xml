@@ -235,6 +235,9 @@
 	<bit name="G106T">
 		<type>INPUT</type>
 	</bit>
+	<bit name="G107T">
+		<type>INPUT</type>
+	</bit>
 	<bit name="G108T">
 		<type>INPUT</type>
 	</bit>
