@@ -471,6 +471,10 @@ public class Train {
             next = 1;
             prevDistance += blockDistanceTraveled;
             blockDistanceTraveled = 0;
+        } else {
+            System.out.println("total distance traveled: " + distance);
+            System.out.println("prevDistance: " + prevDistance);
+            System.out.println("blockDistanceTraveled: " + blockDistanceTraveled);
         }
     }
 }
