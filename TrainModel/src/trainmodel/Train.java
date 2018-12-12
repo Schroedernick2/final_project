@@ -2,7 +2,8 @@ package trainmodel;
 
 import java.util.*;
 
-public class Train{
+public class Train {
+
     //ID -- Line + train number
     private final String trainID;
 
@@ -58,7 +59,6 @@ public class Train{
     public ArrayList<String> stops;
     public int numberOfStops;
 
-
     //constant values
     private final int CAR_COUNT = 1;
     private final int WEIGHT_PER_PERSON = 150; //lbs
@@ -85,10 +85,11 @@ public class Train{
     private final double MPH_TO_FPS = 1.46667;
     private final double MPH_TO_MPS = 0.44704; //mph to meters per second
 
-    /*******CONSTRUCTORS*******/
-
-    public Train(String line,int trainNumber,int crewCount,int passCount,
-            ArrayList<String> stops, double suggSpeed){
+    /**
+     * *****CONSTRUCTORS******
+     */
+    public Train(String line, int trainNumber, int crewCount, int passCount,
+            ArrayList<String> stops, double suggSpeed) {
         //set train id
         this.trainID = line.toUpperCase() + "_" + trainNumber;
 
@@ -110,7 +111,7 @@ public class Train{
         this.width = Math.round(TRAIN_WIDTH * METERS_TO_FEET * 100.0) / 100.0;
         this.length = Math.round(TRAIN_LENGTH * METERS_TO_FEET * 100.0) / 100.0;
         this.mass = Math.round((TRAIN_MASS * TONS_TO_POUNDS)
-                +(WEIGHT_PER_PERSON * (crewCount+passCount)) * 100.0) / 100.0;
+                + (WEIGHT_PER_PERSON * (crewCount + passCount)) * 100.0) / 100.0;
 
         this.prevDistance = 0;
 
@@ -136,100 +137,253 @@ public class Train{
         this.accelerationLimit = MEDIUM_ACCELERATION * METERS_TO_FEET;
     }
 
-    /*******GETTERS********/
-
+    /**
+     * *****GETTERS*******
+     */
     //ID getter
-    public String getTrainID(){ return trainID; }
+    public String getTrainID() {
+        return trainID;
+    }
 
     //brake and failure getters
-    public boolean isPassengerPulled(){ return passengerPulled; }
-    public boolean isEmergencyBrake(){ return emergencyBrake; }
-    public boolean isServiceBrake(){ return serviceBrake; }
-    public boolean isEngineFailure(){ return engineFailure; }
-    public boolean isSignalFailure(){ return signalFailure; }
-    public boolean isBrakeFailure(){ return brakeFailure; }
+    public boolean isPassengerPulled() {
+        return passengerPulled;
+    }
+
+    public boolean isEmergencyBrake() {
+        return emergencyBrake;
+    }
+
+    public boolean isServiceBrake() {
+        return serviceBrake;
+    }
+
+    public boolean isEngineFailure() {
+        return engineFailure;
+    }
+
+    public boolean isSignalFailure() {
+        return signalFailure;
+    }
+
+    public boolean isBrakeFailure() {
+        return brakeFailure;
+    }
 
     //dimension getters
-    public double getHeight(){ return height; }
-    public double getWidth(){ return width; }
-    public double getLength(){ return length; }
-    public double getMass(){ return mass; }
+    public double getHeight() {
+        return height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getLength() {
+        return length;
+    }
+
+    public double getMass() {
+        return mass;
+    }
 
     //commanded values getters
-    public double getSpeed(){ return speed; }
-    public double getAuthority(){ return authority; }
+    public double getSpeed() {
+        return speed;
+    }
 
-    public double getBlockDistanceTraveled(){ return blockDistanceTraveled; }
+    public double getAuthority() {
+        return authority;
+    }
+
+    public double getBlockDistanceTraveled() {
+        return blockDistanceTraveled;
+    }
 
     //current train description getters
-    public double getTime(int multiplier){
+    public double getTime(int multiplier) {
         double currTime = System.currentTimeMillis();
 
-        return Math.round((currTime-this.creationTime)/1000)*multiplier;
+        return Math.round((currTime - this.creationTime) / 1000) * multiplier;
     }
 
-    public int getNext(){ return next; }
-    public double getDistance(){ return distance; }
-    public double getPower(){ return power; }
-    public double getSpeedLimit(){ return speedLimit; }
-    public double getForce(){ return force; }
-    public double getVelocity(){ return velocity; }
-    public double getAcceleration(){ return acceleration; }
-    public double getGrade(){ return grade; }
-    public double getElevation(){ return elevation; }
-    public String getStation(){ return station; }
-    public int getPassengerCount(){ return passengerCount; }
-    public int getCrewCount(){ return crewCount; }
-    public boolean isLeftDoors(){ return leftDoors; }
-    public boolean isRightDoors(){ return rightDoors; }
-    public int getTemperature(){ return temperature; }
-    public boolean isAdvertisements(){ return advertisements; }
-    public boolean isLights(){ return lights; }
-    public double getStationAuthority(){ return stationAuthority; }
+    public int getNext() {
+        return next;
+    }
 
+    public double getDistance() {
+        return distance;
+    }
 
-    /*******SETTERS*******/
-    public void setBlockLength(double l){ blockLength = l; }
+    public double getPower() {
+        return power;
+    }
+
+    public double getSpeedLimit() {
+        return speedLimit;
+    }
+
+    public double getForce() {
+        return force;
+    }
+
+    public double getVelocity() {
+        return velocity;
+    }
+
+    public double getAcceleration() {
+        return acceleration;
+    }
+
+    public double getGrade() {
+        return grade;
+    }
+
+    public double getElevation() {
+        return elevation;
+    }
+
+    public String getStation() {
+        return station;
+    }
+
+    public int getPassengerCount() {
+        return passengerCount;
+    }
+
+    public int getCrewCount() {
+        return crewCount;
+    }
+
+    public boolean isLeftDoors() {
+        return leftDoors;
+    }
+
+    public boolean isRightDoors() {
+        return rightDoors;
+    }
+
+    public int getTemperature() {
+        return temperature;
+    }
+
+    public boolean isAdvertisements() {
+        return advertisements;
+    }
+
+    public boolean isLights() {
+        return lights;
+    }
+
+    public double getStationAuthority() {
+        return stationAuthority;
+    }
+
+    /**
+     * *****SETTERS******
+     */
+    public void setBlockLength(double l) {
+        blockLength = l;
+    }
 
     //brake and failure setters
-    public void setPassengerPulled(boolean state){ passengerPulled = state; }
-    public void setEmergencyBrake(boolean state){ emergencyBrake = state; }
-    public void setServiceBrake(boolean state){ serviceBrake = state; }
-    public void setEngineFailure(boolean state){ engineFailure = state; }
-    public void setSignalFailure(boolean state){ signalFailure = state; }
-    public void setBrakeFailure(boolean state){ brakeFailure = state; }
+    public void setPassengerPulled(boolean state) {
+        passengerPulled = state;
+    }
 
-    public void setSpeedLimit(double s){ speedLimit = s; }
+    public void setEmergencyBrake(boolean state) {
+        emergencyBrake = state;
+    }
+
+    public void setServiceBrake(boolean state) {
+        serviceBrake = state;
+    }
+
+    public void setEngineFailure(boolean state) {
+        engineFailure = state;
+    }
+
+    public void setSignalFailure(boolean state) {
+        signalFailure = state;
+    }
+
+    public void setBrakeFailure(boolean state) {
+        brakeFailure = state;
+    }
+
+    public void setSpeedLimit(double s) {
+        speedLimit = s;
+    }
 
     //command value setters
-    public void setSpeed(double speed){ this.speed = speed; }
-    public void setAuthority(double authority){ this.authority = authority; }
-    public void setStationAuthority(double sa){ this.stationAuthority = sa; }
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public void setAuthority(double authority) {
+        this.authority = authority;
+    }
+
+    public void setStationAuthority(double sa) {
+        this.stationAuthority = sa;
+    }
 
     //other setters
-    public void setPower(double power){ this.power = power; }
-    public void setGrade(double grade){ this.grade = grade; }
-    public void setElevation(double elevation){ this.elevation = elevation; }
-    public void setStation(String station){ this.station = station; }
-    public void setPassengerCount(int passengerCount){
+    public void setPower(double power) {
+        this.power = power;
+    }
+
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
+
+    public void setElevation(double elevation) {
+        this.elevation = elevation;
+    }
+
+    public void setStation(String station) {
+        this.station = station;
+    }
+
+    public void setPassengerCount(int passengerCount) {
         this.passengerCount = passengerCount;
     }
-    public void setCrewCount(int crewCount){ this.crewCount = crewCount; }
-    public void setLeftDoors(boolean state){ leftDoors = state; }
-    public void setRightDoors(boolean state){ rightDoors = state; }
-    public void setTemperature(int temp){ temperature = temp; }
-    public void setAdvertisements(boolean state){ advertisements = state; }
-    public void setLights(boolean state){ lights = state; }
 
-    /*******MEMBER FUNCTIONS*******/
+    public void setCrewCount(int crewCount) {
+        this.crewCount = crewCount;
+    }
 
+    public void setLeftDoors(boolean state) {
+        leftDoors = state;
+    }
+
+    public void setRightDoors(boolean state) {
+        rightDoors = state;
+    }
+
+    public void setTemperature(int temp) {
+        temperature = temp;
+    }
+
+    public void setAdvertisements(boolean state) {
+        advertisements = state;
+    }
+
+    public void setLights(boolean state) {
+        lights = state;
+    }
+
+    /**
+     * *****MEMBER FUNCTIONS******
+     */
     //function to update mass.. should be used when passenger/crew count changes
-    private void updateMass(){
+    private void updateMass() {
         this.mass = Math.round(((TRAIN_MASS * TONS_TO_POUNDS)
                 + (WEIGHT_PER_PERSON * (this.crewCount + this.passengerCount)))
                 * 100.0) / 100.0;
     }
-    public void updateVelocity(){
+
+    public void updateVelocity() {
         //update mass just in case
         this.updateMass();
 
@@ -237,87 +391,82 @@ public class Train{
         double currentVelocity = this.velocity; //mph
 
         //calculate force
-            double forceDown = (this.mass) * GRAVITY
-                    * (Math.cos(Math.toDegrees(Math.atan(grade / 100.0)))
-                    * Math.PI / 180);
+        double forceDown = (this.mass) * GRAVITY
+                * (Math.cos(Math.toDegrees(Math.atan(grade / 100.0)))
+                * Math.PI / 180);
 
-            if(this.power > ENGINE_POWER){
-                this.power = ENGINE_POWER;
-            }
+        if (this.power > ENGINE_POWER) {
+            this.power = ENGINE_POWER;
+        }
 
-            this.serviceBrake = ((this.power < 0) && (this.power != -5))
-                    && (!this.emergencyBrake);
-            this.emergencyBrake = this.isEngineFailure()
-                    || this.isBrakeFailure() || this.isSignalFailure()
-                    || (this.power == -5) || passengerPulled;
+        this.serviceBrake = ((this.power < 0) && (this.power != -5))
+                && (!this.emergencyBrake);
+        this.emergencyBrake = this.isEngineFailure()
+                || this.isBrakeFailure() || this.isSignalFailure()
+                || (this.power == -5) || passengerPulled;
 
-            double forceFromEng;
-            if(currentVelocity == 0){
-                forceFromEng = (this.power * KW_TO_NMS) / 1;
-            }
-            else{
-                forceFromEng = (this.power * KW_TO_NMS)
-                        / (currentVelocity * MPH_TO_MPS);
-            }
+        double forceFromEng;
+        if (currentVelocity == 0) {
+            forceFromEng = (this.power * KW_TO_NMS) / 1;
+        } else {
+            forceFromEng = (this.power * KW_TO_NMS)
+                    / (currentVelocity * MPH_TO_MPS);
+        }
 
-            double forceNormal = (this.mass) * GRAVITY
-                    * (Math.sin(Math.toDegrees(Math.atan(grade / 100.0)))
-                    * Math.PI / 180);
-            double forceFriction = forceNormal
-                    + (COEFFICIENT_OF_FRICTION * forceDown);
+        double forceNormal = (this.mass) * GRAVITY
+                * (Math.sin(Math.toDegrees(Math.atan(grade / 100.0)))
+                * Math.PI / 180);
+        double forceFriction = forceNormal
+                + (COEFFICIENT_OF_FRICTION * forceDown);
 
-            this.force = Math.round((forceFromEng - forceFriction) * 100.0)
-                    / 100.0;
+        this.force = Math.round((forceFromEng - forceFriction) * 100.0)
+                / 100.0;
 
-            //calculate acceleration
-            //accel = force/mass
-            this.acceleration = Math.round((this.force / this.mass) * 100.0)
-                    / 100.0;
-            //if accel > limit, accel = limit
-            if(this.acceleration > this.accelerationLimit){
-                this.acceleration = this.accelerationLimit;
-            }
+        //calculate acceleration
+        //accel = force/mass
+        this.acceleration = Math.round((this.force / this.mass) * 100.0)
+                / 100.0;
+        //if accel > limit, accel = limit
+        if (this.acceleration > this.accelerationLimit) {
+            this.acceleration = this.accelerationLimit;
+        }
 
-            //check if braking
-            if(this.emergencyBrake || this.serviceBrake || (this.power == -5)){
-                if(this.serviceBrake && !this.emergencyBrake){
-                    this.acceleration += SERVICE_DECELERATION;
-                }
-                else{
-                    this.acceleration += EMERGENCY_DECELERATION;
-                }
-            }
-
-            this.acceleration = Math.round(this.acceleration * METERS_TO_FEET
-                    * 100.0) / 100.0;
-            //calculate velocity
-            this.velocity = (currentVelocity / KM_TO_MILES)
-                    + (this.acceleration / MPH_TO_FPS);
-
-            if(this.velocity <= 0){
-                this.velocity = 0;
-                this.acceleration = 0;
-            }
-            if(this.velocity > SPEED_LIMIT){
-                this.velocity = SPEED_LIMIT;
-                this.acceleration = 0;
-            }
-
-            this.velocity = Math.round(this.velocity * KM_TO_MILES * 100.0)
-                    / 100.0;
-
-            //calculate distance
-            this.distance = this.distance + (this.velocity / 3600);
-
-            blockDistanceTraveled = this.distance - this.prevDistance;
-
-            if((blockDistanceTraveled * 1760) >= ((prevDistance * 1760) + blockLength)){
-                next = 1;
-                prevDistance += blockDistanceTraveled;
-                blockDistanceTraveled = 0;
-            }
-            else{
-                next = 0;
+        //check if braking
+        if (this.emergencyBrake || this.serviceBrake || (this.power == -5)) {
+            if (this.serviceBrake && !this.emergencyBrake) {
+                this.acceleration += SERVICE_DECELERATION;
+            } else {
+                this.acceleration += EMERGENCY_DECELERATION;
             }
         }
+
+        this.acceleration = Math.round(this.acceleration * METERS_TO_FEET
+                * 100.0) / 100.0;
+        //calculate velocity
+        this.velocity = (currentVelocity / KM_TO_MILES)
+                + (this.acceleration / MPH_TO_FPS);
+
+        if (this.velocity <= 0) {
+            this.velocity = 0;
+            this.acceleration = 0;
+        }
+        if (this.velocity > SPEED_LIMIT) {
+            this.velocity = SPEED_LIMIT;
+            this.acceleration = 0;
+        }
+
+        this.velocity = Math.round(this.velocity * KM_TO_MILES * 100.0)
+                / 100.0;
+
+        //calculate distance
+        this.distance = this.distance + (this.velocity / 3600);
+
+        blockDistanceTraveled = this.distance - this.prevDistance;
+
+        if ((blockDistanceTraveled * 1760) >= ((prevDistance * 1760) + blockLength)) {
+            next = 1;
+            prevDistance += blockDistanceTraveled;
+            blockDistanceTraveled = 0;
+        }
+    }
 }
