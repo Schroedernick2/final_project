@@ -890,6 +890,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                 }
 
                 for (Train t : trains) {
+                    t.setPower(10);
                     t.updateVelocity();
                 }
                 displayValues();

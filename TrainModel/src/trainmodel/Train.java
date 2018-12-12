@@ -447,7 +447,7 @@ public class Train {
         this.acceleration = Math.round(this.acceleration * METERS_TO_FEET
                 * 100.0) / 100.0;
         //calculate velocity
-        this.velocity = (currentVelocity / KM_TO_MILES)
+        this.velocity = (currentVelocity)
                 + (this.acceleration / MPH_TO_FPS);
 
         if (this.velocity <= 0) {
@@ -459,7 +459,7 @@ public class Train {
             this.acceleration = 0;
         }
 
-        this.velocity = Math.round(this.velocity * KM_TO_MILES * 100.0)
+        this.velocity = Math.round(this.velocity * 100.0)
                 / 100.0;
 
         //calculate distance
