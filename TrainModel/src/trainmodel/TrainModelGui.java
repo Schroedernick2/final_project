@@ -730,6 +730,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                 double length = Double.parseDouble(eElement.getAttribute("length").replaceAll("\\s+", ""));
                 int pass = Integer.parseInt(eElement.getAttribute("passengersAtStation").replaceAll("\\s+", ""));
                 double stationAuthority = Double.parseDouble(eElement.getAttribute("stationAuthority").replaceAll("\\s+", ""));
+                int ne = Integer.parseInt(eElement.getAttribute("next").replaceAll("\\s+", ""));
 
                 for (Train t : trains) {
                     if (t.getTrainID().equals(ID)) {
@@ -738,6 +739,9 @@ public class TrainModelGui extends javax.swing.JDialog {
                         t.setElevation(elevation);
                         t.setGrade(grade);
                         t.setStation(nextStation);
+
+                        t.setNext(ne);
+
                         t.setBlockLength(length);
                         t.setStationAuthority(stationAuthority);
 

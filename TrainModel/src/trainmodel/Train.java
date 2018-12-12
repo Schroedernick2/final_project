@@ -286,6 +286,10 @@ public class Train {
         blockLength = l;
     }
 
+    public void setNext(int n) {
+        next = n;
+    }
+
     //brake and failure setters
     public void setPassengerPulled(boolean state) {
         passengerPulled = state;
@@ -463,7 +467,7 @@ public class Train {
 
         blockDistanceTraveled = this.distance - this.prevDistance;
 
-        if ((blockDistanceTraveled * 1760) >= (blockLength)) {
+        if (next == 0 && (blockDistanceTraveled * 1760) >= (blockLength)) {
             next = 1;
             prevDistance += blockDistanceTraveled;
             blockDistanceTraveled = 0;
