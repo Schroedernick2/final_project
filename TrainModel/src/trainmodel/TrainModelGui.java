@@ -740,7 +740,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                         t.setGrade(grade);
                         t.setStation(nextStation);
 
-                        if (t.getNext() == 0) {
+                        if (ne == 0) {
                             t.setNext(ne);
                         }
 
