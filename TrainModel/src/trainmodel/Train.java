@@ -468,13 +468,10 @@ public class Train {
         blockDistanceTraveled = this.distance - this.prevDistance;
 
         if (next == 0 && (blockDistanceTraveled * 1760) >= (blockLength)) {
+            System.out.println("In if, changing next to 1");
             next = 1;
             prevDistance += blockDistanceTraveled;
             blockDistanceTraveled = 0;
-        } else {
-            System.out.println("total distance traveled: " + distance);
-            System.out.println("prevDistance: " + prevDistance);
-            System.out.println("blockDistanceTraveled: " + blockDistanceTraveled);
         }
     }
 }
