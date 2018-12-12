@@ -598,8 +598,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                         t.setRightDoors(rightDoors);
                         t.setTemperature(temp);
 
-                        t.updateVelocity();
-
+                        //t.updateVelocity();
                         eElement.setAttribute("blockDistanceTraveled",
                                 "" + t.getBlockDistanceTraveled());
                         eElement.setAttribute("scheduledStation",
@@ -890,9 +889,9 @@ public class TrainModelGui extends javax.swing.JDialog {
                     }
                 }
 
-                for (Train t : trains) {
-                    t.updateVelocity();
-                }
+                //for (Train t : trains) {
+                //t.updateVelocity();
+                //}
                 displayValues();
             }
         }
