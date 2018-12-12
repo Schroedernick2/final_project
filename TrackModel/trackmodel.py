@@ -349,10 +349,13 @@ class MainWindow(tk.Frame):
                             direction = val_ret[1]
                             #get the next station, the authority to it, and total authority
                             new_authority = self.get_next_green_auth(track_num, direction)
-                            new_station = self.next_green_station(track_num, direction)
+                            new_station_val = self.next_green_station(track_num, direction)
                             station_auth = self.green_station_auth(track_num, direction)
+                            new_station = new_station_val[0]
+                            new_station_ppl = new_station_val[1]
                             #Set the new values in the shared xml files 
                             child.set('nextStation', new_station)
+                            child.set('passengersAtStation', new_station_ppl)
                             child.set('stationAuthority', station_auth)
                             child.set('trackNumber', new_track)
                             child.set('authority', new_authority)
@@ -585,8 +588,10 @@ class MainWindow(tk.Frame):
         while(1):
             new_val = self.get_next_green_track(tn, d)
             ntn = new_val[0]
-            if ntn == 'n/a' or ntn == 'yard':
-                break
+            if ntn == 'n/a':
+                return ['n/a', 0]
+            if ntn == 'yard':
+                return ['yard', 0]
             d = new_val[1]
             tn = ntn
             for outs in self.greentree.get_children():
@@ -594,7 +599,10 @@ class MainWindow(tk.Frame):
                     if self.greentree.item(outs, 'values')[6] == "":
                         break
                     else:
-                        return self.greentree.item(outs, 'values')[6]
+                        st = self.greentree.item(outs, 'values')[6]
+                        for outs in self.stationtree.get_children():
+                            if st == self.stationtree.item(outs, 'values')[0]:
+                                return [st, self.stationtree.item(outs, 'values')[1]]
         
 
     #def next red station
