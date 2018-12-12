@@ -1,1 +1,1 @@
-<Trains><Train authority="327" direction="f" distanceTraveled="3.0609472222222225" elevation="0.0" grade="0" id="GREEN_1" length="109" next="0" nextStation="DORMONT" passengersAtStation="0" speed="37" stationAuthority="109" trackNumber="73" /></Trains>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Trains><Train authority="1635" direction="f" distanceTraveled="0.6360888888888885" elevation="0.0" grade="0" id="GREEN_1" length="109" next="0" nextStation="GLENBURY" passengersAtStation="0" speed="43" stationAuthority="436" trackNumber="63"/></Trains>
