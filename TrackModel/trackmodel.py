@@ -311,9 +311,6 @@ class MainWindow(tk.Frame):
             #Updates people at station
             self.update_stations()
 
-        
-        
-
     #Writes XML to Track Controller
     def track_controller(self):
         #Sets track model outputs for track controller to read
@@ -335,16 +332,20 @@ class MainWindow(tk.Frame):
                 for child in root.findall("Train"):
                     #get the id of the train
                     train_id = child.get('id')
-                    cur_dist = child.get('blockDistanceTraveled')
-                    prev_dist = child.get('previousBlockDistance')
-                    child.set('previousBlockDistance', prev_dist)
+                    cur_dist = child.get('blockDistanceTraveled').replace(" ", "")
+                    prev_dist = child.get('previousBlockDistance').replace(" ", "")
+                    c_dist = float(cur_dist)
+                    p_dist = float(cur_dist)
+                    if p_dist == c_dist and c_dist != 0:
+                        child.set('previousBlockDistance', str(c_dist - .01))
+                    
                     #check if track values for train needs to be updated
-                    if child.get('next') == '1' or prev_dist > cur_dist:
+                    if child.get('next') == '1' or p_dist > c_dist or p_dist < 0:
                         #Trains on green line
                         if train_id[0]=='G':
                             #get current track num and direction of train
                             direction = child.get('direction')
-                            track_num = child.get('trackNumber')
+                            track_num = child.get('trackNumber').replace(" ", "")
                             #Obtain the new track num and direction
                             val_ret = self.get_next_green_track(track_num, direction)
                             new_track = val_ret[0]
@@ -417,7 +418,8 @@ class MainWindow(tk.Frame):
                 #Write out xml file            
                 tree = xml.etree.ElementTree.ElementTree(root)
                 tree.write(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+r"\xml\trackmodel_trainmodel.xml")
-            except:
+            except Exception as e:
+                print(e)
                 print("ERROR WHEN READING AND WRITING TO trainmodel")
 
 
