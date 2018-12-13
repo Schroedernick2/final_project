@@ -79,6 +79,12 @@
 	<bit name="G26T">
 		<type>INPUT</type>
 	</bit>
+	<bit name="G27T">
+		<type>INPUT</type>
+	</bit>
+	<bit name="G28T">
+		<type>INPUT</type>
+	</bit>
 	<bit name="G1SNR">
 		<type>INPUT</type>
 	</bit>
