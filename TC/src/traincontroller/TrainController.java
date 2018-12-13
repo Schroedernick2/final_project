@@ -1,7 +1,10 @@
-
+/**
+ * @author Jay Pitser
+ * for the Train Controller module of the Train Control System made by The Conductors
+ * to be used by Port Authority of Allegheny County
+ * 
+ */
 package traincontroller;
-
-
 import java.util.*;
 
 public class TrainController {

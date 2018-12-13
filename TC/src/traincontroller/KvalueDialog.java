@@ -1,19 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package traincontroller;
-import java.util.*;
 /**
  *
- * @author jay
+ * @author Jay Pitser
+ * 
+ * Used in part with Train Controller module of The Conductors Train control 
+ * System , to be used by Port Authority of Allegheny County
+ * 
+ * 
+ * 
  */
+
+package traincontroller;
+import java.util.*;
 public class KvalueDialog extends javax.swing.JDialog {
 
     private Train t;
     /**
-     
      * Creates new form KvalueDialog
      */
     public KvalueDialog(java.awt.Frame parent, boolean modal, Train tr) {
@@ -129,8 +130,8 @@ public class KvalueDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_setButtonActionPerformed
 
     private void defaultButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultButtonActionPerformed
-        // TODO add your handling code here:
-        //Do Nothing, Since Ki and Kp should be set to defaults on initialization
+        
+        /*Do Nothing, Since Ki and Kp should be set to defaults on initialization */
         bye();
     }//GEN-LAST:event_defaultButtonActionPerformed
 
@@ -160,10 +161,8 @@ public class KvalueDialog extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(KvalueDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         /* Create and display the dialog */
         displayThings();
-        
     }
     
     public void bye(){
@@ -172,10 +171,7 @@ public class KvalueDialog extends javax.swing.JDialog {
     }
     
     public void displayThings(){
-        
-        String indy = t.getTrainID();
-        jLabel1.setText("Set Values for Train " + indy);
-                
+        jLabel1.setText("Set Values for Train " + t.getTrainID());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
