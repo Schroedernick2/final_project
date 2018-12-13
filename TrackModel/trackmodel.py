@@ -335,10 +335,11 @@ class MainWindow(tk.Frame):
                 for child in root.findall("Train"):
                     #get the id of the train
                     train_id = child.get('id')
-                    cur_length = int(child.get('length'))
-                    traveled = float(child.get('blockDistanceTraveled'))
+                    cur_dist = child.get('blockDistanceTraveled')
+                    prev_dist = child.get('previousBlockDistance')
+                    child.set('previousBlockDistance', prev_dist)
                     #check if track values for train needs to be updated
-                    if child.get('next') == '1' or traveled < .05:
+                    if child.get('next') == '1' or prev_dist > cur_dist:
                         #Trains on green line
                         if train_id[0]=='G':
                             #get current track num and direction of train
