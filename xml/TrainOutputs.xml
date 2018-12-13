@@ -1,1 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Dispatches><Dispatch IDNum="1" Line="Green" SpeedSugg="10" Stop0000="PIONEER" Stop0001="Yard">1</Dispatch></Dispatches>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Dispatches>
+
+<Dispatch IDNum="3" Line="Green" SpeedSugg="0" Stop0000="PIONEER" Stop0001="Yard">0</Dispatch>
+<Dispatch IDNum="4" Line="Red" SpeedSugg="0" Stop0000="SHADYSIDE" Stop0001="Yard">0</Dispatch>
+<Dispatch IDNum="5" Line="Green" SpeedSugg="0" Stop0000="SOUTH_BANK" Stop0001="Yard">0</Dispatch>
+</Dispatches>

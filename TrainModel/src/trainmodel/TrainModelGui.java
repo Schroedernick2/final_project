@@ -16,17 +16,38 @@ import org.w3c.dom.Attr;
 import java.io.File;
 import java.io.FileWriter;
 
+/*TrainModelGui class
+    This class opens the Train Model window and is responsible for timing and
+    running the train functionality on every iteration.
+    This class also is responsible for communication between the CTC, Track Model
+    and Train Controller via xml files
+ */
 public class TrainModelGui extends javax.swing.JDialog {
 
+    //selected index determines what train is being handled at a given time
     private int selectedTrainIndex = 0;
+
+    /*MULTIPLIER is the time multiplier variable to be read and set by the CTC
+        MULTIPLIER = 1 ----> 1 iteration run per second
+        MULTIPLIER = 2 ----> 2 iterations run per second
+        MULTIPLIER = X ----> X iterations run per second
+     */
     private int MULTIPLIER = 1;
+
+    //List of train objects currently running
     private ArrayList<Train> trains;
 
+    /*TrainModelGui()
+        Function to create a the GUI itself and initiate the run the program
+     */
     public TrainModelGui(java.awt.Frame parent, boolean modal,
             ArrayList<Train> trains) {
         super(parent, modal);
         initComponents();
 
+        /*On train model creation, the following files are set to their
+        default state with no train elements
+         */
         try {
             FileWriter f1 = new FileWriter("./xml/traincontroller_trainmodel.xml", false);
             FileWriter f2 = new FileWriter("./xml/trackmodel_trainmodel.xml", false);
@@ -45,6 +66,7 @@ public class TrainModelGui extends javax.swing.JDialog {
 
         this.trains = trains;
 
+        //Timer runs Progress() method (defined at end of file) every second
         Timer timer = new Timer();
         timer.schedule(new Progress(), 0, 1000);
     }
@@ -347,24 +369,36 @@ public class TrainModelGui extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*brakeFailureBoxActionPerformed()
+        On checkbox change for brake failure input, values are updated
+     */
     private void brakeFailureBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brakeFailureBoxActionPerformed
         trains.get(selectedTrainIndex).setBrakeFailure(brakeFailureBox.isSelected());
 
         displayValues();
     }//GEN-LAST:event_brakeFailureBoxActionPerformed
 
+    /*signalFailureBoxActionPerformed()
+        On checkbox change for signal failure input, values are updated
+     */
     private void signalPickupFailureBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signalPickupFailureBoxActionPerformed
         trains.get(selectedTrainIndex).setSignalFailure(signalPickupFailureBox.isSelected());
 
         displayValues();
     }//GEN-LAST:event_signalPickupFailureBoxActionPerformed
 
+    /*engineFailureBoxActionPerformed()
+        On checkbox change for engine failure input, values are updated
+     */
     private void engineFailureBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_engineFailureBoxActionPerformed
         trains.get(selectedTrainIndex).setEngineFailure(engineFailureBox.isSelected());
 
         displayValues();
     }//GEN-LAST:event_engineFailureBoxActionPerformed
 
+    /*emergencyBrakeBoxActionPerformed()
+        On checkbox change for passenger emergency brake input, values are updated
+     */
     private void emergencyBrakeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emergencyBrakeBoxActionPerformed
         //System.out.println(emergencyBrakeBox.isSelected());
         //trains.get(selectedTrainIndex).setEmergencyBrake(emergencyBrakeBox.isSelected());
@@ -372,12 +406,20 @@ public class TrainModelGui extends javax.swing.JDialog {
         displayValues();
     }//GEN-LAST:event_emergencyBrakeBoxActionPerformed
 
+    /*trainSelectorActionPerformed()
+        When a new item is selected from the train selection dropbox, selected
+        index is updated and values reset.
+     */
     private void trainSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trainSelectorActionPerformed
         selectedTrainIndex = trainSelector.getSelectedIndex();
 
         displayValues();
     }//GEN-LAST:event_trainSelectorActionPerformed
 
+    /*displayValues()
+        Function that updates values of the selected train for all labels on
+        screen.
+     */
     private void displayValues() {
         if (trains.size() > 0) {
             Train t = trains.get(selectedTrainIndex);
@@ -426,6 +468,9 @@ public class TrainModelGui extends javax.swing.JDialog {
         }
     }
 
+    /*getDoorString()
+        Converts boolean state to string "OPEN" or "CLOSED" for the label
+     */
     private String getDoorString(boolean state) {
         if (state) {
             return "OPEN";
@@ -433,6 +478,9 @@ public class TrainModelGui extends javax.swing.JDialog {
         return "CLOSED";
     }
 
+    /*getStateString()
+        Converts boolean state to string "ON" or "OFF" for the label
+     */
     private String getStateString(boolean state) {
         if (state) {
             return "ON";
@@ -440,6 +488,10 @@ public class TrainModelGui extends javax.swing.JDialog {
         return "OFF";
     }
 
+    /*getIDs()
+        Returns an array of isolated train ids for every train in the class
+        list of active train objects
+     */
     private String[] getIDs() {
         String[] trainIDs = new String[trains.size()];
         int i = 0;
@@ -450,6 +502,12 @@ public class TrainModelGui extends javax.swing.JDialog {
         return trainIDs;
     }
 
+    /*addTrain(Train tr)
+        Function that initializes new Train object, tr into the program
+            -Sets traincontroller_trainmodel.xml file attributes
+            -Calls addTrainToTrackModel() to initialize the xml file between
+             the train model and track model
+     */
     private void addTrain(Train tr) throws Exception {
         trains.add(tr);
         String[] trainIDs = getIDs();
@@ -551,6 +609,10 @@ public class TrainModelGui extends javax.swing.JDialog {
         addTrainToTrackModelXML(tr);
     }
 
+    /*getMultiplier()
+        Function to read in the multiplier value set by the CTC
+            -Multiplier stored in /xml/multiplier.txt
+     */
     private int getMultiplier() throws Exception {
         int m;
 
@@ -565,6 +627,10 @@ public class TrainModelGui extends javax.swing.JDialog {
         return m;
     }
 
+    /*talkToTrainController()
+        Function that handles communication between the train controller and
+        train model via xml.
+     */
     private void talkToTrainController() throws Exception {
         File trainControllerXML = new File("./xml/traincontroller_trainmodel.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -582,6 +648,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                 String ID = eElement.getAttribute("id");
                 ID = ID.replaceAll("\\s+", "");
 
+                //read data from xml
                 double p = Double.parseDouble(eElement.getAttribute("powerCmd").replaceAll("\\s+", ""));
                 boolean lights = Boolean.parseBoolean(eElement.getAttribute("lights").replaceAll("\\s+", ""));
                 boolean ads = Boolean.parseBoolean(eElement.getAttribute("ads").replaceAll("\\s+", ""));
@@ -591,6 +658,7 @@ public class TrainModelGui extends javax.swing.JDialog {
 
                 for (Train t : trains) {
                     if (t.getTrainID().equals(ID)) {
+                        //set train values from read data
                         t.setPower(p);
                         t.setAdvertisements(ads);
                         t.setLights(lights);
@@ -598,7 +666,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                         t.setRightDoors(rightDoors);
                         t.setTemperature(temp);
 
-                        //t.updateVelocity();
+                        //write data to xml
                         eElement.setAttribute("blockDistanceTraveled",
                                 "" + t.getBlockDistanceTraveled());
                         eElement.setAttribute("scheduledStation",
@@ -634,6 +702,12 @@ public class TrainModelGui extends javax.swing.JDialog {
         }
     }
 
+    /*addTrainToTrackModelXML(Train tr)
+        Function that adds a new train element, tr, to the file,
+        trackmodel_trainmodel.xml
+
+        Initializes attributes for the new train
+     */
     private void addTrainToTrackModelXML(Train tr) throws Exception {
         File tm_tcXML = new File("./xml/trackmodel_trainmodel.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -712,6 +786,10 @@ public class TrainModelGui extends javax.swing.JDialog {
         t.transform(source, result);
     }
 
+    /*talkToTrackModel()
+        Function that handles communication between the track model and train
+        model
+     */
     private void talkToTrackModel() throws Exception {
         File trainControllerXML = new File("./xml/trackmodel_trainmodel.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -729,6 +807,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                 String ID = eElement.getAttribute("id");
                 ID = ID.replaceAll("\\s+", "");
 
+                //read from xml
                 double authority = Double.parseDouble(eElement.getAttribute("authority").replaceAll("\\s+", ""));
                 double speed = Double.parseDouble(eElement.getAttribute("speed").replaceAll("\\s+", ""));
                 double elevation = Double.parseDouble(eElement.getAttribute("elevation").replaceAll("\\s+", ""));
@@ -741,6 +820,7 @@ public class TrainModelGui extends javax.swing.JDialog {
 
                 for (Train t : trains) {
                     if (t.getTrainID().equals(ID)) {
+                        //set train with read data
                         t.setAuthority(authority);
                         t.setSpeedLimit(speed);
                         t.setElevation(elevation);
@@ -773,12 +853,14 @@ public class TrainModelGui extends javax.swing.JDialog {
                                 t.setPassengerCount(pass);
                             }
                         }
-                        //t.updateVelocity();
+
+                        //write to xml
                         eElement.setAttribute("blockDistanceTraveled", "" + t.getBlockDistanceTraveled());
                         eElement.setAttribute("distanceTraveled",
                                 "" + t.getDistance());
                         eElement.setAttribute("next", "" + t.getNext());
 
+                        //check if stopping
                         if (t.stops.get(t.numberOfStops).toUpperCase().equals(nextStation.toUpperCase())) {
                             t.numberOfStops++;
                         }
@@ -794,6 +876,15 @@ public class TrainModelGui extends javax.swing.JDialog {
         }
     }
 
+    /*talkToCTC()
+        Function that handles communication between the train model and ctc
+            CTC needs to tell train model if a new train needs created
+
+            inner element value == 0:
+                train needs created
+            inner element value == 1:
+                train was created by train model
+     */
     private void talkToCTC() throws Exception {
         File trainControllerXML = new File("./xml/TrainOutputs.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -808,6 +899,7 @@ public class TrainModelGui extends javax.swing.JDialog {
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) nNode;
 
+                //read xml
                 String created = eElement.getChildNodes().item(0).getNodeValue();
                 created = created.replaceAll("\\s+", "");
                 int t_num = Integer.parseInt(eElement.getAttribute("IDNum"));
@@ -823,7 +915,10 @@ public class TrainModelGui extends javax.swing.JDialog {
                         }
                     }
 
+                    //CREATE TRAIN
                     addTrain(new Train(line, t_num, 1, 0, stops, suggSpeed));
+
+                    //write to xml
                     eElement.getChildNodes().item(0).setTextContent("1");
                 }
             }
@@ -872,28 +967,41 @@ public class TrainModelGui extends javax.swing.JDialog {
     public javax.swing.JLabel widthLabel;
     // End of variables declaration//GEN-END:variables
 
+    /* Progress
+        Class that handles the timing and allows the run() method to be called
+        every second
+     */
     private class Progress extends TimerTask {
 
+        /*run()
+            Function that executes MULTIPLIER number of times per second
+         */
         @Override
         public void run() {
+            //read and set multiplier
             try {
                 MULTIPLIER = getMultiplier();
             } catch (Exception e) {
                 System.out.println("multiplier.txt not created yet, no biggie");
             }
+            //iterate MULTIPLIER number of times
             for (int i = 0; i < MULTIPLIER; i++) {
+                //check for new train needing creation
                 try {
                     talkToCTC();
                 } catch (Exception e) {
                     System.out.println("CTC big uh-oh");
                 }
+                //if there are any active trains, then communicate with others
                 if (trains.size() > 0) {
+                    //exchange data with trackModel
                     try {
                         talkToTrackModel();
                     } catch (Exception e) {
                         System.out.println("Track Model big uh-oh");
                         e.printStackTrace();
                     }
+                    //exchange data with train controller
                     try {
                         talkToTrainController();
                     } catch (Exception e) {
@@ -902,9 +1010,11 @@ public class TrainModelGui extends javax.swing.JDialog {
                     }
                 }
 
+                //update velocity and run calculations for every active train
                 for (Train t : trains) {
                     t.updateVelocity();
                 }
+                //display values on GUI
                 displayValues();
             }
         }
