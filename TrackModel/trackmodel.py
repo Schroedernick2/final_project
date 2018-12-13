@@ -335,9 +335,10 @@ class MainWindow(tk.Frame):
                     cur_dist = child.get('blockDistanceTraveled').replace(" ", "")
                     prev_dist = child.get('previousBlockDistance').replace(" ", "")
                     c_dist = float(cur_dist)
-                    p_dist = float(cur_dist)
-                    if p_dist == c_dist and c_dist != 0:
-                        child.set('previousBlockDistance', str(c_dist - .01))
+                    p_dist = float(prev_dist)
+                    if p_dist == c_dist and c_dist != 0 and child.get('next') != '1':
+                        p_dist = float(float(c_dist)-float(.001))
+                        child.set('previousBlockDistance', str(c_dist - .001))
                     
                     #check if track values for train needs to be updated
                     if child.get('next') == '1' or p_dist > c_dist or p_dist < 0:
