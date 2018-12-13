@@ -1,3 +1,12 @@
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# IMPORTANT: This file does not
+# follow a strict coding standard.
+# Python was created to focus on
+# readability. This forces indentations
+# and does not use { }.
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 import tkinter as tk
 from tkinter import ttk
 from tkinter.scrolledtext import ScrolledText
