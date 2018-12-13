@@ -1012,6 +1012,154 @@ public class TrainModelGui extends javax.swing.JDialog {
 
                 //update velocity and run calculations for every active train
                 for (Train t : trains) {
+                    //*****TESTING WAS CONDUCTED HERE*****/
+                    //uncomment desired lines to test
+                    //make sure a train is being created by setting up a test
+                    //train in the file ./xml/TrainOutputs.xml
+
+                    /*
+                     TM_test_update_mass
+                     */
+                    //Number 1:
+                    //t.setPassengerCount(100);
+                    //Number 2:
+                    //t.setPassengerCount(0);
+                    //Number 3:
+                    //t.setPassengerCount(25);
+                    //
+                    /*TM_test_update_velocity*/
+                    //Number 1:
+                    /*t.setGrade(20);
+                    t.setPassengerCount(100);
+                    t.setPower(25);
+                    t.setVelocity(25);*/
+                    //Number 2:
+                    /*t.setGrade(20);
+                    t.setPassengerCount(0);
+                    t.setPower(75);
+                    t.setAuthority(1000);
+                    t.setVelocity(0);*/
+                    //Number 3:
+                    /*t.setGrade(0);
+                    t.setPassengerCount(120);
+                    t.setPower(-6);
+                    t.setAuthority(1000);
+                    t.setVelocity(40);*/
+                    //Number 4:
+                    /*t.setGrade(0);
+                    t.setPassengerCount(90);
+                    t.setPower(100);
+                    t.setAuthority(1000);
+                    t.setVelocity(25);*/
+                    //Number 5:
+                    /*t.setGrade(45);
+                    t.setPassengerCount(120);
+                    t.setPower(-1);
+                    t.setAuthority(1000);
+                    t.setVelocity(4);*/
+                    //Number 6:
+                    /*t.setGrade(10);
+                    t.setPassengerCount(100);
+                    t.setPower(-6);
+                    t.setAuthority(1000);
+                    t.setVelocity(0);*/
+                    //Number 7:
+                    /*t.setGrade(29);
+                    t.setPassengerCount(10);
+                    t.setPower(55);
+                    t.setAuthority(1000);
+                    t.setVelocity(0);/*
+                    //
+                    /*TM_test_train_controller_controls*/
+                    //Number 1:
+                    //t.setLights(true);
+                    //Number 2:
+                    //t.setLights(false);
+                    //Number 3:
+                    //t.setRightDoors(true);
+                    //Number 4:
+                    //t.setLeftDoors(true);
+                    //Number 5:
+                    //t.setRightDoors(false);
+                    //Number 6:
+                    //t.setLeftDoors(false);
+                    //Number 7:
+                    //t.setTemperature(65);
+                    //Number 8:
+                    //t.setAdvertisements(true);
+                    //Number 9:
+                    //t.setAdvertisements(false);
+                    //
+                    /*TM_test_track_model_interaction*/
+                    //Number 1:
+                    /*t.setSpeedLimit(40);
+                    if (t.getSpeedLimit() == 40) {
+                        System.out.println("PASS");
+                    } else {
+                        System.out.println("FAIL");
+                    }*/
+                    //Number 2:
+                    /*t.setAuthority(20);
+                    if (t.getAuthority() == 20) {
+                        System.out.println("PASS");
+                    } else {
+                        System.out.println("FAIL");
+                    }*/
+                    //Number 3:
+                    /*t.setPassengerCount(20);
+                    if (t.getPassengerCount() == 20) {
+                        System.out.println("PASS");
+                    } else {
+                        System.out.println("FAIL");
+                    }*/
+                    //Number 4:
+                    /*t.setStation("East Liberty");
+                    if (t.getStation().equals("East Liberty")) {
+                        System.out.println("PASS");
+                    } else {
+                        System.out.println("FAIL");
+                    }*/
+                    //Number 5:
+                    /*t.setGrade(20);
+                    if (t.getGrade() == 20) {
+                        System.out.println("PASS");
+                    } else {
+                        System.out.println("FAIL");
+                    }*/
+                    //Number 6:
+                    /*t.setPassengerCount(350);
+                    if (t.getPassengerCount() == 222) {
+                        System.out.println("PASS");
+                    } else {
+                        System.out.println("FAIL");
+                    }*/
+                    //
+                    /*TM_test_emergency_brake*/
+                    //Number 1:
+                    /*t.setAuthority(1000);
+                    t.setPassengerCount(100);
+                    t.setVelocity(44);
+                    t.setGrade(10);*/
+                    //Number 2:
+                    /*t.setAuthority(1000);
+                    t.setPassengerCount(100);
+                    t.setVelocity(40);
+                    t.setPower(100);
+                    t.setGrade(25);*/
+                    //Number 3:
+                    /*t.setAuthority(1000);
+                    t.setPassengerCount(12);
+                    t.setVelocity(0);
+                    t.setGrade(0);*/
+                    //Number 4:
+                    /*t.setAuthority(1000);
+                    t.setVelocity(44);
+                    t.setPassengerCount(1);*/
+                    //Number 5:
+                    /*t.setAuthority(1000);
+                    t.setVelocity(44);
+                    t.setPassengerCount(140);*/
+                    //*****END TESTING*****/
                     t.updateVelocity();
                 }
                 //display values on GUI

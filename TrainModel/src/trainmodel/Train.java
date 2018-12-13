@@ -379,6 +379,11 @@ public class Train {
         speedLimit = s;
     }
 
+    //function used for testing.. sets current velocity
+    public void setVelocity(double v) {
+        velocity = v;
+    }
+
     //command value setters
     //sets suggested speed to speed
     public void setSpeed(double speed) {
@@ -419,6 +424,9 @@ public class Train {
     //set passenger count
     public void setPassengerCount(int passengerCount) {
         this.passengerCount = passengerCount;
+        if (this.passengerCount > MAX_CAPACITY) {
+            this.passengerCount = MAX_CAPACITY;
+        }
     }
 
     //set crew count
@@ -487,7 +495,7 @@ public class Train {
                 && (!this.emergencyBrake);
         this.emergencyBrake = this.isEngineFailure()
                 || this.isBrakeFailure() || this.isSignalFailure()
-                || (this.power == -5) || passengerPulled;
+                || (this.power == -5) || this.passengerPulled;
 
         //force from engine calculation
         double forceFromEng;
@@ -520,8 +528,10 @@ public class Train {
         }
 
         //check if braking
-        if (this.emergencyBrake || this.serviceBrake || (this.power == -5)) {
-            if (this.serviceBrake && !this.emergencyBrake) {
+        if (this.emergencyBrake || this.serviceBrake || (this.power == -5)
+                || this.passengerPulled) {
+            if (this.serviceBrake && !this.emergencyBrake
+                    && !this.passengerPulled) {
                 this.acceleration += SERVICE_DECELERATION;
             } else {
                 this.acceleration += EMERGENCY_DECELERATION;
