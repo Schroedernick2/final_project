@@ -303,16 +303,15 @@ class MainWindow(tk.Frame):
 
     #Main Loop updates data and xmls
     def data_update(self):
-        #Communicate with track controller
-        self.track_controller()
-        #Communicate with train model
-        self.train_model()
-        #Updates people at station
-        self.update_stations()
-        #Sleep for a quarter of a second to decrease stress on system
-        sleep(.25)
-        #Calls itself to loop until failure or user exits
-        self.data_update()
+        while(1):
+            #Communicate with track controller
+            self.track_controller()
+            #Communicate with train model
+            self.train_model()
+            #Updates people at station
+            self.update_stations()
+
+        
         
 
     #Writes XML to Track Controller
@@ -336,8 +335,10 @@ class MainWindow(tk.Frame):
                 for child in root.findall("Train"):
                     #get the id of the train
                     train_id = child.get('id')
+                    cur_length = int(child.get('length'))
+                    traveled = float(child.get('blockDistanceTraveled'))
                     #check if track values for train needs to be updated
-                    if child.get('next') == '1':
+                    if child.get('next') == '1' or traveled < .05:
                         #Trains on green line
                         if train_id[0]=='G':
                             #get current track num and direction of train
@@ -352,7 +353,7 @@ class MainWindow(tk.Frame):
                             new_station_val = self.next_green_station(track_num, direction)
                             station_auth = self.green_station_auth(track_num, direction)
                             new_station = new_station_val[0]
-                            new_station_ppl = new_station_val[1]
+                            new_station_ppl = str(new_station_val[1])
                             #Set the new values in the shared xml files 
                             child.set('nextStation', new_station)
                             child.set('passengersAtStation', new_station_ppl)
@@ -385,6 +386,7 @@ class MainWindow(tk.Frame):
                             
                         #Trains on red line        
                         else:
+                            print("red: " + child.get('next'))
                             direction = child.get('direction')
                             track_num = child.get('trackNumber')
                             new_track = self.get_next_red_track(track_num, direction)
@@ -427,6 +429,8 @@ class MainWindow(tk.Frame):
             new_val = self.get_next_green_track(tn, d)
             ntn = new_val[0]
             d = new_val[1]
+            if ntn == 'n/a' or ntn == 'yard':
+                break
             tn = ntn
             #sum auth until a station is detected. Lets train model know distance to station
             for outs in self.greentree.get_children():
@@ -450,11 +454,11 @@ class MainWindow(tk.Frame):
         elif tnn == 100:
             return ['85', 'r']
         elif tnn == 150:
-            return ['28', 'r']
+            return ['29', 'r']
         elif tnn == 77 and d == 'r':
             return ['101', 'f']
         elif tnn == 1:
-            return ['13', 'f']
+            return ['12', 'f']
         else:
             for outs in self.greentree.get_children():
                 if self.greentree.item(outs, 'values')[1] == tn:
@@ -471,14 +475,14 @@ class MainWindow(tk.Frame):
                                 switch_pos = self.switchtree.item(outs, 'values')[1]
                                 if switch_pos == "normal":
                                     if d == 'f':
-                                        return [str(self.switchtree.item(outs, 'values')[2]), 'f']
+                                        return [str(self.switchtree.item(outs, 'values')[2]), d]
                                     else:
-                                        return [str(self.switchtree.item(outs, 'values')[3]), 'r']
+                                        return [str(self.switchtree.item(outs, 'values')[3]), d]
                                 else:
                                     if d == 'f':
-                                        return [str(self.switchtree.item(outs, 'values')[4]), 'f']
+                                        return [str(self.switchtree.item(outs, 'values')[4]), d]
                                     else:
-                                        return [str(self.switchtree.item(outs, 'values')[5]), 'r']
+                                        return [str(self.switchtree.item(outs, 'values')[5]), d]
                                 
 
     #get next red track
