@@ -495,7 +495,7 @@ public class Train {
                 && (!this.emergencyBrake);
         this.emergencyBrake = this.isEngineFailure()
                 || this.isBrakeFailure() || this.isSignalFailure()
-                || (this.power == -5) || this.passengerPulled;
+                || this.passengerPulled;
 
         //force from engine calculation
         double forceFromEng;
@@ -530,8 +530,7 @@ public class Train {
         //check if braking
         if (this.emergencyBrake || this.serviceBrake || (this.power == -5)
                 || this.passengerPulled) {
-            if (this.serviceBrake && !this.emergencyBrake
-                    && !this.passengerPulled) {
+            if (this.serviceBrake && !this.emergencyBrake && (this.power != -5) && !this.passengerPulled) {
                 this.acceleration += SERVICE_DECELERATION;
             } else {
                 this.acceleration += EMERGENCY_DECELERATION;
