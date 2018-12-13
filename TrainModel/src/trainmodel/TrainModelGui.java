@@ -678,10 +678,6 @@ public class TrainModelGui extends javax.swing.JDialog {
         elev.setValue("" + tr.getElevation());
         newTrain.setAttributeNode(elev);
 
-        Attr blockDistanceTraveled = doc.createAttribute("blockDistanceTraveled");
-        blockDistanceTraveled.setValue("" + tr.getBlockDistanceTraveled() * 1760);
-        newTrain.setAttributeNode(blockDistanceTraveled);
-
         Attr grade = doc.createAttribute("grade");
         grade.setValue("" + tr.getGrade());
         newTrain.setAttributeNode(grade);
@@ -774,7 +770,6 @@ public class TrainModelGui extends javax.swing.JDialog {
                         eElement.setAttribute("distanceTraveled",
                                 "" + t.getDistance());
                         eElement.setAttribute("next", "" + t.getNext());
-                        eElement.setAttribute("blockDistanceTraveled", "" + t.getBlockDistanceTraveled() * 1760);
 
                         if (t.stops.get(t.numberOfStops).toUpperCase().equals(nextStation.toUpperCase())) {
                             t.numberOfStops++;
