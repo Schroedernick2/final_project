@@ -40,7 +40,7 @@ int main(int argc, char** argv){
 		case 1:
 			system("rm xml/*");
 			system("gnome-terminal -- bash -c \"exec java -jar TrainModel/dist/TrainModel.jar && read\"");
-			system("gnome-terminal -- bash -c \"exec java -jar CTCOffice/CTC.jar && read\"");
+			system("gnome-terminal -- bash -c \"exec java -jar CTC/CTC.jar && read\"");
 			system("gnome-terminal -- bash -c \"exec python3 TrackController/TrackController.py && read\"");
 			system("gnome-terminal -- bash -c \"exec python3 TrackModel/trackmodel.py && read\"");
 			system("gnome-terminal -- bash -c \"exec java -jar TC/dist/TrainController.jar && read\"");
@@ -49,7 +49,7 @@ int main(int argc, char** argv){
 		case 0:
 			system("del /Q xml\\*");
 			system("start cmd /k java -jar TrainModel/dist/TrainModel.jar");
-			system("start cmd /k java -jar CTCOffice/CTC.jar");
+			system("start cmd /k java -jar CTC/CTC.jar");
 			system("start cmd /k TrackController\\TrackController.exe");
 			system("start cmd /k TrackModel\\trackmodel.py");
 			system("start cmd /k java -jar TC/dist/TrainController.jar");
