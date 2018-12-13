@@ -6,7 +6,7 @@
 //Platform == 1 --> Linux (for nick to use this shit)
 //Platform == -1 --> other (unsupported)
 
-//compile for windows: x86_64-w64-mingw32-g++ -static-libgcc -static-libstdc++ main.cpp -o windows_executable.exe
+//compile for windows: 	x86_64-w64-mingw32-g++ -static-libgcc -static-libstdc++ main.cpp -o windows_executable.exe
 
 #if defined(_WIN32) || defined(_WIN64)
 	#define PLATFORM 0
@@ -51,7 +51,7 @@ int main(int argc, char** argv){
 			system("start cmd /k java -jar TrainModel/dist/TrainModel.jar");
 			system("start cmd /k java -jar CTC/CTC.jar");
 			system("start cmd /k TrackController\\TrackController.exe");
-			system("start cmd /k TrackModel\\trackmodel.py");
+			system("start cmd /k TrackModel\\trackmodel.exe");
 			system("start cmd /k java -jar TC/dist/TrainController.jar");
 				
 			break;
