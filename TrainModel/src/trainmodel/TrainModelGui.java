@@ -690,6 +690,14 @@ public class TrainModelGui extends javax.swing.JDialog {
         length.setValue("0.0");
         newTrain.setAttributeNode(length);
 
+        Attr blockDistanceTraveled = doc.createAttribute("blockDistanceTraveled");
+        blockDistanceTraveled.setValue("" + tr.getBlockDistanceTraveled());
+        newTrain.setAttributeNode(blockDistanceTraveled);
+
+        Attr prevDistance = doc.createAttribute("previousBlockDistance");
+        prevDistance.setValue("0");
+        newTrain.setAttributeNode(prevDistance);
+
         Attr direction = doc.createAttribute("direction");
         direction.setValue("f");
         newTrain.setAttributeNode(direction);
@@ -767,6 +775,7 @@ public class TrainModelGui extends javax.swing.JDialog {
                             }
                         }
                         t.updateVelocity();
+                        eElement.setAttribute("blockDistanceTraveled", "" + t.getBlockDistanceTraveled());
                         eElement.setAttribute("distanceTraveled",
                                 "" + t.getDistance());
                         eElement.setAttribute("next", "" + t.getNext());
